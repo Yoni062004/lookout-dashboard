@@ -1388,6 +1388,7 @@ code.fx {
                   <div class="wc-str-lbl">Defence Str</div>
                 </div>
               </div>
+              <div id="wc-home-src" style="display:none;margin-top:6px;font-size:9px;letter-spacing:.08em;text-align:center"></div>
             </div>
 
             <!-- VS divider -->
@@ -1423,6 +1424,7 @@ code.fx {
                   <div class="wc-str-lbl">Defence Str</div>
                 </div>
               </div>
+              <div id="wc-away-src" style="display:none;margin-top:6px;font-size:9px;letter-spacing:.08em;text-align:center"></div>
             </div>
           </div>
 
@@ -2496,12 +2498,22 @@ function wcOnTeamChange() {
     document.getElementById(`wc-${side}-rank`).textContent = `FIFA #${team.r}`;
     const hostEl = document.getElementById(`wc-${side}-host`);
     hostEl.style.display = team.host ? 'inline-flex' : 'none';
-    document.getElementById(`wc-${side}-att`).textContent = team.a.toFixed(3);
-    document.getElementById(`wc-${side}-def`).textContent = team.d.toFixed(3);
     const attVal = document.getElementById(`wc-${side}-att`);
-    attVal.style.color = team.a >= 1.2 ? 'var(--neon)' : team.a >= 0.9 ? 'var(--amber)' : 'var(--red)';
     const defVal = document.getElementById(`wc-${side}-def`);
+    const srcEl  = document.getElementById(`wc-${side}-src`);
+    attVal.textContent = team.a.toFixed(3);
+    defVal.textContent = team.d.toFixed(3);
+    attVal.style.color = team.a >= 1.2 ? 'var(--neon)' : team.a >= 0.9 ? 'var(--amber)' : 'var(--red)';
     defVal.style.color = team.d <= 0.8 ? 'var(--neon)' : team.d <= 1.1 ? 'var(--amber)' : 'var(--red)';
+    if (srcEl) {
+      if (team._wc_pld > 0) {
+        const pct = Math.min(Math.round((team._wc_pld / 3) * 100), 100);
+        srcEl.innerHTML = `<span style="color:var(--neon)">⚽ WC DATA ${pct}%</span> <span style="color:var(--text2)">${team._wc_pld}G · ${team._wc_gf}–${team._wc_ga}</span>`;
+      } else {
+        srcEl.innerHTML = `<span style="color:var(--text2)">QUALIFYING DATA</span>`;
+      }
+      srcEl.style.display = 'block';
+    }
     meta.style.display='flex'; str.style.display='grid';
   });
   wcRun();
@@ -2958,8 +2970,8 @@ async function loadLiveData() {
       const wd = await r.json();
       if (wd.updated) {
         window.wcLiveData = wd;
+        wcApplyLiveStrengths(wd.team_strengths);
         wcRenderLiveGroups();
-        // Update top scorers in WC page if visible
         wcRenderLiveScorers();
       }
     }
@@ -3003,6 +3015,31 @@ const WC_FLAG_LOOKUP = {
   'Bosnia':'ba','Poland':'pl','Honduras':'hn','Costa Rica':'cr',
 };
 function wcFlagLive(name) { return WC_FLAG_LOOKUP[name] || 'un'; }
+
+function wcApplyLiveStrengths(strengths) {
+  // Blend qualifying Att/Def Str with actual WC performance.
+  // blend = min(games_played / 3, 1.0):
+  //   0 games  → 100% qualifying (no WC data yet)
+  //   1 game   → 33% WC + 67% qualifying
+  //   2 games  → 67% WC + 33% qualifying
+  //   3+ games → 100% WC performance (fully tournament-calibrated)
+  if (!strengths || !Object.keys(strengths).length) return;
+  let updated = 0;
+  WC26.forEach(t => {
+    const live = strengths[t.n];
+    if (!live || live.pld === 0) return;
+    const blend = Math.min(live.pld / 3, 1.0);
+    t._qual_a = t._qual_a ?? t.a; // preserve original qualifying values
+    t._qual_d = t._qual_d ?? t.d;
+    t.a = parseFloat((blend * live.att_str + (1 - blend) * t._qual_a).toFixed(6));
+    t.d = parseFloat((blend * live.def_str + (1 - blend) * t._qual_d).toFixed(6));
+    t._wc_pld = live.pld;
+    t._wc_gf  = live.gf;
+    t._wc_ga  = live.ga;
+    updated++;
+  });
+  console.log(`WC strengths updated for ${updated} teams from live data`);
+}
 
 function wcRenderLiveGroups() {
   const wrapper = document.getElementById('wc-live-groups-wrapper');
