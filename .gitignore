@@ -1,0 +1,17 @@
+# Excel files — large binaries, not needed by the dashboard
+*.xlsx
+*.xls
+
+# Session / editor data
+.claude/
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Node / local dev server
+node_modules/

@@ -1,0 +1,46 @@
+name: Update Dashboard Data
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 06:00 UTC every day
+  workflow_dispatch:        # allow manual trigger from Actions tab
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests soccerdata
+
+      - name: Fetch WC 2026 data
+        env:
+          FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+        run: python scripts/fetch_wc_data.py
+
+      - name: Fetch Big 5 league data
+        env:
+          FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+        run: python scripts/fetch_league_data.py
+
+      - name: Fetch player stats (FBref via soccerdata)
+        run: python scripts/fetch_player_stats.py
+        continue-on-error: true  # scraping can be flaky; don't break the whole run
+
+      - name: Commit updated data files
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/
+          git diff --staged --quiet || git commit -m "chore: auto-update dashboard data $(date -u +%Y-%m-%d)"
+          git push
