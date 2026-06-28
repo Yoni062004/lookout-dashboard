@@ -36,6 +36,7 @@ jobs:
       - name: Fetch player stats (FBref via soccerdata)
         run: python scripts/fetch_player_stats.py
         continue-on-error: true  # scraping can be flaky; don't break the whole run
+        timeout-minutes: 10
 
       - name: Commit updated data files
         run: |
