@@ -1394,11 +1394,36 @@ code.fx {
             <!-- VS divider -->
             <div class="wc-vs-center">
               <div class="wc-vs-text">VS</div>
-              <div style="text-align:center">
-                <label class="field-label" style="text-align:center">Baseline</label>
-                <input id="wc-baseline" type="number" step="0.05" value="1.15" min="0.5" max="2"
-                  class="wc-odds-input" style="width:72px;font-size:18px"
-                  oninput="wcRun()" title="Adjust for match context — lower for defensive knockout games"/>
+              <div style="text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center">
+
+                <!-- Stage selector -->
+                <div>
+                  <label class="field-label" style="text-align:center;display:block;margin-bottom:4px">Stage</label>
+                  <select id="wc-stage" class="wc-sel" style="width:148px;font-size:11px;padding:6px 8px" onchange="wcSetStage()">
+                    <option value="1.15">Group Stage</option>
+                    <option value="1.05">Round of 32</option>
+                    <option value="0.95">Round of 16</option>
+                    <option value="0.88">Quarter-Final</option>
+                    <option value="0.82">Semi-Final</option>
+                    <option value="0.78">Final</option>
+                  </select>
+                </div>
+
+                <!-- Baseline (fine-tune) -->
+                <div>
+                  <label class="field-label" style="text-align:center;display:block;margin-bottom:4px">Baseline</label>
+                  <input id="wc-baseline" type="number" step="0.01" value="1.15" min="0.5" max="2"
+                    class="wc-odds-input" style="width:72px;font-size:18px"
+                    oninput="wcRun()" title="Auto-set by stage · fine-tune manually"/>
+                </div>
+
+                <!-- Knockout toggle -->
+                <label style="display:flex;align-items:center;gap:7px;cursor:pointer">
+                  <input type="checkbox" id="wc-knockout" onchange="wcRun()"
+                    style="width:14px;height:14px;accent-color:var(--neon);cursor:pointer"/>
+                  <span style="font-size:9px;letter-spacing:.1em;color:var(--text2)">KNOCKOUT MODE</span>
+                </label>
+
               </div>
             </div>
 
@@ -2483,6 +2508,13 @@ function wcInit() {
   });
 }
 
+function wcSetStage() {
+  const val = document.getElementById('wc-stage').value;
+  document.getElementById('wc-baseline').value = val;
+  document.getElementById('wc-knockout').checked = parseFloat(val) < 1.15;
+  wcRun();
+}
+
 function wcOnTeamChange() {
   ['home','away'].forEach(side => {
     const sel  = document.getElementById(`wc-${side}-sel`).value;
@@ -2531,9 +2563,13 @@ function wcRun() {
   const H = WC26.find(t=>t.n===hn);
   const A = WC26.find(t=>t.n===an);
   const B = parseFloat(document.getElementById('wc-baseline').value) || WC_BASELINE;
+  const isKO = document.getElementById('wc-knockout').checked;
 
-  const xgH = H.a * A.d * B;
-  const xgA = A.a * H.d * B;
+  // Home crowd boost: co-hosts playing on home soil get +20% attack
+  const homeBoost = H.host ? 1.20 : 1.0;
+  const awayBoost = A.host ? 1.20 : 1.0; // if away team is a co-host playing "home" game
+  const xgH = H.a * A.d * B * homeBoost;
+  const xgA = A.a * H.d * B * awayBoost;
 
   // Build 8×8 matrix
   const N = 8;
@@ -2560,9 +2596,10 @@ function wcRun() {
   const bttsN = 1 - bttsY;
 
   // Store probs for edge/kelly
+  const drawLbl = isKO ? 'Extra Time / Pens' : 'Draw';
   wcProbs = {
     [`${H.n} Win`]: pHW,
-    'Draw': pD,
+    [drawLbl]: pD,
     [`${A.n} Win`]: pAW,
   };
   ou.forEach(o => { wcProbs[`Over ${o.line}`]=o.over; wcProbs[`Under ${o.line}`]=o.under; });
@@ -2570,33 +2607,40 @@ function wcRun() {
   wcProbs['BTTS – No']  = bttsN;
 
   // Render xG
+  const stageLbl = document.getElementById('wc-stage')?.selectedOptions[0]?.text || 'Group Stage';
   const xgRow = document.getElementById('wc-xg-row');
   xgRow.innerHTML = `
     <div class="wc-xg-card" style="border-color:rgba(57,255,20,0.2)">
-      <div class="wc-xg-lbl">${H.n} — Home xG</div>
+      <div class="wc-xg-lbl">${H.n} — Home xG${H.host?' 🏟':''}</div>
       <div class="wc-xg-val" style="color:var(--neon)">${xgH.toFixed(3)}</div>
-      <div style="font-size:10px;color:var(--text2);margin-top:4px">Att ${H.a.toFixed(3)} × DefA ${A.d.toFixed(3)} × ${B}</div>
+      <div style="font-size:10px;color:var(--text2);margin-top:4px">Att ${H.a.toFixed(3)} × Def ${A.d.toFixed(3)} × ${B}${H.host?' × 1.20 crowd':''}</div>
     </div>
     <div class="wc-xg-card" style="text-align:center;border-color:var(--border2)">
       <div class="wc-xg-lbl">Baseline</div>
       <div class="wc-xg-val" style="color:var(--text2)">${B}</div>
-      <div style="font-size:10px;color:var(--text3);margin-top:4px">Neutral avg goals/team/game</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:4px">${stageLbl}${isKO?' · Knockout':''}</div>
     </div>
     <div class="wc-xg-card" style="border-color:rgba(239,68,68,0.2)">
-      <div class="wc-xg-lbl">${A.n} — Away xG</div>
+      <div class="wc-xg-lbl">${A.n} — Away xG${A.host?' 🏟':''}</div>
       <div class="wc-xg-val" style="color:var(--red)">${xgA.toFixed(3)}</div>
-      <div style="font-size:10px;color:var(--text2);margin-top:4px">Att ${A.a.toFixed(3)} × DefH ${H.d.toFixed(3)} × ${B}</div>
+      <div style="font-size:10px;color:var(--text2);margin-top:4px">Att ${A.a.toFixed(3)} × Def ${H.d.toFixed(3)} × ${B}${A.host?' × 1.20 crowd':''}</div>
     </div>`;
 
   // Render outcomes
   const best = Math.max(pHW, pD, pAW);
-  document.getElementById('wc-outcome-row').innerHTML = [
-    {lbl:`${H.n} Win`, p:pHW, col:'var(--neon)'},
-    {lbl:'Draw',        p:pD,  col:'var(--amber)'},
-    {lbl:`${A.n} Win`, p:pAW, col:'var(--red)'},
-  ].map(o=>`
+  const outcomeCards = isKO ? [
+    {lbl:`${H.n} Win`, sub:'Full Time',          p:pHW, col:'var(--neon)'},
+    {lbl:'Extra Time', sub:'Level after 90 min', p:pD,  col:'var(--amber)'},
+    {lbl:`${A.n} Win`, sub:'Full Time',          p:pAW, col:'var(--red)'},
+  ] : [
+    {lbl:`${H.n} Win`, sub:'', p:pHW, col:'var(--neon)'},
+    {lbl:'Draw',        sub:'', p:pD,  col:'var(--amber)'},
+    {lbl:`${A.n} Win`, sub:'', p:pAW, col:'var(--red)'},
+  ];
+  document.getElementById('wc-outcome-row').innerHTML = outcomeCards.map(o=>`
     <div class="wc-out-card ${o.p===best?'best':''}">
       <div class="wc-out-lbl">${o.lbl}</div>
+      ${o.sub?`<div style="font-size:9px;color:var(--text2);margin-bottom:4px;letter-spacing:.05em">${o.sub}</div>`:''}
       <div class="wc-out-pct" style="color:${o.col}">${(o.p*100).toFixed(1)}%</div>
       <div class="wc-out-odds">Fair: ${o.p>0?(1/o.p).toFixed(2):'—'}</div>
     </div>`).join('');
@@ -2628,7 +2672,7 @@ function wcRun() {
   // Render markets
   const markets = [
     {lbl:`${H.n} Win`, p:pHW, sep:false},
-    {lbl:'Draw',        p:pD},
+    {lbl:drawLbl,       p:pD},
     {lbl:`${A.n} Win`, p:pAW, sep:true},
     ...ou.map((o,i)=>({lbl:`Over ${o.line}`,  p:o.over,  sep:i===0})),
     ...ou.map(o=>    ({lbl:`Under ${o.line}`, p:o.under})),
