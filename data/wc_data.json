@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-30T08:57:24.500782+00:00",
+  "updated": "2026-06-30T16:16:13.693763+00:00",
   "standings": {
     "filters": {
       "season": "2026"
@@ -1025,337 +1025,337 @@
   },
   "team_strengths": {
     "Mexico": {
-      "att_str": 1.339535,
-      "def_str": 0.0,
+      "att_str": 1.29103,
+      "def_str": 0.142857,
       "pld": 3,
       "gf": 6,
       "ga": 0
     },
     "South Africa": {
-      "att_str": 0.446512,
-      "def_str": 0.669767,
+      "att_str": 0.525581,
+      "def_str": 0.716944,
       "pld": 3,
       "gf": 2,
       "ga": 3
     },
     "South Korea": {
-      "att_str": 0.446512,
-      "def_str": 0.669767,
+      "att_str": 0.525581,
+      "def_str": 0.716944,
       "pld": 3,
       "gf": 2,
       "ga": 3
     },
     "Czechia": {
-      "att_str": 0.446512,
-      "def_str": 1.339535,
+      "att_str": 0.525581,
+      "def_str": 1.29103,
       "pld": 3,
       "gf": 2,
       "ga": 6
     },
     "Switzerland": {
-      "att_str": 1.562791,
-      "def_str": 0.669767,
+      "att_str": 1.482392,
+      "def_str": 0.716944,
       "pld": 3,
       "gf": 7,
       "ga": 3
     },
     "Canada": {
-      "att_str": 1.786047,
-      "def_str": 0.669767,
+      "att_str": 1.673754,
+      "def_str": 0.716944,
       "pld": 3,
       "gf": 8,
       "ga": 3
     },
     "Bosnia and Herz.": {
-      "att_str": 1.116279,
-      "def_str": 1.339535,
+      "att_str": 1.099668,
+      "def_str": 1.29103,
       "pld": 3,
       "gf": 5,
       "ga": 6
     },
     "Qatar": {
-      "att_str": 0.446512,
-      "def_str": 2.232558,
+      "att_str": 0.525581,
+      "def_str": 2.056478,
       "pld": 3,
       "gf": 2,
       "ga": 10
     },
     "Brazil": {
-      "att_str": 1.562791,
-      "def_str": 0.223256,
+      "att_str": 1.482392,
+      "def_str": 0.334219,
       "pld": 3,
       "gf": 7,
       "ga": 1
     },
     "Morocco": {
-      "att_str": 1.339535,
-      "def_str": 0.669767,
+      "att_str": 1.29103,
+      "def_str": 0.716944,
       "pld": 3,
       "gf": 6,
       "ga": 3
     },
     "Scotland": {
-      "att_str": 0.223256,
-      "def_str": 0.893023,
+      "att_str": 0.334219,
+      "def_str": 0.908306,
       "pld": 3,
       "gf": 1,
       "ga": 4
     },
     "Haiti": {
-      "att_str": 0.446512,
-      "def_str": 1.786047,
+      "att_str": 0.525581,
+      "def_str": 1.673754,
       "pld": 3,
       "gf": 2,
       "ga": 8
     },
     "USA": {
-      "att_str": 1.786047,
-      "def_str": 0.893023,
+      "att_str": 1.673754,
+      "def_str": 0.908306,
       "pld": 3,
       "gf": 8,
       "ga": 4
     },
     "Australia": {
-      "att_str": 0.446512,
-      "def_str": 0.446512,
+      "att_str": 0.525581,
+      "def_str": 0.525581,
       "pld": 3,
       "gf": 2,
       "ga": 2
     },
     "Paraguay": {
-      "att_str": 0.446512,
-      "def_str": 0.893023,
+      "att_str": 0.525581,
+      "def_str": 0.908306,
       "pld": 3,
       "gf": 2,
       "ga": 4
     },
     "Turkey": {
-      "att_str": 0.669767,
-      "def_str": 1.116279,
+      "att_str": 0.716944,
+      "def_str": 1.099668,
       "pld": 3,
       "gf": 3,
       "ga": 5
     },
     "Germany": {
-      "att_str": 2.232558,
-      "def_str": 0.893023,
+      "att_str": 2.056478,
+      "def_str": 0.908306,
       "pld": 3,
       "gf": 10,
       "ga": 4
     },
     "Côte d'Ivoire": {
-      "att_str": 0.893023,
-      "def_str": 0.446512,
+      "att_str": 0.908306,
+      "def_str": 0.525581,
       "pld": 3,
       "gf": 4,
       "ga": 2
     },
     "Ecuador": {
-      "att_str": 0.446512,
-      "def_str": 0.446512,
+      "att_str": 0.525581,
+      "def_str": 0.525581,
       "pld": 3,
       "gf": 2,
       "ga": 2
     },
     "Curaçao": {
-      "att_str": 0.223256,
-      "def_str": 2.009302,
+      "att_str": 0.334219,
+      "def_str": 1.865116,
       "pld": 3,
       "gf": 1,
       "ga": 9
     },
     "Netherlands": {
-      "att_str": 2.232558,
-      "def_str": 0.893023,
+      "att_str": 2.056478,
+      "def_str": 0.908306,
       "pld": 3,
       "gf": 10,
       "ga": 4
     },
     "Japan": {
-      "att_str": 1.562791,
-      "def_str": 0.669767,
+      "att_str": 1.482392,
+      "def_str": 0.716944,
       "pld": 3,
       "gf": 7,
       "ga": 3
     },
     "Sweden": {
-      "att_str": 1.562791,
-      "def_str": 1.562791,
+      "att_str": 1.482392,
+      "def_str": 1.482392,
       "pld": 3,
       "gf": 7,
       "ga": 7
     },
     "Tunisia": {
-      "att_str": 0.446512,
-      "def_str": 2.67907,
+      "att_str": 0.525581,
+      "def_str": 2.439203,
       "pld": 3,
       "gf": 2,
       "ga": 12
     },
     "Belgium": {
-      "att_str": 1.339535,
-      "def_str": 0.446512,
+      "att_str": 1.29103,
+      "def_str": 0.525581,
       "pld": 3,
       "gf": 6,
       "ga": 2
     },
     "Egypt": {
-      "att_str": 1.116279,
-      "def_str": 0.669767,
+      "att_str": 1.099668,
+      "def_str": 0.716944,
       "pld": 3,
       "gf": 5,
       "ga": 3
     },
     "Iran": {
-      "att_str": 0.669767,
-      "def_str": 0.669767,
+      "att_str": 0.716944,
+      "def_str": 0.716944,
       "pld": 3,
       "gf": 3,
       "ga": 3
     },
     "New Zealand": {
-      "att_str": 0.893023,
-      "def_str": 2.232558,
+      "att_str": 0.908306,
+      "def_str": 2.056478,
       "pld": 3,
       "gf": 4,
       "ga": 10
     },
     "Spain": {
-      "att_str": 1.116279,
-      "def_str": 0.0,
+      "att_str": 1.099668,
+      "def_str": 0.142857,
       "pld": 3,
       "gf": 5,
       "ga": 0
     },
     "Cape Verde Islands": {
-      "att_str": 0.446512,
-      "def_str": 0.446512,
+      "att_str": 0.525581,
+      "def_str": 0.525581,
       "pld": 3,
       "gf": 2,
       "ga": 2
     },
     "Uruguay": {
-      "att_str": 0.669767,
-      "def_str": 0.893023,
+      "att_str": 0.716944,
+      "def_str": 0.908306,
       "pld": 3,
       "gf": 3,
       "ga": 4
     },
     "Saudi Arabia": {
-      "att_str": 0.223256,
-      "def_str": 1.116279,
+      "att_str": 0.334219,
+      "def_str": 1.099668,
       "pld": 3,
       "gf": 1,
       "ga": 5
     },
     "France": {
-      "att_str": 2.232558,
-      "def_str": 0.446512,
+      "att_str": 2.056478,
+      "def_str": 0.525581,
       "pld": 3,
       "gf": 10,
       "ga": 2
     },
     "Norway": {
-      "att_str": 1.786047,
-      "def_str": 1.562791,
+      "att_str": 1.673754,
+      "def_str": 1.482392,
       "pld": 3,
       "gf": 8,
       "ga": 7
     },
     "Senegal": {
-      "att_str": 1.786047,
-      "def_str": 1.339535,
+      "att_str": 1.673754,
+      "def_str": 1.29103,
       "pld": 3,
       "gf": 8,
       "ga": 6
     },
     "Iraq": {
-      "att_str": 0.223256,
-      "def_str": 2.67907,
+      "att_str": 0.334219,
+      "def_str": 2.439203,
       "pld": 3,
       "gf": 1,
       "ga": 12
     },
     "Argentina": {
-      "att_str": 1.786047,
-      "def_str": 0.223256,
+      "att_str": 1.673754,
+      "def_str": 0.334219,
       "pld": 3,
       "gf": 8,
       "ga": 1
     },
     "Austria": {
-      "att_str": 1.339535,
-      "def_str": 1.339535,
+      "att_str": 1.29103,
+      "def_str": 1.29103,
       "pld": 3,
       "gf": 6,
       "ga": 6
     },
     "Algeria": {
-      "att_str": 1.116279,
-      "def_str": 1.562791,
+      "att_str": 1.099668,
+      "def_str": 1.482392,
       "pld": 3,
       "gf": 5,
       "ga": 7
     },
     "Jordan": {
-      "att_str": 0.669767,
-      "def_str": 1.786047,
+      "att_str": 0.716944,
+      "def_str": 1.673754,
       "pld": 3,
       "gf": 3,
       "ga": 8
     },
     "Colombia": {
-      "att_str": 0.893023,
-      "def_str": 0.223256,
+      "att_str": 0.908306,
+      "def_str": 0.334219,
       "pld": 3,
       "gf": 4,
       "ga": 1
     },
     "Portugal": {
-      "att_str": 1.339535,
-      "def_str": 0.223256,
+      "att_str": 1.29103,
+      "def_str": 0.334219,
       "pld": 3,
       "gf": 6,
       "ga": 1
     },
     "Congo DR": {
-      "att_str": 0.893023,
-      "def_str": 0.669767,
+      "att_str": 0.908306,
+      "def_str": 0.716944,
       "pld": 3,
       "gf": 4,
       "ga": 3
     },
     "Uzbekistan": {
-      "att_str": 0.446512,
-      "def_str": 2.455814,
+      "att_str": 0.525581,
+      "def_str": 2.247841,
       "pld": 3,
       "gf": 2,
       "ga": 11
     },
     "England": {
-      "att_str": 1.339535,
-      "def_str": 0.446512,
+      "att_str": 1.29103,
+      "def_str": 0.525581,
       "pld": 3,
       "gf": 6,
       "ga": 2
     },
     "Croatia": {
-      "att_str": 1.116279,
-      "def_str": 1.116279,
+      "att_str": 1.099668,
+      "def_str": 1.099668,
       "pld": 3,
       "gf": 5,
       "ga": 5
     },
     "Ghana": {
-      "att_str": 0.446512,
-      "def_str": 0.446512,
+      "att_str": 0.525581,
+      "def_str": 0.525581,
       "pld": 3,
       "gf": 2,
       "ga": 2
     },
     "Panama": {
-      "att_str": 0.0,
-      "def_str": 0.893023,
+      "att_str": 0.142857,
+      "def_str": 0.908306,
       "pld": 3,
       "gf": 0,
       "ga": 4
@@ -6462,7 +6462,14 @@
         "odds": {
           "msg": "Activate Odds-Package in User-Panel to retrieve odds."
         },
-        "referees": []
+        "referees": [
+          {
+            "id": 28805,
+            "name": "Jesús Valenzuela",
+            "type": "REFEREE",
+            "nationality": "Venezuela"
+          }
+        ]
       },
       {
         "area": {
@@ -8199,7 +8206,7 @@
           "venue": null,
           "lastUpdated": "2026-06-01T09:43:53Z"
         },
-        "playedMatches": 3,
+        "playedMatches": 4,
         "goals": 4,
         "assists": null,
         "penalties": null
