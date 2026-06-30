@@ -2976,14 +2976,24 @@ function setPage(id,linkEl) {
 // Fetches pre-built JSON files updated daily by GitHub Actions.
 // Falls back silently to embedded arrays if files are missing / empty.
 async function loadLiveData() {
-  const BASE = './data/';
+  // Always read from GitHub so data stays current without needing git pull.
+  // Falls back to local ./data/ if GitHub is unreachable (offline use).
+  const REMOTE = 'https://raw.githubusercontent.com/Yoni062004/lookout-dashboard/master/data/';
+  const LOCAL  = './data/';
+  async function fetchJSON(file) {
+    try {
+      const r = await fetch(REMOTE + file, {cache: 'no-store'});
+      if (r.ok) return r.json();
+    } catch (_) {}
+    const r2 = await fetch(LOCAL + file);
+    if (r2.ok) return r2.json();
+    return null;
+  }
 
   // 1. League data → updates team strength table (Leagues / Teams / Poisson pages)
   try {
-    const r = await fetch(BASE + 'league_data.json');
-    if (r.ok) {
-      const ld = await r.json();
-      if (!ld.updated) return; // placeholder file, not yet populated
+    const ld = await fetchJSON('league_data.json');
+    if (ld && ld.updated) {
       const rows = [];
       for (const [code, lg] of Object.entries(ld)) {
         if (code === 'updated' || code === '_note' || !lg.table) continue;
@@ -2998,10 +3008,9 @@ async function loadLiveData() {
         }
       }
       if (rows.length > 0) {
-        // Keep historical CSV rows; prepend fresh live season rows
         const liveSeasons = new Set(rows.map(r => r.Season));
         const historical = S.raw.filter(r => !liveSeasons.has(r.Season));
-        const dateStr = ld.updated ? ld.updated.slice(0, 10) : 'today';
+        const dateStr = ld.updated.slice(0, 10);
         ingestData([...rows, ...historical], `live data (${dateStr})`);
       }
     }
@@ -3009,36 +3018,30 @@ async function loadLiveData() {
 
   // 2. WC 2026 live data → group standings on WC page
   try {
-    const r = await fetch(BASE + 'wc_data.json');
-    if (r.ok) {
-      const wd = await r.json();
-      if (wd.updated) {
-        window.wcLiveData = wd;
-        wcApplyLiveStrengths(wd.team_strengths);
-        wcRenderLiveGroups();
-        wcRenderLiveScorers();
-      }
+    const wd = await fetchJSON('wc_data.json');
+    if (wd && wd.updated) {
+      window.wcLiveData = wd;
+      wcApplyLiveStrengths(wd.team_strengths);
+      wcRenderLiveGroups();
+      wcRenderLiveScorers();
     }
   } catch (_) {}
 
   // 3. Player stats → updates per-game rates in Player Props
   try {
-    const r = await fetch(BASE + 'player_stats.json');
-    if (r.ok) {
-      const pd = await r.json();
-      if (pd.players && pd.players.length > 0) {
-        pd.players.forEach(lp => {
-          const p = PLAYERS.find(x => x.name === lp.name);
-          if (p && lp.games > 0) {
-            p.goalsG   = lp.goals_pg   || p.goalsG;
-            p.assistsG = lp.assists_pg || p.assistsG;
-            p.shotsG   = lp.shots_90   || p.shotsG;
-            p.yellowG  = lp.yellow_90  ? lp.yellow_90 / 90 : p.yellowG;
-            p.redG     = lp.red_90     ? lp.red_90    / 90 : p.redG;
-            p._live    = true;
-          }
-        });
-      }
+    const pd = await fetchJSON('player_stats.json');
+    if (pd && pd.players && pd.players.length > 0) {
+      pd.players.forEach(lp => {
+        const p = PLAYERS.find(x => x.name === lp.name);
+        if (p && lp.games > 0) {
+          p.goalsG   = lp.goals_pg   || p.goalsG;
+          p.assistsG = lp.assists_pg || p.assistsG;
+          p.shotsG   = lp.shots_90   || p.shotsG;
+          p.yellowG  = lp.yellow_90  ? lp.yellow_90 / 90 : p.yellowG;
+          p.redG     = lp.red_90     ? lp.red_90    / 90 : p.redG;
+          p._live    = true;
+        }
+      });
     }
   } catch (_) {}
 }
