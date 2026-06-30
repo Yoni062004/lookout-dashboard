@@ -3078,8 +3078,8 @@ function wcApplyLiveStrengths(strengths) {
     const blend = Math.min(live.pld / 3, 1.0);
     t._qual_a = t._qual_a ?? t.a; // preserve original qualifying values
     t._qual_d = t._qual_d ?? t.d;
-    t.a = parseFloat((blend * live.att_str + (1 - blend) * t._qual_a).toFixed(6));
-    t.d = parseFloat((blend * live.def_str + (1 - blend) * t._qual_d).toFixed(6));
+    t.a = Math.max(parseFloat((blend * live.att_str + (1 - blend) * t._qual_a).toFixed(6)), 0.05);
+    t.d = Math.max(parseFloat((blend * live.def_str + (1 - blend) * t._qual_d).toFixed(6)), 0.05);
     t._wc_pld = live.pld;
     t._wc_gf  = live.gf;
     t._wc_ga  = live.ga;

@@ -75,10 +75,15 @@ def compute_wc_strength(standings_data):
     avg_gf = sum(t["gf"] / t["pld"] for t in all_teams) / len(all_teams)
     avg_ga = sum(t["ga"] / t["pld"] for t in all_teams) / len(all_teams)
 
+    # Bayesian smoothing: add a half-game prior at the tournament average so
+    # teams with 0 goals for/against don't collapse to 0.000 (breaks Poisson).
+    # E.g. Mexico 0 GA in 3 games → smoothed GA/g = (0 + avg_ga*0.5)/(3+0.5)
+    PRIOR = 0.5
+
     strengths = {}
     for t in all_teams:
-        gf_pg = t["gf"] / t["pld"]
-        ga_pg = t["ga"] / t["pld"]
+        gf_pg = (t["gf"] + avg_gf * PRIOR) / (t["pld"] + PRIOR)
+        ga_pg = (t["ga"] + avg_ga * PRIOR) / (t["pld"] + PRIOR)
         strengths[t["name"]] = {
             "att_str": round(gf_pg / avg_gf, 6) if avg_gf > 0 else 1.0,
             "def_str": round(ga_pg / avg_ga, 6) if avg_ga > 0 else 1.0,
