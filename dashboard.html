@@ -1453,8 +1453,9 @@ code.fx {
             </div>
           </div>
 
-          <div style="margin-top:16px;display:flex;align-items:center;gap:12px">
+          <div style="margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
             <button onclick="wcRun()" class="btn-cta">CALCULATE PROBABILITIES</button>
+            <button onclick="wcToggleSlip()" id="wc-slip-btn" style="background:rgba(255,255,255,0.07);border:1px solid var(--border2);color:#fff;font-family:var(--bc);font-weight:700;font-size:12px;letter-spacing:.08em;padding:10px 20px;border-radius:6px;cursor:pointer;transition:.2s;white-space:nowrap" onmouseover="this.style.background='rgba(57,255,20,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.07)'">&#128203; MY SLIP (<span id="wc-slip-count">0</span>)</button>
             <p id="wc-err" style="color:var(--red);font-size:11px;display:none"></p>
           </div>
         </div>
@@ -1513,6 +1514,7 @@ code.fx {
                     <th style="text-align:center;padding:7px 10px;font-family:var(--bc);font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);border-bottom:1px solid var(--border)">Implied %</th>
                     <th style="text-align:center;padding:7px 10px;font-family:var(--bc);font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);border-bottom:1px solid var(--border)">Edge %</th>
                     <th style="text-align:center;padding:7px 10px;font-family:var(--bc);font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);border-bottom:1px solid var(--border)">Signal</th>
+                                      <th style="text-align:center;padding:7px 8px;font-family:var(--bc);font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);border-bottom:1px solid var(--border)">Slip</th>
                   </tr>
                 </thead>
                 <tbody id="wc-edge-body"></tbody>
@@ -1643,6 +1645,27 @@ code.fx {
 
   </div><!-- /scroll-area -->
 </div><!-- /main-body -->
+
+<!-- BETTING SLIP PANEL -->
+<div id="wc-slip-panel" style="display:none;position:fixed;top:0;right:0;width:320px;height:100vh;background:#0f0f1a;border-left:1px solid rgba(255,255,255,0.1);z-index:1200;overflow-y:auto;box-shadow:-6px 0 30px rgba(0,0,0,0.6);flex-direction:column">
+  <div style="padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+    <p style="font-family:var(--bc);font-weight:900;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#fff;margin:0">&#128203; BETTING SLIP</p>
+    <button onclick="wcToggleSlip()" style="background:transparent;border:none;color:var(--text2);font-size:18px;cursor:pointer;padding:2px 6px;line-height:1" title="Close">&#10005;</button>
+  </div>
+  <div id="wc-slip-items" style="flex:1;overflow-y:auto;padding:8px 0"></div>
+  <div id="wc-slip-footer" style="padding:14px 16px;border-top:1px solid rgba(255,255,255,0.08);flex-shrink:0">
+    <div id="wc-slip-combo" style="margin-bottom:12px;display:none">
+      <p style="font-size:10px;color:var(--text2);letter-spacing:.1em;text-transform:uppercase;font-family:var(--bc);margin-bottom:4px">Combined Fair Odds</p>
+      <p id="wc-slip-total" style="font-family:var(--bc);font-weight:900;font-size:22px;color:var(--neon);margin:0">—</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button onclick="wcCopySlip()" style="flex:1;min-width:80px;background:rgba(57,255,20,0.1);border:1px solid var(--neon);color:var(--neon);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:9px 8px;border-radius:6px;cursor:pointer">&#128203; COPY</button>
+      <button onclick="wcPrintSlip()" style="flex:1;min-width:80px;background:rgba(255,255,255,0.06);border:1px solid var(--border2);color:#fff;font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:9px 8px;border-radius:6px;cursor:pointer">&#128424; PRINT</button>
+      <button onclick="wcClearSlip()" style="flex:1;min-width:80px;background:rgba(220,50,50,0.1);border:1px solid var(--red);color:var(--red);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:9px 8px;border-radius:6px;cursor:pointer">&#10005; CLEAR</button>
+    </div>
+  </div>
+</div>
+<div id="wc-slip-backdrop" onclick="wcToggleSlip()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:1199"></div>
 
 <!-- ══════════════════════════════ SCRIPT ════════════════════════════════════ -->
 <script>
@@ -2488,22 +2511,131 @@ const CONF_CLASS = {CONCACAF:'conf-concacaf',CONMEBOL:'conf-conmebol',UEFA:'conf
 // state for edge / kelly (keyed by market label)
 let wcProbs = {}; // {label: probability}
 let wcEdgeOdds = {}; // {label: decimal odds input}
+let wcSlip = []; // [{matchH, matchA, market, prob, fairOdds}]
+
+// ── BETTING SLIP ──────────────────────────────────────────────────────────
+function wcToggleSlip() {
+  const panel = document.getElementById('wc-slip-panel');
+  const backdrop = document.getElementById('wc-slip-backdrop');
+  const isOpen = panel.style.display === 'flex';
+  panel.style.display = isOpen ? 'none' : 'flex';
+  backdrop.style.display = isOpen ? 'none' : 'block';
+}
+
+function wcAddToSlip(market, prob) {
+  const matchH = document.getElementById('wc-home-sel').value;
+  const matchA = document.getElementById('wc-away-sel').value;
+  if (!matchH || !matchA) { alert('Run a calculation first.'); return; }
+  const fairOdds = prob > 0 ? (1 / prob).toFixed(2) : '—';
+  if (wcSlip.some(s => s.matchH===matchH && s.matchA===matchA && s.market===market)) return;
+  wcSlip.push({ matchH, matchA, market, prob, fairOdds });
+  wcRenderSlip();
+  if (document.getElementById('wc-slip-panel').style.display !== 'flex') wcToggleSlip();
+}
+
+function wcRemoveFromSlip(idx) {
+  wcSlip.splice(idx, 1);
+  wcRenderSlip();
+}
+
+function wcRenderSlip() {
+  const count = wcSlip.length;
+  document.getElementById('wc-slip-count').textContent = count;
+  const itemsEl = document.getElementById('wc-slip-items');
+  const comboEl = document.getElementById('wc-slip-combo');
+  const totalEl = document.getElementById('wc-slip-total');
+  if (!itemsEl) return;
+
+  if (count === 0) {
+    itemsEl.innerHTML = '<p style="padding:30px 16px;text-align:center;color:var(--text2);font-size:12px;line-height:1.7">No selections yet.<br>Run a prediction and click<br><strong style=\'color:#fff\'>+</strong> on a market row.</p>';
+    comboEl.style.display = 'none';
+    return;
+  }
+
+  itemsEl.innerHTML = wcSlip.map((s, i) => `
+    <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+        <div style="flex:1;min-width:0">
+          <p style="font-size:10px;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.matchH} vs ${s.matchA}</p>
+          <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:#fff;margin-bottom:4px">${s.market}</p>
+          <div style="display:flex;gap:10px;align-items:center">
+            <span style="font-size:11px;color:var(--text2)">Model: <strong style="color:#fff">${(s.prob*100).toFixed(1)}%</strong></span>
+            <span style="font-size:11px;color:var(--text2)">Fair: <strong style="color:var(--neon)">${s.fairOdds}x</strong></span>
+          </div>
+        </div>
+        <button onclick="wcRemoveFromSlip(${i})" style="background:transparent;border:none;color:var(--text2);font-size:14px;cursor:pointer;padding:2px 4px;flex-shrink:0;line-height:1" title="Remove">&#10005;</button>
+      </div>
+    </div>`).join('');
+
+  const combo = wcSlip.reduce((acc, s) => acc * (s.prob > 0 ? 1/s.prob : 1), 1);
+  comboEl.style.display = 'block';
+  totalEl.textContent = combo.toFixed(2) + 'x';
+}
+
+function wcClearSlip() {
+  if (wcSlip.length === 0) return;
+  if (!confirm('Clear all selections from your slip?')) return;
+  wcSlip = [];
+  wcRenderSlip();
+}
+
+function wcCopySlip() {
+  if (wcSlip.length === 0) { alert('Your slip is empty.'); return; }
+  const combo = wcSlip.reduce((acc, s) => acc * (s.prob > 0 ? 1/s.prob : 1), 1);
+  const lines = [
+    '\u26BD BETTING SLIP \u2014 Lookout WC 2026 Dashboard',
+    '\u2550'.repeat(40),
+    ...wcSlip.map((s, i) => [
+      (i+1) + '. ' + s.matchH + ' vs ' + s.matchA,
+      '   Market : ' + s.market,
+      '   Model  : ' + (s.prob*100).toFixed(1) + '%  |  Fair Odds: ' + s.fairOdds + 'x',
+    ].join('\n')),
+    '\u2500'.repeat(40),
+    'COMBINED FAIR ODDS: ' + combo.toFixed(2) + 'x',
+    '\u2500'.repeat(40),
+  ];
+  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+    const btn = document.querySelector('#wc-slip-footer button');
+    const orig = btn.textContent;
+    btn.textContent = '\u2713 COPIED!';
+    btn.style.color = 'var(--neon)';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1800);
+  }).catch(() => alert('Copy failed — please select and copy manually.'));
+}
+
+function wcPrintSlip() {
+  if (wcSlip.length === 0) { alert('Your slip is empty.'); return; }
+  const combo = wcSlip.reduce((acc, s) => acc * (s.prob > 0 ? 1/s.prob : 1), 1);
+  const rows = wcSlip.map((s,i) =>
+    '<tr><td>' + (i+1) + '</td><td>' + s.matchH + ' vs ' + s.matchA +
+    '</td><td>' + s.market + '</td><td>' + (s.prob*100).toFixed(1) +
+    '%</td><td>' + s.fairOdds + 'x</td></tr>').join('');
+  const win = window.open('','_blank','width=560,height=700');
+  win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Betting Slip</title>' +
+    '<style>body{font-family:Arial,sans-serif;padding:28px;color:#111}h2{margin:0 0 4px;font-size:18px}' +
+    'p.sub{margin:0 0 18px;font-size:11px;color:#666}table{width:100%;border-collapse:collapse;font-size:12px}' +
+    'th{background:#111;color:#fff;padding:8px 10px;text-align:left}td{padding:8px 10px;border-bottom:1px solid #ddd}' +
+    'tr:nth-child(even) td{background:#f7f7f7}.combo{margin-top:18px;padding:12px 16px;background:#f0f0f0;' +
+    'border-radius:6px}.combo strong{font-size:20px}</style></head><body>' +
+    '<h2>&#9917; Betting Slip &#8212; Lookout WC 2026</h2>' +
+    '<p class="sub">Generated ' + new Date().toLocaleDateString() + '</p>' +
+    '<table><tr><th>#</th><th>Match</th><th>Market</th><th>Model %</th><th>Fair Odds</th></tr>' +
+    rows + '</table>' +
+    '<div class="combo">Combined Fair Odds: <strong>' + combo.toFixed(2) + 'x</strong></div>' +
+    '</body></html>');
+  win.document.close();
+  win.print();
+}
 
 function wcInit() {
   const homeEl = document.getElementById('wc-home-sel');
   const awayEl = document.getElementById('wc-away-sel');
-  if (homeEl.options.length > 1) return; // already populated
-  const sorted = [...WC26].sort((a,b) => a.n.localeCompare(b.n));
-  const confOrder = ['UEFA','CONMEBOL','AFC','CAF','CONCACAF','OFC'];
-  confOrder.forEach(conf => {
-    const og = document.createElement('optgroup');
-    og.label = conf;
-    sorted.filter(t=>t.c===conf).forEach(t => {
-      [homeEl, awayEl].forEach(el => {
-        const o = document.createElement('option');
-        o.value = t.n; o.textContent = t.n + (t.host?' 🏟':'');
-        el.appendChild(o.cloneNode(true));
-      });
+  if (homeEl.options.length > 1) return;
+  [...WC26].sort((a,b) => a.n.localeCompare(b.n)).forEach(t => {
+    const label = t.n + (t.host ? ' 🏟' : '');
+    [homeEl, awayEl].forEach(el => {
+      const o = new Option(label, t.n);
+      el.appendChild(o);
     });
   });
 }
@@ -2711,6 +2843,12 @@ function wcRenderEdge(markets) {
       <td style="text-align:center;padding:8px 10px;font-family:var(--bc);font-size:13px;color:var(--text2)" id="wc-impl-${key.replace(/[^a-zA-Z0-9]/g,'_')}">—</td>
       <td style="text-align:center;padding:8px 10px" id="wc-edge-${key.replace(/[^a-zA-Z0-9]/g,'_')}">—</td>
       <td style="text-align:center;padding:8px 10px" id="wc-sig-${key.replace(/[^a-zA-Z0-9]/g,'_')}">—</td>
+      <td style="text-align:center;padding:6px 8px">
+        <button onclick="wcAddToSlip('${m.lbl.replace(/'/g, String.fromCharCode(92,39))}',${m.p})"
+          title="Add to slip"
+          style="background:rgba(57,255,20,0.1);border:1px solid var(--neon);color:var(--neon);font-size:14px;font-weight:900;width:26px;height:26px;border-radius:50%;cursor:pointer;line-height:1;padding:0;transition:.15s"
+          onmouseover="this.style.background='rgba(57,255,20,0.25)'" onmouseout="this.style.background='rgba(57,255,20,0.1)'">+</button>
+      </td>
     </tr>`;
   }).join('');
   // re-calc any pre-filled odds
