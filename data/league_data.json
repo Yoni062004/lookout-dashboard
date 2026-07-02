@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-01T09:30:16.005944+00:00",
+  "updated": "2026-07-02T08:42:58.883877+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
@@ -10,7 +10,7 @@
   "PD": {
     "name": "La Liga",
     "country": "Spain",
-    "season": "2025-26",
+    "season": "2026-27",
     "table": [
       {
         "team": "FC Barcelona",
@@ -373,88 +373,7 @@
         "def_str": 1.171875
       }
     ],
-    "scorers": [
-      {
-        "name": "Kylian Mbappé",
-        "team": "Real Madrid CF",
-        "goals": 25,
-        "assists": 4,
-        "penalties": 8,
-        "playedGames": 0
-      },
-      {
-        "name": "Vedat Muriqi",
-        "team": "RCD Mallorca",
-        "goals": 23,
-        "assists": 1,
-        "penalties": 5,
-        "playedGames": 0
-      },
-      {
-        "name": "Ante Budimir",
-        "team": "CA Osasuna",
-        "goals": 17,
-        "assists": 0,
-        "penalties": 6,
-        "playedGames": 0
-      },
-      {
-        "name": "Ferrán Torres",
-        "team": "FC Barcelona",
-        "goals": 16,
-        "assists": 3,
-        "penalties": 0,
-        "playedGames": 0
-      },
-      {
-        "name": "Lamine Yamal",
-        "team": "FC Barcelona",
-        "goals": 16,
-        "assists": 11,
-        "penalties": 3,
-        "playedGames": 0
-      },
-      {
-        "name": "Vinicius Junior",
-        "team": "Real Madrid CF",
-        "goals": 16,
-        "assists": 5,
-        "penalties": 4,
-        "playedGames": 0
-      },
-      {
-        "name": "Borja Iglesias",
-        "team": "RC Celta de Vigo",
-        "goals": 15,
-        "assists": 1,
-        "penalties": 4,
-        "playedGames": 0
-      },
-      {
-        "name": "Mikel Oyarzabal",
-        "team": "Real Sociedad de Fútbol",
-        "goals": 15,
-        "assists": 4,
-        "penalties": 7,
-        "playedGames": 0
-      },
-      {
-        "name": "Toni Martínez",
-        "team": "Deportivo Alavés",
-        "goals": 14,
-        "assists": 3,
-        "penalties": 1,
-        "playedGames": 0
-      },
-      {
-        "name": "Robert Lewandowski",
-        "team": "FC Barcelona",
-        "goals": 14,
-        "assists": 2,
-        "penalties": 1,
-        "playedGames": 0
-      }
-    ]
+    "scorers": []
   },
   "BL1": {
     "name": "Bundesliga",
