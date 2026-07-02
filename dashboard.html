@@ -1646,26 +1646,29 @@ code.fx {
   </div><!-- /scroll-area -->
 </div><!-- /main-body -->
 
-<!-- BETTING SLIP PANEL -->
-<div id="wc-slip-panel" style="display:none;position:fixed;top:0;right:0;width:320px;height:100vh;background:#0f0f1a;border-left:1px solid rgba(255,255,255,0.1);z-index:1200;overflow-y:auto;box-shadow:-6px 0 30px rgba(0,0,0,0.6);flex-direction:column">
-  <div style="padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
-    <p style="font-family:var(--bc);font-weight:900;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#fff;margin:0">&#128203; BETTING SLIP</p>
-    <button onclick="wcToggleSlip()" style="background:transparent;border:none;color:var(--text2);font-size:18px;cursor:pointer;padding:2px 6px;line-height:1" title="Close">&#10005;</button>
-  </div>
-  <div id="wc-slip-items" style="flex:1;overflow-y:auto;padding:8px 0"></div>
-  <div id="wc-slip-footer" style="padding:14px 16px;border-top:1px solid rgba(255,255,255,0.08);flex-shrink:0">
-    <div id="wc-slip-combo" style="margin-bottom:12px;display:none">
-      <p style="font-size:10px;color:var(--text2);letter-spacing:.1em;text-transform:uppercase;font-family:var(--bc);margin-bottom:4px">Combined Fair Odds</p>
-      <p id="wc-slip-total" style="font-family:var(--bc);font-weight:900;font-size:22px;color:var(--neon);margin:0">—</p>
+<!-- SLIP ANALYZER PANEL -->
+<div id="wc-slip-panel" style="display:none;position:fixed;top:0;right:0;width:340px;height:100vh;background:#0d0d18;border-left:1px solid rgba(255,255,255,0.09);z-index:1200;box-shadow:-8px 0 32px rgba(0,0,0,0.7);flex-direction:column;font-family:sans-serif">
+
+  <!-- Header -->
+  <div style="padding:15px 16px 13px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:#0d0d18">
+    <div>
+      <p style="font-family:var(--bc);font-weight:900;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#fff;margin:0">&#128203; SLIP ANALYZER</p>
+      <p id="wc-slip-subtitle" style="font-size:10px;color:var(--text2);margin:2px 0 0">Upload your bookie slip to analyze</p>
     </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button onclick="wcCopySlip()" style="flex:1;min-width:80px;background:rgba(57,255,20,0.1);border:1px solid var(--neon);color:var(--neon);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:9px 8px;border-radius:6px;cursor:pointer">&#128203; COPY</button>
-      <button onclick="wcPrintSlip()" style="flex:1;min-width:80px;background:rgba(255,255,255,0.06);border:1px solid var(--border2);color:#fff;font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:9px 8px;border-radius:6px;cursor:pointer">&#128424; PRINT</button>
-      <button onclick="wcClearSlip()" style="flex:1;min-width:80px;background:rgba(220,50,50,0.1);border:1px solid var(--red);color:var(--red);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:9px 8px;border-radius:6px;cursor:pointer">&#10005; CLEAR</button>
-    </div>
+    <button onclick="wcToggleSlip()" style="background:transparent;border:none;color:var(--text2);font-size:20px;cursor:pointer;padding:0 4px;line-height:1">&#10005;</button>
   </div>
+
+  <!-- Scrollable body -->
+  <div id="wc-slip-body" style="flex:1;overflow-y:auto;padding:0"></div>
+
+  <!-- Footer actions -->
+  <div id="wc-slip-footer" style="padding:12px 14px;border-top:1px solid rgba(255,255,255,0.07);flex-shrink:0;display:flex;gap:8px;flex-wrap:wrap;background:#0d0d18"></div>
+
 </div>
-<div id="wc-slip-backdrop" onclick="wcToggleSlip()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:1199"></div>
+<div id="wc-slip-backdrop" onclick="wcToggleSlip()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1199"></div>
+
+<!-- Hidden file input for slip upload -->
+<input type="file" id="wc-slip-file-input" accept="image/*" style="display:none" onchange="wcSlipHandleFile(this.files[0])">
 
 <!-- ══════════════════════════════ SCRIPT ════════════════════════════════════ -->
 <script>
@@ -2511,120 +2514,511 @@ const CONF_CLASS = {CONCACAF:'conf-concacaf',CONMEBOL:'conf-conmebol',UEFA:'conf
 // state for edge / kelly (keyed by market label)
 let wcProbs = {}; // {label: probability}
 let wcEdgeOdds = {}; // {label: decimal odds input}
-let wcSlip = []; // [{matchH, matchA, market, prob, fairOdds}]
+// ── SLIP ANALYZER ─────────────────────────────────────────────────────────────
+let wcSlip = [];          // array of bet objects
+let wcSlipMode = 'empty'; // 'empty' | 'edit' | 'results'
+let wcSlipImg  = null;    // uploaded image data URL
 
-// ── BETTING SLIP ──────────────────────────────────────────────────────────
-function wcToggleSlip() {
-  const panel = document.getElementById('wc-slip-panel');
-  const backdrop = document.getElementById('wc-slip-backdrop');
-  const isOpen = panel.style.display === 'flex';
-  panel.style.display = isOpen ? 'none' : 'flex';
-  backdrop.style.display = isOpen ? 'none' : 'block';
+const WC_SLIP_MARKETS = [
+  'Home Win','Draw','Away Win',
+  'BTTS – Yes','BTTS – No',
+  'Over 0.5','Under 0.5',
+  'Over 1.5','Under 1.5',
+  'Over 2.5','Under 2.5',
+  'Over 3.5','Under 3.5',
+  'Over 4.5','Under 4.5',
+];
+
+// ── Pure Poisson computation (no DOM side-effects) ────────────────────────
+function wcCalcProbsForMatch(homeN, awayN, baseline, isKO) {
+  const H = WC26.find(t => t.n === homeN);
+  const A = WC26.find(t => t.n === awayN);
+  if (!H || !A || H === A) return null;
+  const homeBoost = H.host ? 1.20 : 1.0;
+  const awayBoost = A.host ? 1.20 : 1.0;
+  const xgH = H.a * A.d * (baseline||1.15) * homeBoost;
+  const xgA = A.a * H.d * (baseline||1.15) * awayBoost;
+  const N = 8;
+  const mat = [];
+  for (let h=0;h<N;h++){mat[h]=[];for(let a=0;a<N;a++) mat[h][a]=poissonPMF(h,xgH)*poissonPMF(a,xgA);}
+  let pHW=0,pD=0,pAW=0;
+  for(let h=0;h<N;h++) for(let a=0;a<N;a++){if(h>a)pHW+=mat[h][a];else if(h===a)pD+=mat[h][a];else pAW+=mat[h][a];}
+  function sc(fn){let s=0;for(let h=0;h<N;h++) for(let a=0;a<N;a++) if(fn(h,a))s+=mat[h][a];return s;}
+  const bttsY=sc((h,a)=>h>0&&a>0);
+  const drawLbl = isKO ? 'Extra Time / Pens' : 'Draw';
+  const probs = {[homeN+' Win']:pHW,[drawLbl]:pD,[awayN+' Win']:pAW,'BTTS – Yes':bttsY,'BTTS – No':1-bttsY};
+  [0.5,1.5,2.5,3.5,4.5].forEach(line=>{
+    probs['Over '+line]=sc((h,a)=>h+a>line);
+    probs['Under '+line]=sc((h,a)=>h+a<line);
+  });
+  return {probs, xgH, xgA, homeN, awayN};
 }
 
+function wcBestMarket(probs, exceptMarket) {
+  // Suggest from meaningful markets only (not trivial high-prob unders)
+  const INTERESTING = ['Win','Draw','Extra Time','BTTS – Yes','BTTS – No','Over 2.5','Under 2.5','Over 1.5','Over 3.5'];
+  const candidates = Object.entries(probs).filter(([lbl]) =>
+    lbl !== exceptMarket && INTERESTING.some(k => lbl.includes(k))
+  );
+  if (!candidates.length) return null;
+  candidates.sort((a,b) => b[1]-a[1]);
+  const [lbl, p] = candidates[0];
+  return { lbl, p };
+}
+
+// ── Panel open/close ─────────────────────────────────────────────────────
+function wcToggleSlip() {
+  const panel    = document.getElementById('wc-slip-panel');
+  const backdrop = document.getElementById('wc-slip-backdrop');
+  const isOpen   = panel.style.display === 'flex';
+  panel.style.display    = isOpen ? 'none' : 'flex';
+  backdrop.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) wcSlipRender();
+}
+
+// ── Add from edge-calculator "+" button ──────────────────────────────────
 function wcAddToSlip(market, prob) {
   const matchH = document.getElementById('wc-home-sel').value;
   const matchA = document.getElementById('wc-away-sel').value;
   if (!matchH || !matchA) { alert('Run a calculation first.'); return; }
-  const fairOdds = prob > 0 ? (1 / prob).toFixed(2) : '—';
-  if (wcSlip.some(s => s.matchH===matchH && s.matchA===matchA && s.market===market)) return;
-  wcSlip.push({ matchH, matchA, market, prob, fairOdds });
-  wcRenderSlip();
+  if (wcSlip.some(s => s.matchH===matchH && s.matchA===matchA && s.market===market)) {
+    if (document.getElementById('wc-slip-panel').style.display !== 'flex') wcToggleSlip();
+    return;
+  }
+  const baseline = parseFloat(document.getElementById('wc-baseline').value) || 1.15;
+  const isKO     = document.getElementById('wc-knockout').checked;
+  const result   = wcCalcProbsForMatch(matchH, matchA, baseline, isKO);
+  const allProbs = result ? result.probs : {};
+  const bookOdds = wcEdgeOdds[market] || '';
+  wcSlip.push({ matchH, matchA, baseline, isKO, market, bookOdds, modelProb: prob, allProbs });
+  wcSlipMode = 'edit';
+  wcSlipRender();
+  document.getElementById('wc-slip-count').textContent = wcSlip.length;
   if (document.getElementById('wc-slip-panel').style.display !== 'flex') wcToggleSlip();
 }
 
 function wcRemoveFromSlip(idx) {
   wcSlip.splice(idx, 1);
-  wcRenderSlip();
+  if (wcSlip.length === 0) wcSlipMode = 'empty';
+  wcSlipRender();
+  document.getElementById('wc-slip-count').textContent = wcSlip.length;
 }
 
-function wcRenderSlip() {
-  const count = wcSlip.length;
-  document.getElementById('wc-slip-count').textContent = count;
-  const itemsEl = document.getElementById('wc-slip-items');
-  const comboEl = document.getElementById('wc-slip-combo');
-  const totalEl = document.getElementById('wc-slip-total');
-  if (!itemsEl) return;
+// ── File upload & OCR ────────────────────────────────────────────────────
+function wcSlipHandleFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    wcSlipImg = e.target.result;
+    wcSlipMode = 'ocr';
+    wcSlipRender();
+    wcSlipRunOCR(wcSlipImg);
+  };
+  reader.readAsDataURL(file);
+  // reset input so same file can be re-uploaded
+  document.getElementById('wc-slip-file-input').value = '';
+}
 
-  if (count === 0) {
-    itemsEl.innerHTML = '<p style="padding:30px 16px;text-align:center;color:var(--text2);font-size:12px;line-height:1.7">No selections yet.<br>Run a prediction and click<br><strong style=\'color:#fff\'>+</strong> on a market row.</p>';
-    comboEl.style.display = 'none';
-    return;
+async function wcSlipRunOCR(dataUrl) {
+  const statusEl = document.getElementById('wc-ocr-status');
+  if (statusEl) statusEl.textContent = '\u{1F50D} Reading your slip… (this takes ~10s)';
+  try {
+    // Load Tesseract lazily
+    if (typeof Tesseract === 'undefined') {
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+    const { data: { text } } = await Tesseract.recognize(dataUrl, 'eng', {
+      logger: m => { if (statusEl && m.status==='recognizing text') statusEl.textContent = '\u{1F50D} Reading… ' + Math.round((m.progress||0)*100) + '%'; }
+    });
+    const parsed = wcSlipParseOCR(text);
+    wcSlip = parsed;
+    wcSlipMode = 'edit';
+    wcSlipRender();
+    document.getElementById('wc-slip-count').textContent = wcSlip.length;
+  } catch(e) {
+    if (statusEl) statusEl.textContent = '⚠ OCR failed — enter bets below manually.';
+    wcSlip = [];
+    wcSlipMode = 'edit';
+    wcSlipRender();
+  }
+}
+
+function wcSlipParseOCR(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const teams = WC26.map(t => t.n);
+  const found = [];
+
+  // Find team names in text (case-insensitive partial match)
+  function findTeam(str) {
+    const s = str.toLowerCase();
+    return teams.find(t => s.includes(t.toLowerCase())) || null;
   }
 
-  itemsEl.innerHTML = wcSlip.map((s, i) => `
-    <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.06)">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
-        <div style="flex:1;min-width:0">
-          <p style="font-size:10px;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.matchH} vs ${s.matchA}</p>
-          <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:#fff;margin-bottom:4px">${s.market}</p>
-          <div style="display:flex;gap:10px;align-items:center">
-            <span style="font-size:11px;color:var(--text2)">Model: <strong style="color:#fff">${(s.prob*100).toFixed(1)}%</strong></span>
-            <span style="font-size:11px;color:var(--text2)">Fair: <strong style="color:var(--neon)">${s.fairOdds}x</strong></span>
-          </div>
-        </div>
-        <button onclick="wcRemoveFromSlip(${i})" style="background:transparent;border:none;color:var(--text2);font-size:14px;cursor:pointer;padding:2px 4px;flex-shrink:0;line-height:1" title="Remove">&#10005;</button>
+  // Find decimal odds pattern in a string
+  function findOdds(str) {
+    const m = str.match(/\b(\d{1,3}[.,]\d{2})\b/);
+    if (!m) return '';
+    return parseFloat(m[1].replace(',','.'));
+  }
+
+  // Normalise market keyword
+  function normMarket(str, homeN, awayN) {
+    const s = str.toLowerCase();
+    if (s.includes('btts') || s.includes('both teams') || s.includes('gg')) return 'BTTS – Yes';
+    if (s.includes('ng') || (s.includes('no') && s.includes('goal'))) return 'BTTS – No';
+    if (/over\s*2\.5/.test(s)) return 'Over 2.5';
+    if (/under\s*2\.5/.test(s)) return 'Under 2.5';
+    if (/over\s*1\.5/.test(s)) return 'Over 1.5';
+    if (/under\s*1\.5/.test(s)) return 'Under 1.5';
+    if (/over\s*3\.5/.test(s)) return 'Over 3.5';
+    if (/under\s*3\.5/.test(s)) return 'Under 3.5';
+    if (/over\s*4\.5/.test(s)) return 'Over 4.5';
+    if (/under\s*4\.5/.test(s)) return 'Under 4.5';
+    if (/over\s*0\.5/.test(s)) return 'Over 0.5';
+    if (s.includes('draw') || s.includes(' x ') || s==='–') return 'Draw';
+    if (homeN && (s.includes(homeN.toLowerCase()) || s.includes('home') || /\b1\b/.test(s))) return homeN + ' Win';
+    if (awayN && (s.includes(awayN.toLowerCase()) || s.includes('away') || /\b2\b/.test(s))) return awayN + ' Win';
+    return '';
+  }
+
+  let currentHome = null, currentAway = null;
+  const baseline = 1.15;
+
+  lines.forEach((line, i) => {
+    // Try to extract two teams from one line (e.g. "Argentina vs France")
+    const vsMatch = line.match(/(.+?)\s+(?:vs?\.?|v\.|-)\s+(.+)/i);
+    if (vsMatch) {
+      const t1 = findTeam(vsMatch[1]);
+      const t2 = findTeam(vsMatch[2]);
+      if (t1 && t2 && t1 !== t2) { currentHome = t1; currentAway = t2; }
+    } else {
+      const t = findTeam(line);
+      if (t) { if (!currentHome) currentHome = t; else if (t !== currentHome) currentAway = t; }
+    }
+
+    // Try to extract a market + odds from this line
+    if (currentHome && currentAway) {
+      const mkt = normMarket(line, currentHome, currentAway);
+      const odds = findOdds(line);
+      if (mkt && odds && odds >= 1.01) {
+        const result = wcCalcProbsForMatch(currentHome, currentAway, baseline, false);
+        const allProbs = result ? result.probs : {};
+        const modelProb = allProbs[mkt] || 0;
+        found.push({ matchH: currentHome, matchA: currentAway, baseline, isKO: false, market: mkt, bookOdds: odds, modelProb, allProbs });
+      }
+    }
+  });
+
+  return found;
+}
+
+// ── Add a blank manual bet ────────────────────────────────────────────────
+function wcSlipAddManualBet() {
+  wcSlip.push({ matchH: '', matchA: '', baseline: 1.15, isKO: false, market: 'Home Win', bookOdds: '', modelProb: 0, allProbs: {} });
+  wcSlipMode = 'edit';
+  wcSlipRender();
+  document.getElementById('wc-slip-count').textContent = wcSlip.length;
+}
+
+function wcSlipUpdateBet(idx, field, value) {
+  if (!wcSlip[idx]) return;
+  wcSlip[idx][field] = value;
+  // Recompute model prob when teams/market/stage change
+  const b = wcSlip[idx];
+  if (b.matchH && b.matchA && b.matchH !== b.matchA) {
+    const result = wcCalcProbsForMatch(b.matchH, b.matchA, b.baseline || 1.15, b.isKO || false);
+    if (result) {
+      b.allProbs = result.probs;
+      b.modelProb = result.probs[b.market] || 0;
+    }
+  }
+  // Re-render just the model% cell without full rebuild
+  const probEl = document.getElementById('wc-slip-model-' + idx);
+  const recEl  = document.getElementById('wc-slip-rec-' + idx);
+  if (probEl && b.modelProb) {
+    probEl.textContent = (b.modelProb * 100).toFixed(1) + '%';
+  }
+}
+
+// ── Master render ─────────────────────────────────────────────────────────
+function wcSlipRender() {
+  const body   = document.getElementById('wc-slip-body');
+  const footer = document.getElementById('wc-slip-footer');
+  const sub    = document.getElementById('wc-slip-subtitle');
+  if (!body) return;
+
+  if (wcSlipMode === 'empty') {
+    sub.textContent = 'Upload your bookie slip to analyze';
+    body.innerHTML = wcSlipRenderEmpty();
+    footer.innerHTML = '';
+
+  } else if (wcSlipMode === 'ocr') {
+    sub.textContent = 'Reading your slip…';
+    body.innerHTML = wcSlipRenderOCR();
+    footer.innerHTML = '';
+
+  } else if (wcSlipMode === 'edit') {
+    sub.textContent = wcSlip.length + ' bet' + (wcSlip.length===1?'':'s') + ' — confirm & analyze';
+    body.innerHTML = wcSlipRenderEdit();
+    footer.innerHTML = wcSlipEditFooter();
+
+  } else if (wcSlipMode === 'results') {
+    const good = wcSlip.filter(b => b._edge > 0).length;
+    const bad  = wcSlip.filter(b => b._edge <= 0).length;
+    sub.textContent = '✅ ' + good + ' good  ❌ ' + bad + ' bad value';
+    body.innerHTML = wcSlipRenderResults();
+    footer.innerHTML = wcSlipResultsFooter();
+  }
+}
+
+function wcSlipRenderEmpty() {
+  return `<div style="padding:28px 16px;text-align:center">
+    <div style="font-size:48px;margin-bottom:14px">&#128247;</div>
+    <p style="font-family:var(--bc);font-weight:900;font-size:14px;color:#fff;letter-spacing:.05em;margin-bottom:8px">UPLOAD YOUR SLIP</p>
+    <p style="font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:20px">Take a screenshot of your bookie's<br>betting slip and upload it here.<br>We'll check each pick against our<br>WC 2026 Poisson model.</p>
+    <label for="wc-slip-file-input" style="display:block;background:rgba(57,255,20,0.1);border:2px dashed var(--neon);color:var(--neon);font-family:var(--bc);font-weight:700;font-size:12px;letter-spacing:.1em;padding:20px;border-radius:10px;cursor:pointer;margin-bottom:12px">
+      &#128247; BROWSE / DROP IMAGE
+    </label>
+    <p style="font-size:10px;color:var(--text2);margin-bottom:16px">— or —</p>
+    <button onclick="wcSlipAddManualBet()" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid var(--border2);color:#fff;font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:11px;border-radius:7px;cursor:pointer">+ ENTER BETS MANUALLY</button>
+  </div>`;
+}
+
+function wcSlipRenderOCR() {
+  return `<div style="padding:14px">
+    <img src="${wcSlipImg}" style="width:100%;border-radius:8px;border:1px solid var(--border2);margin-bottom:12px">
+    <p id="wc-ocr-status" style="text-align:center;font-size:12px;color:var(--text2);padding:8px 0">\u{1F50D} Starting OCR…</p>
+  </div>`;
+}
+
+const STAGE_OPTS = [
+  ['1.15','Group Stage'],['1.05','Round of 32'],['0.95','Round of 16'],
+  ['0.88','Quarter-Final'],['0.82','Semi-Final'],['0.78','Final'],
+];
+
+function wcSlipRenderEdit() {
+  if (wcSlip.length === 0) {
+    return `<div style="padding:18px 14px">
+      ${wcSlipImg ? `<img src="${wcSlipImg}" style="width:100%;border-radius:8px;border:1px solid var(--border2);margin-bottom:12px">
+      <p style="font-size:11px;color:var(--text2);margin-bottom:12px;text-align:center">No bets detected — add them manually:</p>` : ''}
+      <button onclick="wcSlipAddManualBet()" style="width:100%;background:rgba(57,255,20,0.08);border:1px dashed var(--neon);color:var(--neon);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:11px;border-radius:7px;cursor:pointer">+ ADD A BET</button>
+    </div>`;
+  }
+
+  const teamOpts = ['', ...WC26.map(t=>t.n).sort()].map(n =>
+    `<option value="${n}">${n || '-- Team --'}</option>`).join('');
+
+  const mktOptsFor = (b) => WC_SLIP_MARKETS.concat(
+    b.matchH ? [b.matchH+' Win'] : [],
+    b.matchA ? [b.matchA+' Win'] : []
+  ).filter((v,i,a)=>a.indexOf(v)===i).map(m =>
+    `<option value="${m}" ${m===b.market?'selected':''}>${m}</option>`
+  ).join('');
+
+  let rows = wcSlip.map((b, i) => {
+    const sOpts = STAGE_OPTS.map(([v,l]) =>
+      `<option value="${v}" ${parseFloat(v)===(b.baseline||1.15)?'selected':''}>${l}</option>`
+    ).join('');
+    return `<div style="padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <p style="font-size:10px;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;font-family:var(--bc)">BET ${i+1}</p>
+        <button onclick="wcRemoveFromSlip(${i})" style="background:transparent;border:none;color:var(--text2);font-size:13px;cursor:pointer">&#10005;</button>
       </div>
-    </div>`).join('');
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:4px;align-items:center;margin-bottom:6px">
+        <select onchange="wcSlipUpdateBet(${i},'matchH',this.value);wcSlipRender()"
+          style="background:#1a1a28;border:1px solid var(--border2);color:#fff;font-size:11px;padding:5px 6px;border-radius:5px;width:100%">${teamOpts.replace(`value="${b.matchH}"`,`value="${b.matchH}" selected`)}</select>
+        <span style="color:var(--text2);font-size:10px;font-family:var(--bc);font-weight:700;padding:0 4px">VS</span>
+        <select onchange="wcSlipUpdateBet(${i},'matchA',this.value);wcSlipRender()"
+          style="background:#1a1a28;border:1px solid var(--border2);color:#fff;font-size:11px;padding:5px 6px;border-radius:5px;width:100%">${teamOpts.replace(`value="${b.matchA}"`,`value="${b.matchA}" selected`)}</select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">
+        <select onchange="wcSlipUpdateBet(${i},'market',this.value);wcSlipRender()"
+          style="background:#1a1a28;border:1px solid var(--border2);color:#fff;font-size:11px;padding:5px 6px;border-radius:5px">
+          ${mktOptsFor(b)}
+        </select>
+        <select onchange="wcSlipUpdateBet(${i},'baseline',parseFloat(this.value));wcSlipRender()"
+          style="background:#1a1a28;border:1px solid var(--border2);color:#fff;font-size:11px;padding:5px 6px;border-radius:5px">
+          ${sOpts}
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="flex:1">
+          <p style="font-size:9px;color:var(--text2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Your Odds</p>
+          <input type="number" step="0.01" min="1.01" placeholder="e.g. 2.10" value="${b.bookOdds||''}"
+            oninput="wcSlipUpdateBet(${i},'bookOdds',parseFloat(this.value)||'')"
+            style="background:#1a1a28;border:1px solid var(--border2);color:#fff;font-size:12px;padding:6px 8px;border-radius:5px;width:100%;box-sizing:border-box">
+        </div>
+        <div style="text-align:center">
+          <p style="font-size:9px;color:var(--text2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Model</p>
+          <p id="wc-slip-model-${i}" style="font-family:var(--bc);font-weight:700;font-size:13px;color:${b.modelProb>0.5?'var(--neon)':b.modelProb>0.3?'var(--amber)':'var(--text2)'}">${b.modelProb?(b.modelProb*100).toFixed(1)+'%':'—'}</p>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
 
-  const combo = wcSlip.reduce((acc, s) => acc * (s.prob > 0 ? 1/s.prob : 1), 1);
-  comboEl.style.display = 'block';
-  totalEl.textContent = combo.toFixed(2) + 'x';
+  return rows + `<div style="padding:12px 14px">
+    <button onclick="wcSlipAddManualBet()" style="width:100%;background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.2);color:var(--text2);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:10px;border-radius:7px;cursor:pointer">+ ADD ANOTHER BET</button>
+  </div>`;
 }
 
-function wcClearSlip() {
-  if (wcSlip.length === 0) return;
-  if (!confirm('Clear all selections from your slip?')) return;
+function wcSlipEditFooter() {
+  return `<button onclick="wcSlipAnalyze()" style="flex:2;background:var(--neon);border:none;color:#000;font-family:var(--bc);font-weight:900;font-size:12px;letter-spacing:.1em;padding:11px 8px;border-radius:7px;cursor:pointer">&#128269; ANALYZE MY SLIP</button>
+  <button onclick="wcSlipReset()" style="flex:1;background:rgba(220,50,50,0.1);border:1px solid var(--red);color:var(--red);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.06em;padding:11px 8px;border-radius:7px;cursor:pointer">&#10005; CLEAR</button>`;
+}
+
+function wcSlipResultsFooter() {
+  return `<button onclick="wcSlipCopy()" style="flex:1;background:rgba(57,255,20,0.1);border:1px solid var(--neon);color:var(--neon);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.06em;padding:10px 8px;border-radius:7px;cursor:pointer" id="wc-slip-copy-btn">&#128203; COPY</button>
+  <button onclick="wcSlipPrint()" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--border2);color:#fff;font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.06em;padding:10px 8px;border-radius:7px;cursor:pointer">&#128424; PRINT</button>
+  <button onclick="wcSlipReset()" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--border2);color:var(--text2);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.06em;padding:10px 8px;border-radius:7px;cursor:pointer">&#8635; NEW</button>`;
+}
+
+function wcSlipAnalyze() {
+  const valid = wcSlip.filter(b => b.matchH && b.matchA && b.matchH !== b.matchA && b.bookOdds >= 1.01);
+  if (valid.length === 0) { alert('Add at least one complete bet (teams + odds) to analyze.'); return; }
+
+  valid.forEach(b => {
+    const result = wcCalcProbsForMatch(b.matchH, b.matchA, b.baseline||1.15, b.isKO||false);
+    if (result) {
+      b.allProbs  = result.probs;
+      b.modelProb = result.probs[b.market] || 0;
+    }
+    const implied = b.bookOdds >= 1.01 ? 1 / b.bookOdds : 0;
+    b._implied = implied;
+    b._edge    = b.modelProb - implied;
+    b._fairOdds = b.modelProb > 0 ? (1 / b.modelProb).toFixed(2) : null;
+    // Best alternative market
+    b._suggestion = wcBestMarket(b.allProbs, b.market);
+  });
+
+  wcSlip = valid;
+  wcSlipMode = 'results';
+  wcSlipRender();
+  document.getElementById('wc-slip-count').textContent = wcSlip.length;
+}
+
+function wcSlipRenderResults() {
+  let html = '';
+
+  if (wcSlipImg) {
+    html += `<details style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <summary style="font-size:10px;color:var(--text2);cursor:pointer;list-style:none;text-transform:uppercase;letter-spacing:.08em;font-family:var(--bc)">&#128247; Your slip (tap to show)</summary>
+      <img src="${wcSlipImg}" style="width:100%;border-radius:6px;margin-top:8px;border:1px solid var(--border2)">
+    </details>`;
+  }
+
+  wcSlip.forEach((b, i) => {
+    const good    = b._edge > 0;
+    const slight  = b._edge > -0.03 && b._edge <= 0;
+    const color   = good ? '#39FF14' : slight ? '#FBBF24' : '#EF4444';
+    const bgColor = good ? 'rgba(57,255,20,0.06)' : slight ? 'rgba(251,191,36,0.06)' : 'rgba(239,68,68,0.06)';
+    const border  = good ? 'rgba(57,255,20,0.3)' : slight ? 'rgba(251,191,36,0.3)' : 'rgba(239,68,68,0.3)';
+    const icon    = good ? '✅' : slight ? '⚠️' : '❌';
+    const verdict = good ? 'GOOD VALUE' : slight ? 'SLIGHT RISK' : 'BAD VALUE';
+
+    let sugHtml = '';
+    if (!good && b._suggestion) {
+      const s = b._suggestion;
+      sugHtml = `<div style="margin-top:8px;padding:8px 10px;background:rgba(57,255,20,0.08);border:1px solid rgba(57,255,20,0.25);border-radius:6px">
+        <p style="font-size:9px;color:var(--neon);letter-spacing:.08em;text-transform:uppercase;font-family:var(--bc);margin-bottom:3px">&#128161; Better pick instead:</p>
+        <p style="font-size:12px;color:#fff;font-family:var(--bc);font-weight:700">${s.lbl}</p>
+        <p style="font-size:10px;color:var(--text2)">Model: <strong style="color:var(--neon)">${(s.p*100).toFixed(1)}%</strong> &nbsp;|&nbsp; Fair odds: <strong style="color:#fff">${s.p>0?(1/s.p).toFixed(2):'—'}x</strong></p>
+      </div>`;
+    }
+
+    html += `<div style="padding:14px;border-bottom:1px solid rgba(255,255,255,0.06);background:${bgColor};border-left:3px solid ${border}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
+        <div>
+          <p style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">${b.matchH} vs ${b.matchA}</p>
+          <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:#fff">${b.market}</p>
+        </div>
+        <span style="font-size:10px;font-family:var(--bc);font-weight:900;color:${color};letter-spacing:.08em;white-space:nowrap;padding-top:2px">${icon} ${verdict}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px">
+        <div style="text-align:center;padding:6px;background:rgba(0,0,0,0.25);border-radius:5px">
+          <p style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Model</p>
+          <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:${color}">${(b.modelProb*100).toFixed(1)}%</p>
+        </div>
+        <div style="text-align:center;padding:6px;background:rgba(0,0,0,0.25);border-radius:5px">
+          <p style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Your Odds</p>
+          <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:#fff">${b.bookOdds}x</p>
+        </div>
+        <div style="text-align:center;padding:6px;background:rgba(0,0,0,0.25);border-radius:5px">
+          <p style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Edge</p>
+          <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:${color}">${b._edge>=0?'+':''}${(b._edge*100).toFixed(1)}%</p>
+        </div>
+      </div>
+      <p style="font-size:10px;color:var(--text2);margin-top:6px">Fair odds: <strong style="color:#fff">${b._fairOdds||'—'}x</strong> &nbsp;|&nbsp; Implied: <strong style="color:#fff">${(b._implied*100).toFixed(1)}%</strong></p>
+      ${sugHtml}
+    </div>`;
+  });
+
+  // Summary
+  const good = wcSlip.filter(b=>b._edge>0).length;
+  const bad  = wcSlip.length - good;
+  html += `<div style="padding:14px 14px 4px">
+    <p style="font-family:var(--bc);font-weight:900;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);margin-bottom:8px">SLIP SUMMARY</p>
+    <div style="display:flex;gap:8px">
+      <div style="flex:1;text-align:center;padding:10px;background:rgba(57,255,20,0.08);border:1px solid rgba(57,255,20,0.2);border-radius:7px">
+        <p style="font-size:9px;color:var(--neon);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">Good Value</p>
+        <p style="font-family:var(--bc);font-weight:900;font-size:22px;color:var(--neon)">${good}</p>
+      </div>
+      <div style="flex:1;text-align:center;padding:10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:7px">
+        <p style="font-size:9px;color:var(--red);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">Bad Value</p>
+        <p style="font-family:var(--bc);font-weight:900;font-size:22px;color:var(--red)">${bad}</p>
+      </div>
+    </div>
+    <button onclick="wcSlipMode='edit';wcSlipRender()" style="width:100%;margin-top:10px;background:rgba(255,255,255,0.05);border:1px solid var(--border2);color:var(--text2);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:9px;border-radius:6px;cursor:pointer">&#9998; EDIT BETS</button>
+  </div>`;
+
+  return html;
+}
+
+function wcSlipReset() {
   wcSlip = [];
-  wcRenderSlip();
+  wcSlipImg = null;
+  wcSlipMode = 'empty';
+  wcSlipRender();
+  document.getElementById('wc-slip-count').textContent = 0;
 }
 
-function wcCopySlip() {
-  if (wcSlip.length === 0) { alert('Your slip is empty.'); return; }
-  const combo = wcSlip.reduce((acc, s) => acc * (s.prob > 0 ? 1/s.prob : 1), 1);
-  const lines = [
-    '\u26BD BETTING SLIP \u2014 Lookout WC 2026 Dashboard',
-    '\u2550'.repeat(40),
-    ...wcSlip.map((s, i) => [
-      (i+1) + '. ' + s.matchH + ' vs ' + s.matchA,
-      '   Market : ' + s.market,
-      '   Model  : ' + (s.prob*100).toFixed(1) + '%  |  Fair Odds: ' + s.fairOdds + 'x',
-    ].join('\n')),
-    '\u2500'.repeat(40),
-    'COMBINED FAIR ODDS: ' + combo.toFixed(2) + 'x',
-    '\u2500'.repeat(40),
-  ];
+function wcSlipCopy() {
+  const lines = ['⚽ SLIP ANALYSIS — Lookout WC 2026', '═'.repeat(40)];
+  wcSlip.forEach((b, i) => {
+    const verdict = b._edge > 0 ? '✅ GOOD VALUE' : '❌ BAD VALUE';
+    lines.push(`${i+1}. ${b.matchH} vs ${b.matchA}`);
+    lines.push(`   ${b.market} @ ${b.bookOdds}x`);
+    lines.push(`   Model: ${(b.modelProb*100).toFixed(1)}%  |  Edge: ${b._edge>=0?'+':''}${(b._edge*100).toFixed(1)}%  |  ${verdict}`);
+    if (!b._edge>0 && b._suggestion) lines.push(`   \u{1F4A1} Try instead: ${b._suggestion.lbl} (${(b._suggestion.p*100).toFixed(1)}%, fair ${b._suggestion.p>0?(1/b._suggestion.p).toFixed(2):'?'}x)`);
+  });
+  lines.push('─'.repeat(40));
   navigator.clipboard.writeText(lines.join('\n')).then(() => {
-    const btn = document.querySelector('#wc-slip-footer button');
-    const orig = btn.textContent;
-    btn.textContent = '\u2713 COPIED!';
-    btn.style.color = 'var(--neon)';
-    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1800);
-  }).catch(() => alert('Copy failed — please select and copy manually.'));
+    const btn = document.getElementById('wc-slip-copy-btn');
+    if (btn) { const o=btn.textContent; btn.textContent='✓ COPIED!'; setTimeout(()=>btn.textContent=o,1800); }
+  }).catch(() => alert('Copy failed.'));
 }
 
-function wcPrintSlip() {
-  if (wcSlip.length === 0) { alert('Your slip is empty.'); return; }
-  const combo = wcSlip.reduce((acc, s) => acc * (s.prob > 0 ? 1/s.prob : 1), 1);
-  const rows = wcSlip.map((s,i) =>
-    '<tr><td>' + (i+1) + '</td><td>' + s.matchH + ' vs ' + s.matchA +
-    '</td><td>' + s.market + '</td><td>' + (s.prob*100).toFixed(1) +
-    '%</td><td>' + s.fairOdds + 'x</td></tr>').join('');
-  const win = window.open('','_blank','width=560,height=700');
-  win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Betting Slip</title>' +
-    '<style>body{font-family:Arial,sans-serif;padding:28px;color:#111}h2{margin:0 0 4px;font-size:18px}' +
-    'p.sub{margin:0 0 18px;font-size:11px;color:#666}table{width:100%;border-collapse:collapse;font-size:12px}' +
-    'th{background:#111;color:#fff;padding:8px 10px;text-align:left}td{padding:8px 10px;border-bottom:1px solid #ddd}' +
-    'tr:nth-child(even) td{background:#f7f7f7}.combo{margin-top:18px;padding:12px 16px;background:#f0f0f0;' +
-    'border-radius:6px}.combo strong{font-size:20px}</style></head><body>' +
-    '<h2>&#9917; Betting Slip &#8212; Lookout WC 2026</h2>' +
-    '<p class="sub">Generated ' + new Date().toLocaleDateString() + '</p>' +
-    '<table><tr><th>#</th><th>Match</th><th>Market</th><th>Model %</th><th>Fair Odds</th></tr>' +
-    rows + '</table>' +
-    '<div class="combo">Combined Fair Odds: <strong>' + combo.toFixed(2) + 'x</strong></div>' +
-    '</body></html>');
-  win.document.close();
-  win.print();
+function wcSlipPrint() {
+  const rows = wcSlip.map((b,i) => {
+    const good = b._edge > 0;
+    const bg   = good ? '#e6ffe6' : '#fff0f0';
+    const ver  = good ? '✅ Good Value' : '❌ Bad Value';
+    return `<tr style="background:${bg}"><td>${i+1}</td><td>${b.matchH} vs ${b.matchA}</td><td>${b.market}</td><td>${b.bookOdds}x</td><td>${(b.modelProb*100).toFixed(1)}%</td><td style="font-weight:bold">${b._edge>=0?'+':''}${(b._edge*100).toFixed(1)}%</td><td>${ver}</td></tr>`;
+  }).join('');
+  const win = window.open('','_blank','width=780,height=680');
+  win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Slip Analysis</title>
+    <style>body{font-family:Arial,sans-serif;padding:28px;color:#111}h2{margin:0 0 4px}p.sub{color:#666;font-size:11px;margin:0 0 18px}
+    table{width:100%;border-collapse:collapse;font-size:12px}th{background:#111;color:#fff;padding:8px 10px;text-align:left}
+    td{padding:8px 10px;border-bottom:1px solid #ddd}</style></head><body>
+    <h2>&#9917; Slip Analysis — Lookout WC 2026</h2>
+    <p class="sub">Generated ${new Date().toLocaleDateString()}</p>
+    <table><tr><th>#</th><th>Match</th><th>Market</th><th>Odds</th><th>Model %</th><th>Edge %</th><th>Verdict</th></tr>${rows}</table>
+    </body></html>`);
+  win.document.close(); win.print();
 }
 
 function wcInit() {
