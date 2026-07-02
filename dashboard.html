@@ -2652,35 +2652,51 @@ function wcSlipParseOCR(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
   const teams = WC26.map(t => t.n);
   const found = [];
+  const seenPairs = new Set();
 
-  // Find team names in text (case-insensitive partial match)
   function findTeam(str) {
     const s = str.toLowerCase();
-    return teams.find(t => s.includes(t.toLowerCase())) || null;
+    // Prioritise longer team names first to avoid partial matches
+    return [...teams].sort((a,b)=>b.length-a.length).find(t => s.includes(t.toLowerCase())) || null;
   }
 
-  // Find decimal odds pattern in a string
   function findOdds(str) {
-    const m = str.match(/\b(\d{1,3}[.,]\d{2})\b/);
-    if (!m) return '';
-    return parseFloat(m[1].replace(',','.'));
+    // Standard decimal odds: 1.10 – 99.99
+    let m = str.match(/\b([1-9]\d{0,2}[.,]\d{2})\b/);
+    if (m) {
+      const v = parseFloat(m[1].replace(',','.'));
+      if (v >= 1.01 && v <= 100) return v;
+    }
+    // Prediction-market price: 0.01 – 0.99 → convert to decimal odds
+    m = str.match(/\b0[.,](\d{2})\b/);
+    if (m) {
+      const p = parseFloat('0.' + m[1]);
+      if (p >= 0.01 && p < 1.0) return parseFloat((1 / p).toFixed(2));
+    }
+    // American odds: +150 / -200
+    m = str.match(/([+-]\d{3,4})\b/);
+    if (m) {
+      const a = parseInt(m[1]);
+      if (a > 0) return parseFloat((a / 100 + 1).toFixed(2));
+      if (a < 0) return parseFloat((100 / Math.abs(a) + 1).toFixed(2));
+    }
+    return '';
   }
 
-  // Normalise market keyword
   function normMarket(str, homeN, awayN) {
     const s = str.toLowerCase();
     if (s.includes('btts') || s.includes('both teams') || s.includes('gg')) return 'BTTS – Yes';
-    if (s.includes('ng') || (s.includes('no') && s.includes('goal'))) return 'BTTS – No';
+    if (s.includes('ng') || (s.includes('no') && s.includes('goal') && !s.includes('over') && !s.includes('under'))) return 'BTTS – No';
+    if (/over\s*4\.5/.test(s)) return 'Over 4.5';
+    if (/under\s*4\.5/.test(s)) return 'Under 4.5';
+    if (/over\s*3\.5/.test(s)) return 'Over 3.5';
+    if (/under\s*3\.5/.test(s)) return 'Under 3.5';
     if (/over\s*2\.5/.test(s)) return 'Over 2.5';
     if (/under\s*2\.5/.test(s)) return 'Under 2.5';
     if (/over\s*1\.5/.test(s)) return 'Over 1.5';
     if (/under\s*1\.5/.test(s)) return 'Under 1.5';
-    if (/over\s*3\.5/.test(s)) return 'Over 3.5';
-    if (/under\s*3\.5/.test(s)) return 'Under 3.5';
-    if (/over\s*4\.5/.test(s)) return 'Over 4.5';
-    if (/under\s*4\.5/.test(s)) return 'Under 4.5';
     if (/over\s*0\.5/.test(s)) return 'Over 0.5';
-    if (s.includes('draw') || s.includes(' x ') || s==='–') return 'Draw';
+    if (s.includes('draw') || / x /i.test(s)) return 'Draw';
     if (homeN && (s.includes(homeN.toLowerCase()) || s.includes('home') || /\b1\b/.test(s))) return homeN + ' Win';
     if (awayN && (s.includes(awayN.toLowerCase()) || s.includes('away') || /\b2\b/.test(s))) return awayN + ' Win';
     return '';
@@ -2688,8 +2704,9 @@ function wcSlipParseOCR(text) {
 
   let currentHome = null, currentAway = null;
   const baseline = 1.15;
+  const fullBetPairs = new Set(); // pairs that have at least one full (mkt+odds) bet
 
-  lines.forEach((line, i) => {
+  lines.forEach(line => {
     // Try to extract two teams from one line (e.g. "Argentina vs France")
     const vsMatch = line.match(/(.+?)\s+(?:vs?\.?|v\.|-)\s+(.+)/i);
     if (vsMatch) {
@@ -2698,23 +2715,37 @@ function wcSlipParseOCR(text) {
       if (t1 && t2 && t1 !== t2) { currentHome = t1; currentAway = t2; }
     } else {
       const t = findTeam(line);
-      if (t) { if (!currentHome) currentHome = t; else if (t !== currentHome) currentAway = t; }
+      if (t) {
+        if (!currentHome) currentHome = t;
+        else if (t !== currentHome) currentAway = t;
+      }
     }
 
-    // Try to extract a market + odds from this line
     if (currentHome && currentAway) {
-      const mkt = normMarket(line, currentHome, currentAway);
+      const pairKey = currentHome + '|' + currentAway;
+      const mkt  = normMarket(line, currentHome, currentAway);
       const odds = findOdds(line);
-      if (mkt && odds && odds >= 1.01) {
-        const result = wcCalcProbsForMatch(currentHome, currentAway, baseline, false);
-        const allProbs = result ? result.probs : {};
-        const modelProb = allProbs[mkt] || 0;
-        found.push({ matchH: currentHome, matchA: currentAway, baseline, isKO: false, market: mkt, bookOdds: odds, modelProb, allProbs });
+      const result   = wcCalcProbsForMatch(currentHome, currentAway, baseline, false);
+      const allProbs = result ? result.probs : {};
+
+      if (mkt && odds) {
+        // Full bet found
+        found.push({ matchH: currentHome, matchA: currentAway, baseline, isKO: false,
+          market: mkt, bookOdds: odds, modelProb: allProbs[mkt]||0, allProbs });
+        fullBetPairs.add(pairKey);
+      } else if (!seenPairs.has(pairKey)) {
+        // Track the pair — we'll add a partial entry at the end if no full bet found
+        seenPairs.add(pairKey);
+        // Store partial info to use later
+        found.push({ matchH: currentHome, matchA: currentAway, baseline, isKO: false,
+          market: mkt || (currentHome + ' Win'), bookOdds: '', modelProb: 0, allProbs,
+          _needsOdds: true, _pairKey: pairKey });
       }
     }
   });
 
-  return found;
+  // Remove partial entries where a full bet was later found for the same pair
+  return found.filter(b => !b._needsOdds || !fullBetPairs.has(b._pairKey));
 }
 
 // ── Add a blank manual bet ────────────────────────────────────────────────
@@ -2879,7 +2910,15 @@ function wcSlipResultsFooter() {
 
 function wcSlipAnalyze() {
   const valid = wcSlip.filter(b => b.matchH && b.matchA && b.matchH !== b.matchA && b.bookOdds >= 1.01);
-  if (valid.length === 0) { alert('Add at least one complete bet (teams + odds) to analyze.'); return; }
+  if (valid.length === 0) {
+    const missing = wcSlip.filter(b => b.matchH && b.matchA && (!b.bookOdds || b.bookOdds < 1.01));
+    if (missing.length > 0) {
+      alert('Almost there! Enter the bookmaker odds for each bet (e.g. 2.10) then click Analyze again.');
+    } else {
+      alert('Add at least one bet with two teams and your bookmaker\'s odds to analyze.');
+    }
+    return;
+  }
 
   valid.forEach(b => {
     const result = wcCalcProbsForMatch(b.matchH, b.matchA, b.baseline||1.15, b.isKO||false);
