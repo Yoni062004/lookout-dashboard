@@ -2684,19 +2684,43 @@ function wcSlipParseOCR(text) {
   }
 
   function normMarket(str, homeN, awayN) {
-    const s = str.toLowerCase();
-    if (s.includes('btts') || s.includes('both teams') || s.includes('gg')) return 'BTTS – Yes';
-    if (s.includes('ng') || (s.includes('no') && s.includes('goal') && !s.includes('over') && !s.includes('under'))) return 'BTTS – No';
-    if (/over\s*4\.5/.test(s)) return 'Over 4.5';
-    if (/under\s*4\.5/.test(s)) return 'Under 4.5';
-    if (/over\s*3\.5/.test(s)) return 'Over 3.5';
-    if (/under\s*3\.5/.test(s)) return 'Under 3.5';
-    if (/over\s*2\.5/.test(s)) return 'Over 2.5';
-    if (/under\s*2\.5/.test(s)) return 'Under 2.5';
-    if (/over\s*1\.5/.test(s)) return 'Over 1.5';
-    if (/under\s*1\.5/.test(s)) return 'Under 1.5';
-    if (/over\s*0\.5/.test(s)) return 'Over 0.5';
+    let s = str.toLowerCase().trim();
+
+    // ── Kalshi / prediction-market formatting ──────────────────────────────
+    // Detect "No ·" or "Yes ·" prefix (Kalshi YES/NO contracts)
+    let kalshiNo = false;
+    if (/^no\s*[·•\-:,]/.test(s)) { kalshiNo = true; s = s.replace(/^no\s*[·•\-:,]\s*/, ''); }
+    else if (/^yes\s*[·•\-:,]/.test(s)) { s = s.replace(/^yes\s*[·•\-:,]\s*/, ''); }
+    // Strip Kalshi event prefixes: "Reg Time:", "Goal Diff Reg Time:", etc.
+    s = s.replace(/^(reg\s*time(\s*excl\.?\s*et)?|goal\s*diff(\s*reg\s*time)?|half\s*time)\s*[:·\-]\s*/i, '');
+
+    // ── BTTS ───────────────────────────────────────────────────────────────
+    if (s.includes('btts') || s.includes('both teams') || s.includes('gg')) {
+      return kalshiNo ? 'BTTS – No' : 'BTTS – Yes';
+    }
+    if (s.includes('ng') || (s.includes('no goal') && !s.includes('over') && !s.includes('under'))) {
+      return kalshiNo ? 'BTTS – Yes' : 'BTTS – No';
+    }
+
+    // ── Over/Under lines (check largest first) ─────────────────────────────
+    for (const line of [4.5, 3.5, 2.5, 1.5, 0.5]) {
+      const re = new RegExp('over\\s*' + String(line).replace('.', '\\.'));
+      const reU = new RegExp('under\\s*' + String(line).replace('.', '\\.'));
+      if (re.test(s))  return kalshiNo ? 'Under ' + line : 'Over ' + line;
+      if (reU.test(s)) return kalshiNo ? 'Over ' + line  : 'Under ' + line;
+      // Kalshi "X goals scored" without over/under keyword — treat as Over
+      if (new RegExp('\\b' + String(line).replace('.', '\\.') + '\\s*(goals?|g)\\s*(scored)?').test(s)) {
+        return kalshiNo ? 'Under ' + line : 'Over ' + line;
+      }
+    }
+
+    // ── 1X2 / advances ────────────────────────────────────────────────────
     if (s.includes('draw') || / x /i.test(s)) return 'Draw';
+    // Kalshi "X advances" → X Win (group stage advancement)
+    if (s.includes('advances') || s.includes('advance')) {
+      if (homeN && s.includes(homeN.toLowerCase())) return homeN + ' Win';
+      if (awayN && s.includes(awayN.toLowerCase())) return awayN + ' Win';
+    }
     if (homeN && (s.includes(homeN.toLowerCase()) || s.includes('home') || /\b1\b/.test(s))) return homeN + ' Win';
     if (awayN && (s.includes(awayN.toLowerCase()) || s.includes('away') || /\b2\b/.test(s))) return awayN + ' Win';
     return '';
@@ -2704,7 +2728,7 @@ function wcSlipParseOCR(text) {
 
   let currentHome = null, currentAway = null;
   const baseline = 1.15;
-  const fullBetPairs = new Set(); // pairs that have at least one full (mkt+odds) bet
+  const seenBets = new Set(); // pairKey|market combos already added
 
   lines.forEach(line => {
     // Try to extract two teams from one line (e.g. "Argentina vs France")
@@ -2725,27 +2749,28 @@ function wcSlipParseOCR(text) {
       const pairKey = currentHome + '|' + currentAway;
       const mkt  = normMarket(line, currentHome, currentAway);
       const odds = findOdds(line);
+
+      if (!mkt) return; // unrecognisable market line — skip (e.g. "Goal Diff" margin bets)
+
+      const betKey = pairKey + '|' + mkt;
+      if (seenBets.has(betKey)) return; // exact duplicate — skip
+      seenBets.add(betKey);
+
       const result   = wcCalcProbsForMatch(currentHome, currentAway, baseline, false);
       const allProbs = result ? result.probs : {};
 
-      if (mkt && odds) {
-        // Full bet found
-        found.push({ matchH: currentHome, matchA: currentAway, baseline, isKO: false,
-          market: mkt, bookOdds: odds, modelProb: allProbs[mkt]||0, allProbs });
-        fullBetPairs.add(pairKey);
-      } else if (!seenPairs.has(pairKey)) {
-        // Track the pair — we'll add a partial entry at the end if no full bet found
-        seenPairs.add(pairKey);
-        // Store partial info to use later
-        found.push({ matchH: currentHome, matchA: currentAway, baseline, isKO: false,
-          market: mkt || (currentHome + ' Win'), bookOdds: '', modelProb: 0, allProbs,
-          _needsOdds: true, _pairKey: pairKey });
-      }
+      found.push({
+        matchH: currentHome, matchA: currentAway, baseline, isKO: false,
+        market: mkt,
+        bookOdds: odds || '',
+        modelProb: allProbs[mkt] || 0,
+        allProbs,
+        _needsOdds: !odds,
+      });
     }
   });
 
-  // Remove partial entries where a full bet was later found for the same pair
-  return found.filter(b => !b._needsOdds || !fullBetPairs.has(b._pairKey));
+  return found;
 }
 
 // ── Add a blank manual bet ────────────────────────────────────────────────
@@ -2851,10 +2876,21 @@ function wcSlipRenderEdit() {
     `<option value="${m}" ${m===b.market?'selected':''}>${m}</option>`
   ).join('');
 
+  const hasNeedsOdds = wcSlip.some(b => b._needsOdds);
+
+  // Kalshi hint shown once at top when bets were detected but have no odds
+  const kalshiHint = hasNeedsOdds ? `<div style="margin:10px 14px 0;padding:10px 12px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px">
+    <p style="font-size:10px;color:#FBBF24;font-family:var(--bc);font-weight:700;letter-spacing:.06em;margin-bottom:3px">&#128247; KALSHI / PREDICTION MARKET SLIP</p>
+    <p style="font-size:10px;color:var(--text2);line-height:1.5">Markets read from your slip ✓<br>Prices aren't on the Kalshi slip — open each market in Kalshi and enter the <strong style="color:#fff">contract price (e.g. 0.62)</strong> below.</p>
+  </div>` : '';
+
   let rows = wcSlip.map((b, i) => {
     const sOpts = STAGE_OPTS.map(([v,l]) =>
       `<option value="${v}" ${parseFloat(v)===(b.baseline||1.15)?'selected':''}>${l}</option>`
     ).join('');
+    const oddsLabel = b._needsOdds ? 'Contract Price' : 'Decimal Odds';
+    const oddsPlaceholder = b._needsOdds ? 'e.g. 0.62' : 'e.g. 2.10';
+    const oddsBorder = b._needsOdds && !b.bookOdds ? 'border:1px solid rgba(251,191,36,0.5)' : 'border:1px solid var(--border2)';
     return `<div style="padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.06)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
         <p style="font-size:10px;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;font-family:var(--bc)">BET ${i+1}</p>
@@ -2879,10 +2915,10 @@ function wcSlipRenderEdit() {
       </div>
       <div style="display:flex;align-items:center;gap:8px">
         <div style="flex:1">
-          <p style="font-size:9px;color:var(--text2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Your Odds</p>
-          <input type="number" step="0.01" min="1.01" placeholder="e.g. 2.10" value="${b.bookOdds||''}"
+          <p style="font-size:9px;color:${b._needsOdds?'#FBBF24':'var(--text2)'};margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">${oddsLabel} ${b._needsOdds&&!b.bookOdds?'⚠ required':''}</p>
+          <input type="number" step="0.01" min="0.01" placeholder="${oddsPlaceholder}" value="${b.bookOdds||''}"
             oninput="wcSlipUpdateBet(${i},'bookOdds',parseFloat(this.value)||'')"
-            style="background:#1a1a28;border:1px solid var(--border2);color:#fff;font-size:12px;padding:6px 8px;border-radius:5px;width:100%;box-sizing:border-box">
+            style="background:#1a1a28;${oddsBorder};color:#fff;font-size:12px;padding:6px 8px;border-radius:5px;width:100%;box-sizing:border-box">
         </div>
         <div style="text-align:center">
           <p style="font-size:9px;color:var(--text2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Model</p>
@@ -2892,7 +2928,7 @@ function wcSlipRenderEdit() {
     </div>`;
   }).join('');
 
-  return rows + `<div style="padding:12px 14px">
+  return kalshiHint + rows + `<div style="padding:12px 14px">
     <button onclick="wcSlipAddManualBet()" style="width:100%;background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.2);color:var(--text2);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:10px;border-radius:7px;cursor:pointer">+ ADD ANOTHER BET</button>
   </div>`;
 }
@@ -2909,7 +2945,8 @@ function wcSlipResultsFooter() {
 }
 
 function wcSlipAnalyze() {
-  const valid = wcSlip.filter(b => b.matchH && b.matchA && b.matchH !== b.matchA && b.bookOdds >= 1.01);
+  // Accept decimal odds (≥1.01) OR Kalshi contract prices (0.01–0.99)
+  const valid = wcSlip.filter(b => b.matchH && b.matchA && b.matchH !== b.matchA && parseFloat(b.bookOdds) >= 0.01);
   if (valid.length === 0) {
     const missing = wcSlip.filter(b => b.matchH && b.matchA && (!b.bookOdds || b.bookOdds < 1.01));
     if (missing.length > 0) {
@@ -2926,7 +2963,11 @@ function wcSlipAnalyze() {
       b.allProbs  = result.probs;
       b.modelProb = result.probs[b.market] || 0;
     }
-    const implied = b.bookOdds >= 1.01 ? 1 / b.bookOdds : 0;
+    // Normalise odds: Kalshi contract price (0.01–0.99) → decimal odds; standard decimal ≥ 1.01 kept as-is
+    let decimalOdds = parseFloat(b.bookOdds) || 0;
+    if (decimalOdds > 0 && decimalOdds < 1.0) decimalOdds = parseFloat((1 / decimalOdds).toFixed(2));
+    b._decimalOdds = decimalOdds;
+    const implied = decimalOdds >= 1.01 ? 1 / decimalOdds : 0;
     b._implied = implied;
     b._edge    = b.modelProb - implied;
     b._fairOdds = b.modelProb > 0 ? (1 / b.modelProb).toFixed(2) : null;
