@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02T08:42:58.883877+00:00",
+  "updated": "2026-07-03T08:50:23.361803+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
@@ -378,7 +378,7 @@
   "BL1": {
     "name": "Bundesliga",
     "country": "Germany",
-    "season": "2025-26",
+    "season": "2026-27",
     "table": [
       {
         "team": "FC Bayern München",
@@ -705,88 +705,7 @@
         "def_str": 1.090909
       }
     ],
-    "scorers": [
-      {
-        "name": "Harry Kane",
-        "team": "FC Bayern München",
-        "goals": 36,
-        "assists": 4,
-        "penalties": 10,
-        "playedGames": 0
-      },
-      {
-        "name": "Deniz Undav",
-        "team": "VfB Stuttgart",
-        "goals": 19,
-        "assists": 6,
-        "penalties": 0,
-        "playedGames": 0
-      },
-      {
-        "name": "Sehrou Guirassy",
-        "team": "Borussia Dortmund",
-        "goals": 17,
-        "assists": 0,
-        "penalties": 1,
-        "playedGames": 0
-      },
-      {
-        "name": "Patrik Schick",
-        "team": "Bayer 04 Leverkusen",
-        "goals": 16,
-        "assists": 2,
-        "penalties": 4,
-        "playedGames": 0
-      },
-      {
-        "name": "Michael Olise",
-        "team": "FC Bayern München",
-        "goals": 15,
-        "assists": 19,
-        "penalties": 0,
-        "playedGames": 0
-      },
-      {
-        "name": "Luis Díaz",
-        "team": "FC Bayern München",
-        "goals": 15,
-        "assists": 12,
-        "penalties": 0,
-        "playedGames": 0
-      },
-      {
-        "name": "Andrej Kramarić",
-        "team": "TSG 1899 Hoffenheim",
-        "goals": 14,
-        "assists": 6,
-        "penalties": 5,
-        "playedGames": 0
-      },
-      {
-        "name": "Christoph Baumgartner",
-        "team": "RB Leipzig",
-        "goals": 13,
-        "assists": 8,
-        "penalties": 0,
-        "playedGames": 0
-      },
-      {
-        "name": "Said El Mala",
-        "team": "1. FC Köln",
-        "goals": 13,
-        "assists": 4,
-        "penalties": 1,
-        "playedGames": 0
-      },
-      {
-        "name": "Jonathan Burkardt",
-        "team": "Eintracht Frankfurt",
-        "goals": 13,
-        "assists": 1,
-        "penalties": 4,
-        "playedGames": 0
-      }
-    ]
+    "scorers": []
   },
   "SA": {
     "name": "Serie A",
