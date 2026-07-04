@@ -2518,6 +2518,7 @@ let wcEdgeOdds = {}; // {label: decimal odds input}
 let wcSlip = [];          // array of bet objects
 let wcSlipMode = 'empty'; // 'empty' | 'edit' | 'results'
 let wcSlipImg  = null;    // uploaded image data URL
+let wcSlipLastOCR = '';   // raw OCR text (for debug)
 
 // WC 2026 key player → team lookup (used by PrizePicks parser)
 const WC_PLAYER_TEAMS = {
@@ -2765,6 +2766,7 @@ async function wcSlipRunOCR(dataUrl) {
     const { data: { text } } = await Tesseract.recognize(dataUrl, 'eng', {
       logger: m => { if (statusEl && m.status==='recognizing text') statusEl.textContent = '\u{1F50D} Reading… ' + Math.round((m.progress||0)*100) + '%'; }
     });
+    wcSlipLastOCR = text; // store for debug
     const parsed = wcSlipParseOCR(text);
     wcSlip = parsed;
     wcSlipMode = 'edit';
@@ -2795,12 +2797,15 @@ function parsePrizePicks(text) {
   //   single line: "25.5 Fantasy Score"
   //   two lines:   line1="25.5"  line2="Fantasy Score"
   function parseStat(line1, line2) {
-    let m = (line1||'').match(/^([\d.]+)\s+(.+)$/);
-    if (m) return { line: parseFloat(m[1]), stat: m[2].trim() };
-    m = (line1||'').match(/^([\d.]+)$/);
-    // second line must look like a stat name (not a number, not Less/More)
-    if (m && line2 && !/^\d/.test(line2) && !/^(less|more)/i.test(line2)) {
-      return { line: parseFloat(m[1]), stat: line2.trim() };
+    // Strip currency symbols and leading/trailing non-numeric junk
+    const clean1 = (line1||'').replace(/^[$€£#*]+\s*/, '').trim();
+    const clean2 = (line2||'').replace(/^[$€£#*]+\s*/, '').trim();
+    let m = clean1.match(/^([\d.,]+)\s+(.+)$/);
+    if (m) return { line: parseFloat(m[1].replace(',','.')), stat: m[2].trim() };
+    m = clean1.match(/^([\d.,]+)$/);
+    // Second line must look like a stat name (letters, not a number, not Less/More/Pick)
+    if (m && clean2 && /[a-zA-Z]/.test(clean2) && !/^(less|more|pick|entry|win|flex|power)/i.test(clean2)) {
+      return { line: parseFloat(m[1].replace(',','.')), stat: clean2.trim() };
     }
     return null;
   }
@@ -3122,9 +3127,14 @@ function wcSlipRenderEdit() {
     <p style="font-size:10px;color:var(--text2);line-height:1.5">Markets read from your slip ✓<br>Prices aren't on the Kalshi slip — open each market in Kalshi and enter the <strong style="color:#fff">contract price (e.g. 0.62)</strong> below.</p>
   </div>` : '';
 
+  const ppCount = wcSlip.filter(b=>b.type==='pp_prop').length;
+  const ocrDebug = wcSlipLastOCR ? `<details style="margin:6px 14px 0">
+    <summary style="font-size:9px;color:var(--text2);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;font-family:var(--bc)">🔍 Raw OCR text (tap to check if names were read)</summary>
+    <pre style="font-size:9px;color:var(--text2);white-space:pre-wrap;word-break:break-word;background:rgba(0,0,0,0.4);border-radius:5px;padding:8px;margin-top:6px;max-height:160px;overflow-y:auto;line-height:1.5">${wcSlipLastOCR.replace(/</g,'&lt;')}</pre>
+  </details>` : '';
   const ppHint = hasPP ? `<div style="margin:10px 14px 0;padding:10px 12px;background:rgba(57,255,20,0.06);border:1px solid rgba(57,255,20,0.25);border-radius:8px">
     <p style="font-size:10px;color:var(--neon);font-family:var(--bc);font-weight:700;letter-spacing:.06em;margin-bottom:3px">&#127920; PRIZEPICKS SLIP DETECTED</p>
-    <p style="font-size:10px;color:var(--text2);line-height:1.5">${wcSlip.filter(b=>b.type==='pp_prop').length} player props found ✓<br>Confirm the <strong style="color:#fff">More/Less</strong> direction for each pick, then click Analyze.</p>
+    <p style="font-size:10px;color:var(--text2);line-height:1.5">${ppCount} player prop${ppCount!==1?'s':''} found ✓<br>Confirm the <strong style="color:#fff">More/Less</strong> direction for each pick, then click Analyze.</p>
   </div>` : '';
 
   let rows = wcSlip.map((b, i) => {
@@ -3208,7 +3218,7 @@ function wcSlipRenderEdit() {
     </div>`;
   }).join('');
 
-  return kalshiHint + ppHint + rows + `<div style="padding:12px 14px">
+  return kalshiHint + ppHint + ocrDebug + rows + `<div style="padding:12px 14px">
     <button onclick="wcSlipAddManualBet()" style="width:100%;background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.2);color:var(--text2);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:10px;border-radius:7px;cursor:pointer">+ ADD ANOTHER BET</button>
   </div>`;
 }
@@ -3225,10 +3235,11 @@ function wcSlipResultsFooter() {
 }
 
 function wcSlipAnalyze() {
-  // Accept: PP props (always), Kalshi no-odds (_needsOdds, shown as model-only), or bets with valid odds
+  // PP props: only need player + team. Regular/Kalshi: need two distinct teams + valid/no odds.
   const valid = wcSlip.filter(b =>
-    b.matchH && b.matchA && b.matchH !== b.matchA &&
-    (b.type === 'pp_prop' || b._needsOdds || parseFloat(b.bookOdds) >= 0.01)
+    (b.type === 'pp_prop' && b.player && b.team) ||
+    (b.matchH && b.matchA && b.matchH !== b.matchA &&
+     (b._needsOdds || parseFloat(b.bookOdds) >= 0.01))
   );
   if (valid.length === 0) {
     const missing = wcSlip.filter(b => !b._needsOdds && b.type !== 'pp_prop' && b.matchH && b.matchA && (!b.bookOdds || parseFloat(b.bookOdds) < 0.01));
@@ -3245,19 +3256,26 @@ function wcSlipAnalyze() {
 
     // ── PrizePicks player prop ──────────────────────────────────────────
     if (b.type === 'pp_prop') {
-      if (result) {
-        b.allProbs   = result.probs;
-        b._xgH       = result.xgH;
-        b._xgA       = result.xgA;
-        const teamWin = b.allProbs[b.team + ' Win'] || 0;
+      const matchResult = (b.matchH && b.matchA && b.matchH !== b.matchA)
+        ? wcCalcProbsForMatch(b.matchH, b.matchA, b.baseline||1.15, false)
+        : null;
+      if (matchResult) {
+        b.allProbs     = matchResult.probs;
+        b._xgH         = matchResult.xgH;
+        b._xgA         = matchResult.xgA;
+        const teamWin  = b.allProbs[b.team + ' Win'] || 0;
         b._teamWinProb = teamWin;
         b._isFav       = teamWin > 0.5;
         const teamIsHome = b.team === b.matchH;
-        b._lean = wcPPLean(b.stat, b.direction, b._isFav, teamIsHome ? b._xgH : b._xgA, teamIsHome ? b._xgA : b._xgH);
+        b._lean = wcPPLean(b.stat, b.direction, b._isFav,
+          teamIsHome ? b._xgH : b._xgA, teamIsHome ? b._xgA : b._xgH);
       } else {
-        b._lean = { icon: '⚪', label: 'UNKNOWN', color: 'var(--text2)', reason: 'Teams not found in model' };
+        // No match pair — still show the prop, lean unknown
+        b._teamWinProb = null;
+        b._lean = { icon: '⚪', label: 'NO MATCH', color: 'var(--text2)',
+          reason: 'Opponent not detected — check OCR text below and edit manually.' };
       }
-      b._edge = null; // no edge calc for PP
+      b._edge = null;
       return;
     }
 
