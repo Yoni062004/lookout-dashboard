@@ -2519,6 +2519,136 @@ let wcSlip = [];          // array of bet objects
 let wcSlipMode = 'empty'; // 'empty' | 'edit' | 'results'
 let wcSlipImg  = null;    // uploaded image data URL
 
+// WC 2026 key player → team lookup (used by PrizePicks parser)
+const WC_PLAYER_TEAMS = {
+  // Spain
+  'Lamine Yamal':'Spain','Pedri':'Spain','Nico Williams':'Spain',
+  'Álvaro Morata':'Spain','Alvaro Morata':'Spain','Mikel Oyarzabal':'Spain',
+  'Rodri':'Spain','Fabián Ruiz':'Spain','Fabian Ruiz':'Spain','Dani Olmo':'Spain',
+  'Dani Carvajal':'Spain','Alejandro Grimaldo':'Spain','Aymeric Laporte':'Spain',
+  'Robin Le Normand':'Spain','Nacho':'Spain','Unai Simón':'Spain','Unai Simon':'Spain',
+  'David Raya':'Spain','Marc Cucurella':'Spain','Ferran Torres':'Spain',
+  // Austria
+  'Alexander Schlager':'Austria','Philipp Lienhart':'Austria','Stefan Posch':'Austria',
+  'Marcel Sabitzer':'Austria','Christoph Baumgartner':'Austria',
+  'Michael Gregoritsch':'Austria','Patrick Wimmer':'Austria',
+  'Florian Kainz':'Austria','Nicolas Seiwald':'Austria','Marko Arnautovic':'Austria',
+  // Argentina
+  'Lionel Messi':'Argentina','Julián Álvarez':'Argentina','Julian Alvarez':'Argentina',
+  'Rodrigo De Paul':'Argentina','Emiliano Martínez':'Argentina','Emiliano Martinez':'Argentina',
+  'Nicolás Otamendi':'Argentina','Nicolas Otamendi':'Argentina',
+  'Lisandro Martínez':'Argentina','Lisandro Martinez':'Argentina',
+  'Enzo Fernández':'Argentina','Enzo Fernandez':'Argentina',
+  'Alexis Mac Allister':'Argentina','Nahuel Molina':'Argentina',
+  // Brazil
+  'Rodrygo':'Brazil','Vinicius Jr.':'Brazil','Vinicius Junior':'Brazil','Vinicius Jr':'Brazil',
+  'Raphinha':'Brazil','Endrick':'Brazil','Alisson':'Brazil',
+  'Casemiro':'Brazil','Bruno Guimarães':'Brazil','Bruno Guimaraes':'Brazil',
+  'Marquinhos':'Brazil','Gabriel Martinelli':'Brazil','Lucas Paquetá':'Brazil','Lucas Paqueta':'Brazil',
+  // France
+  'Kylian Mbappé':'France','Kylian Mbappe':'France',
+  'Antoine Griezmann':'France','Ousmane Dembélé':'France','Ousmane Dembele':'France',
+  'Mike Maignan':'France','Adrien Rabiot':'France',
+  'Aurélien Tchouaméni':'France','Aurelien Tchouameni':'France',
+  'William Saliba':'France','Jules Koundé':'France','Jules Kounde':'France',
+  'Theo Hernandez':'France','Kingsley Coman':'France',
+  // England
+  'Jude Bellingham':'England','Harry Kane':'England','Bukayo Saka':'England',
+  'Declan Rice':'England','Jordan Pickford':'England','Phil Foden':'England',
+  'Marcus Rashford':'England','Trent Alexander-Arnold':'England',
+  'Kieran Trippier':'England','John Stones':'England','Marc Guehi':'England',
+  // Portugal
+  'Cristiano Ronaldo':'Portugal','Bruno Fernandes':'Portugal','Bernardo Silva':'Portugal',
+  'Diogo Costa':'Portugal','Rúben Dias':'Portugal','Ruben Dias':'Portugal',
+  'Rafael Leão':'Portugal','Rafael Leao':'Portugal',
+  'João Cancelo':'Portugal','Joao Cancelo':'Portugal',
+  'Vitinha':'Portugal','João Félix':'Portugal','Joao Felix':'Portugal','Nuno Mendes':'Portugal',
+  // Netherlands
+  'Virgil van Dijk':'Netherlands','Frenkie de Jong':'Netherlands',
+  'Memphis Depay':'Netherlands','Xavi Simons':'Netherlands','Cody Gakpo':'Netherlands',
+  'Stefan de Vrij':'Netherlands','Nathan Aké':'Netherlands','Nathan Ake':'Netherlands',
+  // Germany
+  'Manuel Neuer':'Germany','Joshua Kimmich':'Germany','Kai Havertz':'Germany',
+  'Jamal Musiala':'Germany','Florian Wirtz':'Germany',
+  'Ilkay Gündogan':'Germany','Ilkay Gundogan':'Germany',
+  'Antonio Rüdiger':'Germany','Antonio Rudiger':'Germany',
+  'Leroy Sané':'Germany','Leroy Sane':'Germany','Thomas Müller':'Germany','Thomas Muller':'Germany',
+  // Italy
+  'Gianluigi Donnarumma':'Italy','Federico Chiesa':'Italy',
+  'Nicolo Barella':'Italy','Federico Dimarco':'Italy','Sandro Tonali':'Italy',
+  'Giacomo Raspadori':'Italy','Matteo Politano':'Italy',
+  // Morocco
+  'Yassine Bounou':'Morocco','Achraf Hakimi':'Morocco',
+  'Hakim Ziyech':'Morocco','Sofyan Amrabat':'Morocco','Youssef En-Nesyri':'Morocco',
+  // USA
+  'Christian Pulisic':'USA','Gio Reyna':'USA','Tyler Adams':'USA',
+  'Matt Turner':'USA','Weston McKennie':'USA','Yunus Musah':'USA','Sergiño Dest':'USA',
+  // Mexico
+  'Hirving Lozano':'Mexico','Raúl Jiménez':'Mexico','Raul Jimenez':'Mexico',
+  'Guillermo Ochoa':'Mexico','Edson Álvarez':'Mexico','Edson Alvarez':'Mexico',
+  'Santiago Giménez':'Mexico','Santiago Gimenez':'Mexico',
+  // Croatia
+  'Luka Modrić':'Croatia','Luka Modric':'Croatia',
+  'Ivan Perišić':'Croatia','Ivan Perisic':'Croatia',
+  'Mateo Kovačić':'Croatia','Mateo Kovacic':'Croatia','Andrej Kramarić':'Croatia',
+  // Belgium
+  'Kevin De Bruyne':'Belgium','Romelu Lukaku':'Belgium',
+  'Jan Vertonghen':'Belgium','Thibaut Courtois':'Belgium','Dries Mertens':'Belgium',
+  // Switzerland
+  'Granit Xhaka':'Switzerland','Xherdan Shaqiri':'Switzerland',
+  'Breel Embolo':'Switzerland','Yann Sommer':'Switzerland','Manuel Akanji':'Switzerland',
+  // Japan
+  'Takumi Minamino':'Japan','Kaoru Mitoma':'Japan','Junya Ito':'Japan',
+  'Ritsu Doan':'Japan','Daichi Kamada':'Japan',
+  // South Korea
+  'Son Heung-min':'South Korea','Lee Kang-in':'South Korea','Hwang Hee-chan':'South Korea',
+  // Senegal
+  'Sadio Mané':'Senegal','Sadio Mane':'Senegal','Edouard Mendy':'Senegal',
+  'Kalidou Koulibaly':'Senegal',
+  // Nigeria / Ghana
+  'Victor Osimhen':'Nigeria','Wilfred Ndidi':'Nigeria',
+  'Thomas Partey':'Ghana','André Ayew':'Ghana','Andre Ayew':'Ghana',
+  // Colombia / Ecuador / Uruguay
+  'Luis Díaz':'Colombia','Luis Diaz':'Colombia',
+  'Moisés Caicedo':'Ecuador','Moises Caicedo':'Ecuador',
+  'Darwin Núñez':'Uruguay','Darwin Nunez':'Uruguay','Rodrigo Bentancur':'Uruguay',
+  'Luis Suárez':'Uruguay','Luis Suarez':'Uruguay',
+  // Canada
+  'Alphonso Davies':'Canada','Jonathan David':'Canada',
+  // Algeria
+  'Riyad Mahrez':'Algeria','Islam Slimani':'Algeria',
+  // Iran / Saudi Arabia
+  'Sardar Azmoun':'Iran','Mehdi Taremi':'Iran',
+  'Salem Al-Dawsari':'Saudi Arabia','Firas Al-Buraikan':'Saudi Arabia',
+};
+
+// PrizePicks stat → lean logic
+function wcPPLean(stat, direction, isFavorite, teamXG, oppXG) {
+  const s = stat.toLowerCase();
+  let modelSupportsMore = null; // true = more likely for this team, false = less
+
+  if (/fantasy|score point/i.test(s))             modelSupportsMore = isFavorite;
+  else if (/goal|shot|chance/i.test(s))           modelSupportsMore = isFavorite;
+  else if (/assist/i.test(s))                     modelSupportsMore = isFavorite;
+  else if (/pass|touch|possession|dribble|carry/i.test(s)) modelSupportsMore = isFavorite;
+  else if (/save|keeper|goalie/i.test(s))         modelSupportsMore = !isFavorite; // underdog GK faces more shots
+  else if (/clear|block|interc/i.test(s))         modelSupportsMore = !isFavorite; // underdog defends more
+  else if (/tackle|duel|aerial/i.test(s))         modelSupportsMore = null; // 50/50
+  else if (/foul|card/i.test(s))                  modelSupportsMore = null;
+
+  if (modelSupportsMore === null) {
+    return { icon: '⚪', label: 'NEUTRAL', color: 'var(--text2)',
+      reason: 'Stat type not strongly directional from match context' };
+  }
+
+  const isAligned = (direction === 'more') === modelSupportsMore;
+  return isAligned
+    ? { icon: '✅', label: 'ALIGNED', color: '#39FF14',
+        reason: (isFavorite ? 'Favored team' : 'Underdog') + ' — match context supports ' + direction.toUpperCase() }
+    : { icon: '⚠️', label: 'AGAINST', color: '#FBBF24',
+        reason: (isFavorite ? 'Favored team' : 'Underdog') + ' — match model leans ' + (direction==='more'?'LESS':'MORE') + ' for this stat' };
+}
+
 const WC_SLIP_MARKETS = [
   'Home Win','Draw','Away Win',
   'BTTS – Yes','BTTS – No',
@@ -2648,7 +2778,94 @@ async function wcSlipRunOCR(dataUrl) {
   }
 }
 
+function parsePrizePicks(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const props = [];
+
+  // Find player name from WC_PLAYER_TEAMS (longest match wins)
+  function findPlayer(str) {
+    const s = str.toLowerCase();
+    const keys = Object.keys(WC_PLAYER_TEAMS).sort((a,b)=>b.length-a.length);
+    return keys.find(k => s.includes(k.toLowerCase())) || null;
+  }
+
+  // Parse stat line: "25.5 Fantasy Score" or "108.5 Passes Attempted"
+  function parseStat(str) {
+    const m = str.match(/^([\d.]+)\s+(.+)$/);
+    if (!m) return null;
+    return { line: parseFloat(m[1]), stat: m[2].trim() };
+  }
+
+  // Detect direction from line text: "Less  More" + surrounding context
+  function detectDir(lineText, prevLines) {
+    // Look for "+" or arrow before Less/More, or selected indicator
+    const t = lineText + ' ' + prevLines.slice(-2).join(' ');
+    // PrizePicks: selected option often appears with a preceding "+"
+    if (/\+\s*less/i.test(t) || /less\s*\+/i.test(t)) return 'less';
+    if (/\+\s*more/i.test(t) || /more\s*\+/i.test(t)) return 'more';
+    // Fallback: if "less" appears before "more" in line, and line starts with arrow
+    if (/^\s*[↓v]\s*less/i.test(lineText)) return 'less';
+    if (/^\s*[↑\^]\s*more/i.test(lineText)) return 'more';
+    return 'more'; // default to more (user can correct in edit view)
+  }
+
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    const player = findPlayer(line);
+
+    if (player) {
+      const team = WC_PLAYER_TEAMS[player] || WC_PLAYER_TEAMS[Object.keys(WC_PLAYER_TEAMS).find(k=>k.toLowerCase()===player.toLowerCase())] || '';
+      // Next line should be the stat
+      const statLine = lines[i+1] || '';
+      const parsed = parseStat(statLine);
+      if (parsed) {
+        // Direction: look ahead for Less/More line
+        let direction = 'more';
+        for (let j = i+2; j <= i+4 && j < lines.length; j++) {
+          if (/less|more/i.test(lines[j])) {
+            direction = detectDir(lines[j], lines.slice(Math.max(0,j-2), j));
+            break;
+          }
+        }
+        props.push({ player, team, stat: parsed.stat, line: parsed.line, direction });
+        i += 2;
+        continue;
+      }
+    }
+    i++;
+  }
+
+  if (props.length === 0) return null;
+
+  // Infer match: find two most-common teams
+  const teamCounts = {};
+  props.forEach(p => { if (p.team) teamCounts[p.team] = (teamCounts[p.team]||0) + 1; });
+  const sortedTeams = Object.entries(teamCounts).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+  const matchH = sortedTeams[0] || '';
+  const matchA = sortedTeams[1] || '';
+
+  return props.map(p => ({
+    type: 'pp_prop',
+    player: p.player,
+    team: p.team,
+    stat: p.stat,
+    line: p.line,
+    direction: p.direction,
+    matchH, matchA,
+    baseline: 1.15,
+    bookOdds: 'pp', // sentinel — no odds for PP
+    modelProb: 0,
+    allProbs: {},
+  }));
+}
+
 function wcSlipParseOCR(text) {
+  // Detect PrizePicks format
+  if (/prizepicks|fantasy score|passes attempted|goalie saves/i.test(text)) {
+    const ppResult = parsePrizePicks(text);
+    if (ppResult && ppResult.length > 0) return ppResult;
+  }
   const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
   const teams = WC26.map(t => t.n);
   const found = [];
@@ -2876,18 +3093,60 @@ function wcSlipRenderEdit() {
     `<option value="${m}" ${m===b.market?'selected':''}>${m}</option>`
   ).join('');
 
-  const hasNeedsOdds = wcSlip.some(b => b._needsOdds);
+  const hasNeedsOdds = wcSlip.some(b => b._needsOdds && b.type !== 'pp_prop');
+  const hasPP = wcSlip.some(b => b.type === 'pp_prop');
 
-  // Kalshi hint shown once at top when bets were detected but have no odds
   const kalshiHint = hasNeedsOdds ? `<div style="margin:10px 14px 0;padding:10px 12px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:8px">
     <p style="font-size:10px;color:#FBBF24;font-family:var(--bc);font-weight:700;letter-spacing:.06em;margin-bottom:3px">&#128247; KALSHI / PREDICTION MARKET SLIP</p>
     <p style="font-size:10px;color:var(--text2);line-height:1.5">Markets read from your slip ✓<br>Prices aren't on the Kalshi slip — open each market in Kalshi and enter the <strong style="color:#fff">contract price (e.g. 0.62)</strong> below.</p>
+  </div>` : '';
+
+  const ppHint = hasPP ? `<div style="margin:10px 14px 0;padding:10px 12px;background:rgba(57,255,20,0.06);border:1px solid rgba(57,255,20,0.25);border-radius:8px">
+    <p style="font-size:10px;color:var(--neon);font-family:var(--bc);font-weight:700;letter-spacing:.06em;margin-bottom:3px">&#127920; PRIZEPICKS SLIP DETECTED</p>
+    <p style="font-size:10px;color:var(--text2);line-height:1.5">${wcSlip.filter(b=>b.type==='pp_prop').length} player props found ✓<br>Confirm the <strong style="color:#fff">More/Less</strong> direction for each pick, then click Analyze.</p>
   </div>` : '';
 
   let rows = wcSlip.map((b, i) => {
     const sOpts = STAGE_OPTS.map(([v,l]) =>
       `<option value="${v}" ${parseFloat(v)===(b.baseline||1.15)?'selected':''}>${l}</option>`
     ).join('');
+
+    // ── PrizePicks player prop ─────────────────────────────────────────
+    if (b.type === 'pp_prop') {
+      const dirOpts = ['more','less'].map(d=>`<option value="${d}" ${b.direction===d?'selected':''}>${d.charAt(0).toUpperCase()+d.slice(1)}</option>`).join('');
+      const teamLabel = b.team ? `<span style="font-size:10px;background:rgba(57,255,20,0.12);border:1px solid rgba(57,255,20,0.3);color:var(--neon);padding:1px 6px;border-radius:4px;font-family:var(--bc);letter-spacing:.05em">${b.team}</span>` : '';
+      return `<div style="padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.06)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <p style="font-size:10px;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;font-family:var(--bc)">PP PICK ${i+1}</p>
+          <button onclick="wcRemoveFromSlip(${i})" style="background:transparent;border:none;color:var(--text2);font-size:13px;cursor:pointer">&#10005;</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+          <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:#fff;margin:0">${b.player}</p>
+          ${teamLabel}
+        </div>
+        <p style="font-size:11px;color:var(--text2);margin-bottom:8px">${b.line} ${b.stat}</p>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div>
+            <p style="font-size:9px;color:var(--text2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Your Pick</p>
+            <select onchange="wcSlipUpdateBet(${i},'direction',this.value)"
+              style="background:#1a1a28;border:1px solid var(--border2);color:#fff;font-size:12px;padding:6px 10px;border-radius:5px">
+              ${dirOpts}
+            </select>
+          </div>
+          <div>
+            <p style="font-size:9px;color:var(--text2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Line</p>
+            <input type="number" step="0.5" value="${b.line}"
+              oninput="wcSlipUpdateBet(${i},'line',parseFloat(this.value)||b.line)"
+              style="background:#1a1a28;border:1px solid var(--border2);color:#fff;font-size:12px;padding:6px 8px;border-radius:5px;width:70px">
+          </div>
+          <div style="flex:1;text-align:right">
+            <p style="font-size:9px;color:var(--text2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Match</p>
+            <p style="font-size:10px;color:var(--text2)">${b.matchH||'?'} vs ${b.matchA||'?'}</p>
+          </div>
+        </div>
+      </div>`;
+    }
+
     const oddsLabel = b._needsOdds ? 'Contract Price' : 'Decimal Odds';
     const oddsPlaceholder = b._needsOdds ? 'e.g. 0.62' : 'e.g. 2.10';
     const oddsBorder = b._needsOdds && !b.bookOdds ? 'border:1px solid rgba(251,191,36,0.5)' : 'border:1px solid var(--border2)';
@@ -2928,7 +3187,7 @@ function wcSlipRenderEdit() {
     </div>`;
   }).join('');
 
-  return kalshiHint + rows + `<div style="padding:12px 14px">
+  return kalshiHint + ppHint + rows + `<div style="padding:12px 14px">
     <button onclick="wcSlipAddManualBet()" style="width:100%;background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.2);color:var(--text2);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:10px;border-radius:7px;cursor:pointer">+ ADD ANOTHER BET</button>
   </div>`;
 }
@@ -2945,33 +3204,58 @@ function wcSlipResultsFooter() {
 }
 
 function wcSlipAnalyze() {
-  // Accept decimal odds (≥1.01) OR Kalshi contract prices (0.01–0.99)
-  const valid = wcSlip.filter(b => b.matchH && b.matchA && b.matchH !== b.matchA && parseFloat(b.bookOdds) >= 0.01);
+  // Accept: PP props (always), Kalshi no-odds (_needsOdds, shown as model-only), or bets with valid odds
+  const valid = wcSlip.filter(b =>
+    b.matchH && b.matchA && b.matchH !== b.matchA &&
+    (b.type === 'pp_prop' || b._needsOdds || parseFloat(b.bookOdds) >= 0.01)
+  );
   if (valid.length === 0) {
-    const missing = wcSlip.filter(b => b.matchH && b.matchA && (!b.bookOdds || b.bookOdds < 1.01));
+    const missing = wcSlip.filter(b => !b._needsOdds && b.type !== 'pp_prop' && b.matchH && b.matchA && (!b.bookOdds || parseFloat(b.bookOdds) < 0.01));
     if (missing.length > 0) {
-      alert('Almost there! Enter the bookmaker odds for each bet (e.g. 2.10) then click Analyze again.');
+      alert('Almost there! Enter the odds for each highlighted bet, then click Analyze again.');
     } else {
-      alert('Add at least one bet with two teams and your bookmaker\'s odds to analyze.');
+      alert('Add at least one complete bet (teams + direction/odds) to analyze.');
     }
     return;
   }
 
   valid.forEach(b => {
     const result = wcCalcProbsForMatch(b.matchH, b.matchA, b.baseline||1.15, b.isKO||false);
+
+    // ── PrizePicks player prop ──────────────────────────────────────────
+    if (b.type === 'pp_prop') {
+      if (result) {
+        b.allProbs   = result.probs;
+        b._xgH       = result.xgH;
+        b._xgA       = result.xgA;
+        const teamWin = b.allProbs[b.team + ' Win'] || 0;
+        b._teamWinProb = teamWin;
+        b._isFav       = teamWin > 0.5;
+        const teamIsHome = b.team === b.matchH;
+        b._lean = wcPPLean(b.stat, b.direction, b._isFav, teamIsHome ? b._xgH : b._xgA, teamIsHome ? b._xgA : b._xgH);
+      } else {
+        b._lean = { icon: '⚪', label: 'UNKNOWN', color: 'var(--text2)', reason: 'Teams not found in model' };
+      }
+      b._edge = null; // no edge calc for PP
+      return;
+    }
+
+    // ── Regular / Kalshi bet ──────────────────────────────────────────
     if (result) {
       b.allProbs  = result.probs;
       b.modelProb = result.probs[b.market] || 0;
     }
-    // Normalise odds: Kalshi contract price (0.01–0.99) → decimal odds; standard decimal ≥ 1.01 kept as-is
     let decimalOdds = parseFloat(b.bookOdds) || 0;
     if (decimalOdds > 0 && decimalOdds < 1.0) decimalOdds = parseFloat((1 / decimalOdds).toFixed(2));
     b._decimalOdds = decimalOdds;
-    const implied = decimalOdds >= 1.01 ? 1 / decimalOdds : 0;
-    b._implied = implied;
-    b._edge    = b.modelProb - implied;
     b._fairOdds = b.modelProb > 0 ? (1 / b.modelProb).toFixed(2) : null;
-    // Best alternative market
+    if (decimalOdds >= 1.01) {
+      b._implied = 1 / decimalOdds;
+      b._edge    = b.modelProb - b._implied;
+    } else {
+      b._implied = 0;
+      b._edge    = null; // no price entered (Kalshi) — model-only mode
+    }
     b._suggestion = wcBestMarket(b.allProbs, b.market);
   });
 
@@ -2992,13 +3276,39 @@ function wcSlipRenderResults() {
   }
 
   wcSlip.forEach((b, i) => {
-    const good    = b._edge > 0;
-    const slight  = b._edge > -0.03 && b._edge <= 0;
-    const color   = good ? '#39FF14' : slight ? '#FBBF24' : '#EF4444';
-    const bgColor = good ? 'rgba(57,255,20,0.06)' : slight ? 'rgba(251,191,36,0.06)' : 'rgba(239,68,68,0.06)';
-    const border  = good ? 'rgba(57,255,20,0.3)' : slight ? 'rgba(251,191,36,0.3)' : 'rgba(239,68,68,0.3)';
-    const icon    = good ? '✅' : slight ? '⚠️' : '❌';
-    const verdict = good ? 'GOOD VALUE' : slight ? 'SLIGHT RISK' : 'BAD VALUE';
+    // ── PrizePicks player prop result ────────────────────────────────
+    if (b.type === 'pp_prop') {
+      const lean   = b._lean || { icon: '⚪', label: 'NEUTRAL', color: 'var(--text2)', reason: '' };
+      const bgPP   = lean.label==='ALIGNED' ? 'rgba(57,255,20,0.05)' : lean.label==='AGAINST' ? 'rgba(251,191,36,0.05)' : 'rgba(255,255,255,0.03)';
+      const bordPP = lean.label==='ALIGNED' ? 'rgba(57,255,20,0.25)' : lean.label==='AGAINST' ? 'rgba(251,191,36,0.25)' : 'rgba(255,255,255,0.1)';
+      const teamWinPct = b._teamWinProb != null ? (b._teamWinProb*100).toFixed(0)+'%' : '?';
+      const dirLabel = b.direction.toUpperCase();
+      html += `<div style="padding:13px 14px;border-bottom:1px solid rgba(255,255,255,0.06);background:${bgPP};border-left:3px solid ${bordPP}">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px">
+          <div>
+            <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:#fff;margin-bottom:1px">${b.player}</p>
+            <p style="font-size:10px;color:var(--text2)">${dirLabel} ${b.line} ${b.stat}</p>
+          </div>
+          <span style="font-size:10px;font-family:var(--bc);font-weight:900;color:${lean.color};letter-spacing:.06em;white-space:nowrap;padding-top:2px">${lean.icon} ${lean.label}</span>
+        </div>
+        <p style="font-size:10px;color:${lean.color};margin-top:6px">${lean.reason}</p>
+        <div style="display:flex;gap:8px;margin-top:8px;font-size:10px;color:var(--text2)">
+          <span>${b.team} win prob: <strong style="color:#fff">${teamWinPct}</strong></span>
+          ${b._xgH!=null?`<span>xG ${b.matchH}: <strong style="color:var(--neon)">${b._xgH.toFixed(2)}</strong></span><span>xG ${b.matchA}: <strong style="color:var(--red)">${b._xgA.toFixed(2)}</strong></span>`:''}
+        </div>
+      </div>`;
+      return;
+    }
+
+    // ── Regular / Kalshi bet result ──────────────────────────────────
+    const noEdge  = b._edge === null;
+    const good    = !noEdge && b._edge > 0;
+    const slight  = !noEdge && b._edge > -0.03 && b._edge <= 0;
+    const color   = noEdge ? 'var(--neon)' : good ? '#39FF14' : slight ? '#FBBF24' : '#EF4444';
+    const bgColor = noEdge ? 'rgba(57,255,20,0.04)' : good ? 'rgba(57,255,20,0.06)' : slight ? 'rgba(251,191,36,0.06)' : 'rgba(239,68,68,0.06)';
+    const border  = noEdge ? 'rgba(57,255,20,0.2)' : good ? 'rgba(57,255,20,0.3)' : slight ? 'rgba(251,191,36,0.3)' : 'rgba(239,68,68,0.3)';
+    const icon    = noEdge ? '📊' : good ? '✅' : slight ? '⚠️' : '❌';
+    const verdict = noEdge ? 'MODEL ONLY' : good ? 'GOOD VALUE' : slight ? 'SLIGHT RISK' : 'BAD VALUE';
 
     let sugHtml = '';
     if (!good && b._suggestion) {
@@ -3024,22 +3334,25 @@ function wcSlipRenderResults() {
           <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:${color}">${(b.modelProb*100).toFixed(1)}%</p>
         </div>
         <div style="text-align:center;padding:6px;background:rgba(0,0,0,0.25);border-radius:5px">
-          <p style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Your Odds</p>
-          <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:#fff">${b.bookOdds}x</p>
+          <p style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">${noEdge?'Fair Odds':'Your Odds'}</p>
+          <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:#fff">${noEdge?(b._fairOdds||'—')+'x':b._decimalOdds+'x'}</p>
         </div>
         <div style="text-align:center;padding:6px;background:rgba(0,0,0,0.25);border-radius:5px">
           <p style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Edge</p>
-          <p style="font-family:var(--bc);font-weight:700;font-size:13px;color:${color}">${b._edge>=0?'+':''}${(b._edge*100).toFixed(1)}%</p>
+          <p style="font-family:var(--bc);font-weight:700;font-size:${noEdge?'10':'13'}px;color:${color}">${noEdge?'add price':''}${!noEdge?(b._edge>=0?'+':'')+(b._edge*100).toFixed(1)+'%':''}</p>
         </div>
       </div>
-      <p style="font-size:10px;color:var(--text2);margin-top:6px">Fair odds: <strong style="color:#fff">${b._fairOdds||'—'}x</strong> &nbsp;|&nbsp; Implied: <strong style="color:#fff">${(b._implied*100).toFixed(1)}%</strong></p>
+      <p style="font-size:10px;color:var(--text2);margin-top:6px">${noEdge?`<span style="color:rgba(57,255,20,0.6)">Enter contract price above to see edge</span>`:`Fair odds: <strong style="color:#fff">${b._fairOdds||'—'}x</strong> &nbsp;|&nbsp; Implied: <strong style="color:#fff">${(b._implied*100).toFixed(1)}%</strong>`}</p>
       ${sugHtml}
     </div>`;
   });
 
   // Summary
-  const good = wcSlip.filter(b=>b._edge>0).length;
-  const bad  = wcSlip.length - good;
+  const ppProps   = wcSlip.filter(b=>b.type==='pp_prop');
+  const regBets   = wcSlip.filter(b=>b.type!=='pp_prop');
+  const good      = regBets.filter(b=>b._edge!=null&&b._edge>0).length  + ppProps.filter(b=>b._lean&&b._lean.label==='ALIGNED').length;
+  const bad       = regBets.filter(b=>b._edge!=null&&b._edge<=0).length + ppProps.filter(b=>b._lean&&b._lean.label==='AGAINST').length;
+  const modelOnly = regBets.filter(b=>b._edge===null).length;
   html += `<div style="padding:14px 14px 4px">
     <p style="font-family:var(--bc);font-weight:900;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);margin-bottom:8px">SLIP SUMMARY</p>
     <div style="display:flex;gap:8px">
@@ -3051,6 +3364,10 @@ function wcSlipRenderResults() {
         <p style="font-size:9px;color:var(--red);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">Bad Value</p>
         <p style="font-family:var(--bc);font-weight:900;font-size:22px;color:var(--red)">${bad}</p>
       </div>
+      ${modelOnly>0?`<div style="flex:1;text-align:center;padding:10px;background:rgba(57,255,20,0.04);border:1px solid rgba(57,255,20,0.15);border-radius:7px">
+        <p style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">Model Only</p>
+        <p style="font-family:var(--bc);font-weight:900;font-size:22px;color:var(--text2)">${modelOnly}</p>
+      </div>`:''}
     </div>
     <button onclick="wcSlipMode='edit';wcSlipRender()" style="width:100%;margin-top:10px;background:rgba(255,255,255,0.05);border:1px solid var(--border2);color:var(--text2);font-family:var(--bc);font-weight:700;font-size:11px;letter-spacing:.08em;padding:9px;border-radius:6px;cursor:pointer">&#9998; EDIT BETS</button>
   </div>`;
