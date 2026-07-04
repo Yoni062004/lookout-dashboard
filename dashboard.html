@@ -2782,54 +2782,75 @@ function parsePrizePicks(text) {
   const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
   const props = [];
 
-  // Find player name from WC_PLAYER_TEAMS (longest match wins)
-  function findPlayer(str) {
+  // All player keys sorted longest-first so "Lamine Yamal" matches before "Yamal"
+  const playerKeys = Object.keys(WC_PLAYER_TEAMS).sort((a,b)=>b.length-a.length);
+
+  // Search for any known player name inside a string
+  function findPlayerIn(str) {
     const s = str.toLowerCase();
-    const keys = Object.keys(WC_PLAYER_TEAMS).sort((a,b)=>b.length-a.length);
-    return keys.find(k => s.includes(k.toLowerCase())) || null;
+    return playerKeys.find(k => s.includes(k.toLowerCase())) || null;
   }
 
-  // Parse stat line: "25.5 Fantasy Score" or "108.5 Passes Attempted"
-  function parseStat(str) {
-    const m = str.match(/^([\d.]+)\s+(.+)$/);
-    if (!m) return null;
-    return { line: parseFloat(m[1]), stat: m[2].trim() };
+  // Try to parse a stat line. Handles two OCR layouts:
+  //   single line: "25.5 Fantasy Score"
+  //   two lines:   line1="25.5"  line2="Fantasy Score"
+  function parseStat(line1, line2) {
+    let m = (line1||'').match(/^([\d.]+)\s+(.+)$/);
+    if (m) return { line: parseFloat(m[1]), stat: m[2].trim() };
+    m = (line1||'').match(/^([\d.]+)$/);
+    // second line must look like a stat name (not a number, not Less/More)
+    if (m && line2 && !/^\d/.test(line2) && !/^(less|more)/i.test(line2)) {
+      return { line: parseFloat(m[1]), stat: line2.trim() };
+    }
+    return null;
   }
 
-  // Detect direction from line text: "Less  More" + surrounding context
-  function detectDir(lineText, prevLines) {
-    // Look for "+" or arrow before Less/More, or selected indicator
-    const t = lineText + ' ' + prevLines.slice(-2).join(' ');
-    // PrizePicks: selected option often appears with a preceding "+"
-    if (/\+\s*less/i.test(t) || /less\s*\+/i.test(t)) return 'less';
-    if (/\+\s*more/i.test(t) || /more\s*\+/i.test(t)) return 'more';
-    // Fallback: if "less" appears before "more" in line, and line starts with arrow
-    if (/^\s*[↓v]\s*less/i.test(lineText)) return 'less';
-    if (/^\s*[↑\^]\s*more/i.test(lineText)) return 'more';
-    return 'more'; // default to more (user can correct in edit view)
+  // Detect direction from nearby lines containing "Less" / "More"
+  function detectDir(lineText) {
+    // selected PrizePicks button often prefixed by "+" or "↑/↓"
+    if (/\+\s*less/i.test(lineText) || /less\s*\+/i.test(lineText)) return 'less';
+    if (/\+\s*more/i.test(lineText) || /more\s*\+/i.test(lineText)) return 'more';
+    if (/[↓v]\s*less/i.test(lineText)) return 'less';
+    if (/[↑^]\s*more/i.test(lineText)) return 'more';
+    // "Less" appears but "More" does not → Less
+    const hasLess = /\bless\b/i.test(lineText);
+    const hasMore = /\bmore\b/i.test(lineText);
+    if (hasLess && !hasMore) return 'less';
+    return 'more'; // default; user can correct in edit view
   }
+
+  const seenPlayers = new Set();
 
   let i = 0;
   while (i < lines.length) {
-    const line = lines[i];
-    const player = findPlayer(line);
+    // Try to find a player name in the current line OR the current + next line combined
+    // (handles "Unai Simón" when OCR splits first/last name across lines)
+    const combined = lines[i] + ' ' + (lines[i+1] || '');
+    const player = findPlayerIn(lines[i]) || findPlayerIn(combined);
 
-    if (player) {
-      const team = WC_PLAYER_TEAMS[player] || WC_PLAYER_TEAMS[Object.keys(WC_PLAYER_TEAMS).find(k=>k.toLowerCase()===player.toLowerCase())] || '';
-      // Next line should be the stat
-      const statLine = lines[i+1] || '';
-      const parsed = parseStat(statLine);
+    if (player && !seenPlayers.has(player)) {
+      const team = WC_PLAYER_TEAMS[player] || '';
+
+      // Scan the next 1-4 lines for the stat (number + type may be on one or two lines)
+      let parsed = null;
+      let statEndIdx = i;
+      for (let j = i+1; j <= i+5 && j < lines.length; j++) {
+        parsed = parseStat(lines[j], lines[j+1]);
+        if (parsed) { statEndIdx = j + (lines[j].match(/^[\d.]+$/) ? 1 : 0); break; }
+      }
+
       if (parsed) {
-        // Direction: look ahead for Less/More line
+        // Scan ahead for Less/More
         let direction = 'more';
-        for (let j = i+2; j <= i+4 && j < lines.length; j++) {
-          if (/less|more/i.test(lines[j])) {
-            direction = detectDir(lines[j], lines.slice(Math.max(0,j-2), j));
+        for (let j = statEndIdx+1; j <= statEndIdx+4 && j < lines.length; j++) {
+          if (/\bless\b|\bmore\b/i.test(lines[j])) {
+            direction = detectDir(lines[j]);
             break;
           }
         }
+        seenPlayers.add(player);
         props.push({ player, team, stat: parsed.stat, line: parsed.line, direction });
-        i += 2;
+        i = statEndIdx + 1;
         continue;
       }
     }
