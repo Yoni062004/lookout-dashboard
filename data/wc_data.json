@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-09T06:38:25.682920+00:00",
+  "updated": "2026-08-10T07:11:05.213559+00:00",
   "standings": {
     "filters": {
       "season": "2026"
@@ -8534,10 +8534,10 @@
           "lastName": "Mikel Oyarzabal",
           "dateOfBirth": "1997-04-21",
           "nationality": "Spain",
-          "section": "Midfield",
+          "section": "Offence",
           "position": null,
           "shirtNumber": null,
-          "lastUpdated": "2026-06-01T11:16:30Z"
+          "lastUpdated": "2026-08-09T17:00:04Z"
         },
         "team": {
           "id": 760,
