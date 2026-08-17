@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16T06:22:54.138401+00:00",
+  "updated": "2026-08-17T06:34:22.517588+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
@@ -27,14 +27,32 @@
         "pts": 3,
         "gf_pg": 3.0,
         "ga_pg": 0.0,
-        "att_str": 2.0,
+        "att_str": 1.846154,
+        "def_str": 0.0
+      },
+      {
+        "team": "RCD Espanyol de Barcelona",
+        "tla": "ESP",
+        "crest": "https://crests.football-data.org/80.png",
+        "pos": 1,
+        "pld": 1,
+        "w": 1,
+        "d": 0,
+        "l": 0,
+        "gf": 3,
+        "ga": 0,
+        "gd": 3,
+        "pts": 3,
+        "gf_pg": 3.0,
+        "ga_pg": 0.0,
+        "att_str": 1.846154,
         "def_str": 0.0
       },
       {
         "team": "Sevilla FC",
         "tla": "SEV",
         "crest": "https://crests.football-data.org/559.png",
-        "pos": 2,
+        "pos": 3,
         "pld": 1,
         "w": 1,
         "d": 0,
@@ -45,14 +63,50 @@
         "pts": 3,
         "gf_pg": 2.0,
         "ga_pg": 1.0,
-        "att_str": 1.333333,
-        "def_str": 0.666667
+        "att_str": 1.230769,
+        "def_str": 0.615385
+      },
+      {
+        "team": "Real Racing Club de Santander",
+        "tla": "SAN",
+        "crest": "https://crests.football-data.org/5335.png",
+        "pos": 4,
+        "pld": 1,
+        "w": 0,
+        "d": 1,
+        "l": 0,
+        "gf": 2,
+        "ga": 2,
+        "gd": 0,
+        "pts": 1,
+        "gf_pg": 2.0,
+        "ga_pg": 2.0,
+        "att_str": 1.230769,
+        "def_str": 1.230769
+      },
+      {
+        "team": "Villarreal CF",
+        "tla": "VIL",
+        "crest": "https://crests.football-data.org/94.png",
+        "pos": 4,
+        "pld": 1,
+        "w": 0,
+        "d": 1,
+        "l": 0,
+        "gf": 2,
+        "ga": 2,
+        "gd": 0,
+        "pts": 1,
+        "gf_pg": 2.0,
+        "ga_pg": 2.0,
+        "att_str": 1.230769,
+        "def_str": 1.230769
       },
       {
         "team": "Rayo Vallecano de Madrid",
         "tla": "RAY",
         "crest": "https://crests.football-data.org/87.png",
-        "pos": 19,
+        "pos": 18,
         "pld": 1,
         "w": 0,
         "d": 0,
@@ -63,14 +117,14 @@
         "pts": 0,
         "gf_pg": 1.0,
         "ga_pg": 2.0,
-        "att_str": 0.666667,
-        "def_str": 1.333333
+        "att_str": 0.615385,
+        "def_str": 1.230769
       },
       {
         "team": "Getafe CF",
         "tla": "GET",
         "crest": "https://crests.football-data.org/82.png",
-        "pos": 20,
+        "pos": 19,
         "pld": 1,
         "w": 0,
         "d": 0,
@@ -82,10 +136,36 @@
         "gf_pg": 0.0,
         "ga_pg": 3.0,
         "att_str": 0.0,
-        "def_str": 2.0
+        "def_str": 1.846154
+      },
+      {
+        "team": "Levante UD",
+        "tla": "LEV",
+        "crest": "https://crests.football-data.org/88.png",
+        "pos": 19,
+        "pld": 1,
+        "w": 0,
+        "d": 0,
+        "l": 1,
+        "gf": 0,
+        "ga": 3,
+        "gd": -3,
+        "pts": 0,
+        "gf_pg": 0.0,
+        "ga_pg": 3.0,
+        "att_str": 0.0,
+        "def_str": 1.846154
       }
     ],
     "scorers": [
+      {
+        "name": "Roberto Fernández",
+        "team": "RCD Espanyol de Barcelona",
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0,
+        "playedGames": 0
+      },
       {
         "name": "Nahuel Tenaglia",
         "team": "Deportivo Alavés",
@@ -132,6 +212,30 @@
         "goals": 1,
         "assists": 0,
         "penalties": 1,
+        "playedGames": 0
+      },
+      {
+        "name": "Andrés Martín",
+        "team": "Real Racing Club de Santander",
+        "goals": 1,
+        "assists": 0,
+        "penalties": 1,
+        "playedGames": 0
+      },
+      {
+        "name": "Sergio Martínez",
+        "team": "Real Racing Club de Santander",
+        "goals": 1,
+        "assists": 0,
+        "penalties": 0,
+        "playedGames": 0
+      },
+      {
+        "name": "Pape Gueye",
+        "team": "Villarreal CF",
+        "goals": 1,
+        "assists": 0,
+        "penalties": 0,
         "playedGames": 0
       }
     ]
