@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-20T06:28:32.874249+00:00",
+  "updated": "2026-08-21T06:29:10.937525+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
@@ -17,24 +17,24 @@
         "tla": "ALA",
         "crest": "https://crests.football-data.org/263.png",
         "pos": 1,
-        "pld": 1,
+        "pld": 2,
         "w": 1,
-        "d": 0,
+        "d": 1,
         "l": 0,
-        "gf": 3,
-        "ga": 0,
+        "gf": 4,
+        "ga": 1,
         "gd": 3,
-        "pts": 3,
-        "gf_pg": 3.0,
-        "ga_pg": 0.0,
-        "att_str": 2.117647,
-        "def_str": 0.0
+        "pts": 4,
+        "gf_pg": 2.0,
+        "ga_pg": 0.5,
+        "att_str": 1.5,
+        "def_str": 0.352941
       },
       {
         "team": "RCD Espanyol de Barcelona",
         "tla": "ESP",
         "crest": "https://crests.football-data.org/80.png",
-        "pos": 1,
+        "pos": 2,
         "pld": 1,
         "w": 1,
         "d": 0,
@@ -45,7 +45,7 @@
         "pts": 3,
         "gf_pg": 3.0,
         "ga_pg": 0.0,
-        "att_str": 2.117647,
+        "att_str": 2.25,
         "def_str": 0.0
       },
       {
@@ -63,7 +63,7 @@
         "pts": 3,
         "gf_pg": 2.0,
         "ga_pg": 0.0,
-        "att_str": 1.411765,
+        "att_str": 1.5,
         "def_str": 0.0
       },
       {
@@ -81,7 +81,7 @@
         "pts": 3,
         "gf_pg": 2.0,
         "ga_pg": 1.0,
-        "att_str": 1.411765,
+        "att_str": 1.5,
         "def_str": 0.705882
       },
       {
@@ -99,7 +99,7 @@
         "pts": 1,
         "gf_pg": 2.0,
         "ga_pg": 2.0,
-        "att_str": 1.411765,
+        "att_str": 1.5,
         "def_str": 1.411765
       },
       {
@@ -117,7 +117,7 @@
         "pts": 1,
         "gf_pg": 2.0,
         "ga_pg": 2.0,
-        "att_str": 1.411765,
+        "att_str": 1.5,
         "def_str": 1.411765
       },
       {
@@ -135,7 +135,7 @@
         "pts": 1,
         "gf_pg": 1.0,
         "ga_pg": 1.0,
-        "att_str": 0.705882,
+        "att_str": 0.75,
         "def_str": 0.705882
       },
       {
@@ -153,26 +153,26 @@
         "pts": 1,
         "gf_pg": 1.0,
         "ga_pg": 1.0,
-        "att_str": 0.705882,
+        "att_str": 0.75,
         "def_str": 0.705882
       },
       {
         "team": "Rayo Vallecano de Madrid",
         "tla": "RAY",
         "crest": "https://crests.football-data.org/87.png",
-        "pos": 17,
-        "pld": 1,
+        "pos": 9,
+        "pld": 2,
         "w": 0,
-        "d": 0,
+        "d": 1,
         "l": 1,
-        "gf": 1,
-        "ga": 2,
+        "gf": 2,
+        "ga": 3,
         "gd": -1,
-        "pts": 0,
+        "pts": 1,
         "gf_pg": 1.0,
-        "ga_pg": 2.0,
-        "att_str": 0.705882,
-        "def_str": 1.411765
+        "ga_pg": 1.5,
+        "att_str": 0.75,
+        "def_str": 1.058824
       },
       {
         "team": "Málaga CF",
@@ -231,6 +231,14 @@
     ],
     "scorers": [
       {
+        "name": "Mariano Díaz",
+        "team": "Deportivo Alavés",
+        "goals": 2,
+        "assists": 2,
+        "penalties": 0,
+        "playedGames": 0
+      },
+      {
         "name": "Roberto Fernández",
         "team": "RCD Espanyol de Barcelona",
         "goals": 2,
@@ -243,14 +251,6 @@
         "team": "Deportivo Alavés",
         "goals": 1,
         "assists": 0,
-        "penalties": 0,
-        "playedGames": 0
-      },
-      {
-        "name": "Mariano Díaz",
-        "team": "Deportivo Alavés",
-        "goals": 1,
-        "assists": 2,
         "penalties": 0,
         "playedGames": 0
       },
@@ -315,13 +315,6 @@
   "BL1": {
     "name": "Bundesliga",
     "country": "Germany",
-    "season": "2026-27",
-    "table": [],
-    "scorers": []
-  },
-  "SA": {
-    "name": "Serie A",
-    "country": "Italy",
     "season": "2026-27",
     "table": [],
     "scorers": []
