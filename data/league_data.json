@@ -1,11 +1,73 @@
 {
-  "updated": "2026-08-21T06:29:10.937525+00:00",
+  "updated": "2026-08-22T06:22:38.441152+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
     "season": "2026-27",
-    "table": [],
-    "scorers": []
+    "table": [
+      {
+        "team": "Arsenal FC",
+        "tla": "ARS",
+        "crest": "https://crests.football-data.org/57.png",
+        "pos": 1,
+        "pld": 1,
+        "w": 1,
+        "d": 0,
+        "l": 0,
+        "gf": 3,
+        "ga": 0,
+        "gd": 3,
+        "pts": 3,
+        "gf_pg": 3.0,
+        "ga_pg": 0.0,
+        "att_str": 2.0,
+        "def_str": 0.0
+      },
+      {
+        "team": "Coventry City FC",
+        "tla": "COV",
+        "crest": "https://crests.football-data.org/1076.png",
+        "pos": 20,
+        "pld": 1,
+        "w": 0,
+        "d": 0,
+        "l": 1,
+        "gf": 0,
+        "ga": 3,
+        "gd": -3,
+        "pts": 0,
+        "gf_pg": 0.0,
+        "ga_pg": 3.0,
+        "att_str": 0.0,
+        "def_str": 2.0
+      }
+    ],
+    "scorers": [
+      {
+        "name": "Kai Havertz",
+        "team": "Arsenal FC",
+        "goals": 1,
+        "assists": 0,
+        "penalties": 0,
+        "playedGames": 0
+      },
+      {
+        "name": "Bukayo Saka",
+        "team": "Arsenal FC",
+        "goals": 1,
+        "assists": 0,
+        "penalties": 0,
+        "playedGames": 0
+      },
+      {
+        "name": "Martin Ødegaard",
+        "team": "Arsenal FC",
+        "goals": 1,
+        "assists": 0,
+        "penalties": 0,
+        "playedGames": 0
+      }
+    ]
   },
   "PD": {
     "name": "La Liga",
@@ -27,8 +89,8 @@
         "pts": 4,
         "gf_pg": 2.0,
         "ga_pg": 0.5,
-        "att_str": 1.5,
-        "def_str": 0.352941
+        "att_str": 1.647059,
+        "def_str": 0.388889
       },
       {
         "team": "RCD Espanyol de Barcelona",
@@ -45,7 +107,7 @@
         "pts": 3,
         "gf_pg": 3.0,
         "ga_pg": 0.0,
-        "att_str": 2.25,
+        "att_str": 2.470588,
         "def_str": 0.0
       },
       {
@@ -63,7 +125,7 @@
         "pts": 3,
         "gf_pg": 2.0,
         "ga_pg": 0.0,
-        "att_str": 1.5,
+        "att_str": 1.647059,
         "def_str": 0.0
       },
       {
@@ -81,14 +143,32 @@
         "pts": 3,
         "gf_pg": 2.0,
         "ga_pg": 1.0,
-        "att_str": 1.5,
-        "def_str": 0.705882
+        "att_str": 1.647059,
+        "def_str": 0.777778
+      },
+      {
+        "team": "Real Betis Balompié",
+        "tla": "BET",
+        "crest": "https://crests.football-data.org/90.png",
+        "pos": 5,
+        "pld": 1,
+        "w": 1,
+        "d": 0,
+        "l": 0,
+        "gf": 1,
+        "ga": 0,
+        "gd": 1,
+        "pts": 3,
+        "gf_pg": 1.0,
+        "ga_pg": 0.0,
+        "att_str": 0.823529,
+        "def_str": 0.0
       },
       {
         "team": "Real Racing Club de Santander",
         "tla": "SAN",
         "crest": "https://crests.football-data.org/5335.png",
-        "pos": 5,
+        "pos": 6,
         "pld": 1,
         "w": 0,
         "d": 1,
@@ -99,14 +179,14 @@
         "pts": 1,
         "gf_pg": 2.0,
         "ga_pg": 2.0,
-        "att_str": 1.5,
-        "def_str": 1.411765
+        "att_str": 1.647059,
+        "def_str": 1.555556
       },
       {
         "team": "Villarreal CF",
         "tla": "VIL",
         "crest": "https://crests.football-data.org/94.png",
-        "pos": 5,
+        "pos": 6,
         "pld": 1,
         "w": 0,
         "d": 1,
@@ -117,14 +197,14 @@
         "pts": 1,
         "gf_pg": 2.0,
         "ga_pg": 2.0,
-        "att_str": 1.5,
-        "def_str": 1.411765
+        "att_str": 1.647059,
+        "def_str": 1.555556
       },
       {
         "team": "RC Deportivo La Coruña",
         "tla": "DEP",
         "crest": "https://crests.football-data.org/560.png",
-        "pos": 7,
+        "pos": 8,
         "pld": 1,
         "w": 0,
         "d": 1,
@@ -135,14 +215,14 @@
         "pts": 1,
         "gf_pg": 1.0,
         "ga_pg": 1.0,
-        "att_str": 0.75,
-        "def_str": 0.705882
+        "att_str": 0.823529,
+        "def_str": 0.777778
       },
       {
         "team": "Elche CF",
         "tla": "ELC",
         "crest": "https://crests.football-data.org/285.png",
-        "pos": 7,
+        "pos": 8,
         "pld": 1,
         "w": 0,
         "d": 1,
@@ -153,14 +233,14 @@
         "pts": 1,
         "gf_pg": 1.0,
         "ga_pg": 1.0,
-        "att_str": 0.75,
-        "def_str": 0.705882
+        "att_str": 0.823529,
+        "def_str": 0.777778
       },
       {
         "team": "Rayo Vallecano de Madrid",
         "tla": "RAY",
         "crest": "https://crests.football-data.org/87.png",
-        "pos": 9,
+        "pos": 10,
         "pld": 2,
         "w": 0,
         "d": 1,
@@ -171,8 +251,26 @@
         "pts": 1,
         "gf_pg": 1.0,
         "ga_pg": 1.5,
-        "att_str": 0.75,
-        "def_str": 1.058824
+        "att_str": 0.823529,
+        "def_str": 1.166667
+      },
+      {
+        "team": "Real Sociedad de Fútbol",
+        "tla": "RSO",
+        "crest": "https://crests.football-data.org/92.png",
+        "pos": 17,
+        "pld": 1,
+        "w": 0,
+        "d": 0,
+        "l": 1,
+        "gf": 0,
+        "ga": 1,
+        "gd": -1,
+        "pts": 0,
+        "gf_pg": 0.0,
+        "ga_pg": 1.0,
+        "att_str": 0.0,
+        "def_str": 0.777778
       },
       {
         "team": "Málaga CF",
@@ -190,7 +288,7 @@
         "gf_pg": 0.0,
         "ga_pg": 2.0,
         "att_str": 0.0,
-        "def_str": 1.411765
+        "def_str": 1.555556
       },
       {
         "team": "Getafe CF",
@@ -208,7 +306,7 @@
         "gf_pg": 0.0,
         "ga_pg": 3.0,
         "att_str": 0.0,
-        "def_str": 2.117647
+        "def_str": 2.333333
       },
       {
         "team": "Levante UD",
@@ -226,7 +324,7 @@
         "gf_pg": 0.0,
         "ga_pg": 3.0,
         "att_str": 0.0,
-        "def_str": 2.117647
+        "def_str": 2.333333
       }
     ],
     "scorers": [
@@ -319,11 +417,43 @@
     "table": [],
     "scorers": []
   },
+  "SA": {
+    "name": "Serie A",
+    "country": "Italy",
+    "season": "2026-27",
+    "table": [],
+    "scorers": []
+  },
   "FL1": {
     "name": "Ligue 1",
     "country": "France",
     "season": "2026-27",
     "table": [],
-    "scorers": []
+    "scorers": [
+      {
+        "name": "Amine Gouiri",
+        "team": "Olympique de Marseille",
+        "goals": 2,
+        "assists": 0,
+        "penalties": 1,
+        "playedGames": 0
+      },
+      {
+        "name": "Keyliane Abdallah",
+        "team": "Olympique de Marseille",
+        "goals": 1,
+        "assists": 0,
+        "penalties": 0,
+        "playedGames": 0
+      },
+      {
+        "name": "Pierre Emile Højbjerg",
+        "team": "Olympique de Marseille",
+        "goals": 1,
+        "assists": 0,
+        "penalties": 0,
+        "playedGames": 0
+      }
+    ]
   }
 }
