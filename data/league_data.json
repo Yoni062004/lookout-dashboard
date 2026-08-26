@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-25T06:28:51.503864+00:00",
+  "updated": "2026-08-26T06:31:18.971549+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
@@ -470,13 +470,31 @@
         "gf_pg": 2.5,
         "ga_pg": 1.0,
         "att_str": 2.083333,
-        "def_str": 0.909091
+        "def_str": 0.888889
+      },
+      {
+        "team": "Real Betis Balompié",
+        "tla": "BET",
+        "crest": "https://crests.football-data.org/90.png",
+        "pos": 2,
+        "pld": 2,
+        "w": 2,
+        "d": 0,
+        "l": 0,
+        "gf": 2,
+        "ga": 0,
+        "gd": 2,
+        "pts": 6,
+        "gf_pg": 1.0,
+        "ga_pg": 0.0,
+        "att_str": 0.833333,
+        "def_str": 0.0
       },
       {
         "team": "Deportivo Alavés",
         "tla": "ALA",
         "crest": "https://crests.football-data.org/263.png",
-        "pos": 2,
+        "pos": 3,
         "pld": 2,
         "w": 1,
         "d": 1,
@@ -488,13 +506,13 @@
         "gf_pg": 2.0,
         "ga_pg": 0.5,
         "att_str": 1.666667,
-        "def_str": 0.454545
+        "def_str": 0.444444
       },
       {
         "team": "Club Atlético de Madrid",
         "tla": "ATL",
         "crest": "https://crests.football-data.org/78.png",
-        "pos": 3,
+        "pos": 4,
         "pld": 2,
         "w": 1,
         "d": 1,
@@ -506,13 +524,13 @@
         "gf_pg": 2.0,
         "ga_pg": 1.0,
         "att_str": 1.666667,
-        "def_str": 0.909091
+        "def_str": 0.888889
       },
       {
         "team": "FC Barcelona",
         "tla": "FCB",
         "crest": "https://crests.football-data.org/81.png",
-        "pos": 4,
+        "pos": 5,
         "pld": 1,
         "w": 1,
         "d": 0,
@@ -530,7 +548,7 @@
         "team": "RCD Espanyol de Barcelona",
         "tla": "ESP",
         "crest": "https://crests.football-data.org/80.png",
-        "pos": 5,
+        "pos": 6,
         "pld": 2,
         "w": 1,
         "d": 0,
@@ -542,13 +560,13 @@
         "gf_pg": 2.0,
         "ga_pg": 1.0,
         "att_str": 1.666667,
-        "def_str": 0.909091
+        "def_str": 0.888889
       },
       {
         "team": "Real Madrid CF",
         "tla": "RMA",
         "crest": "https://crests.football-data.org/86.png",
-        "pos": 6,
+        "pos": 7,
         "pld": 1,
         "w": 1,
         "d": 0,
@@ -560,25 +578,7 @@
         "gf_pg": 2.0,
         "ga_pg": 1.0,
         "att_str": 1.666667,
-        "def_str": 0.909091
-      },
-      {
-        "team": "Real Betis Balompié",
-        "tla": "BET",
-        "crest": "https://crests.football-data.org/90.png",
-        "pos": 7,
-        "pld": 1,
-        "w": 1,
-        "d": 0,
-        "l": 0,
-        "gf": 1,
-        "ga": 0,
-        "gd": 1,
-        "pts": 3,
-        "gf_pg": 1.0,
-        "ga_pg": 0.0,
-        "att_str": 0.833333,
-        "def_str": 0.0
+        "def_str": 0.888889
       },
       {
         "team": "Getafe CF",
@@ -596,7 +596,7 @@
         "gf_pg": 0.5,
         "ga_pg": 1.5,
         "att_str": 0.416667,
-        "def_str": 1.363636
+        "def_str": 1.333333
       },
       {
         "team": "Villarreal CF",
@@ -614,7 +614,7 @@
         "gf_pg": 2.0,
         "ga_pg": 2.0,
         "att_str": 1.666667,
-        "def_str": 1.818182
+        "def_str": 1.777778
       },
       {
         "team": "RC Deportivo La Coruña",
@@ -632,7 +632,7 @@
         "gf_pg": 1.0,
         "ga_pg": 1.0,
         "att_str": 0.833333,
-        "def_str": 0.909091
+        "def_str": 0.888889
       },
       {
         "team": "CA Osasuna",
@@ -671,28 +671,10 @@
         "def_str": 0.0
       },
       {
-        "team": "Valencia CF",
-        "tla": "VAL",
-        "crest": "https://crests.football-data.org/95.png",
-        "pos": 11,
-        "pld": 1,
-        "w": 0,
-        "d": 1,
-        "l": 0,
-        "gf": 0,
-        "ga": 0,
-        "gd": 0,
-        "pts": 1,
-        "gf_pg": 0.0,
-        "ga_pg": 0.0,
-        "att_str": 0.0,
-        "def_str": 0.0
-      },
-      {
         "team": "Real Racing Club de Santander",
         "tla": "SAN",
         "crest": "https://crests.football-data.org/5335.png",
-        "pos": 14,
+        "pos": 13,
         "pld": 2,
         "w": 0,
         "d": 1,
@@ -704,13 +686,13 @@
         "gf_pg": 1.0,
         "ga_pg": 1.5,
         "att_str": 0.833333,
-        "def_str": 1.363636
+        "def_str": 1.333333
       },
       {
         "team": "Rayo Vallecano de Madrid",
         "tla": "RAY",
         "crest": "https://crests.football-data.org/87.png",
-        "pos": 14,
+        "pos": 13,
         "pld": 2,
         "w": 0,
         "d": 1,
@@ -722,7 +704,25 @@
         "gf_pg": 1.0,
         "ga_pg": 1.5,
         "att_str": 0.833333,
-        "def_str": 1.363636
+        "def_str": 1.333333
+      },
+      {
+        "team": "Valencia CF",
+        "tla": "VAL",
+        "crest": "https://crests.football-data.org/95.png",
+        "pos": 15,
+        "pld": 2,
+        "w": 0,
+        "d": 1,
+        "l": 1,
+        "gf": 0,
+        "ga": 1,
+        "gd": -1,
+        "pts": 1,
+        "gf_pg": 0.0,
+        "ga_pg": 0.5,
+        "att_str": 0.0,
+        "def_str": 0.444444
       },
       {
         "team": "Málaga CF",
@@ -740,7 +740,7 @@
         "gf_pg": 0.5,
         "ga_pg": 1.5,
         "att_str": 0.416667,
-        "def_str": 1.363636
+        "def_str": 1.333333
       },
       {
         "team": "Levante UD",
@@ -758,7 +758,7 @@
         "gf_pg": 0.0,
         "ga_pg": 1.5,
         "att_str": 0.0,
-        "def_str": 1.363636
+        "def_str": 1.333333
       },
       {
         "team": "Elche CF",
@@ -776,7 +776,7 @@
         "gf_pg": 0.5,
         "ga_pg": 3.0,
         "att_str": 0.416667,
-        "def_str": 2.727273
+        "def_str": 2.666667
       },
       {
         "team": "Real Sociedad de Fútbol",
@@ -794,7 +794,7 @@
         "gf_pg": 0.0,
         "ga_pg": 1.0,
         "att_str": 0.0,
-        "def_str": 0.909091
+        "def_str": 0.888889
       },
       {
         "team": "Athletic Club",
@@ -812,7 +812,7 @@
         "gf_pg": 1.0,
         "ga_pg": 3.0,
         "att_str": 0.833333,
-        "def_str": 2.727273
+        "def_str": 2.666667
       }
     ],
     "scorers": [
