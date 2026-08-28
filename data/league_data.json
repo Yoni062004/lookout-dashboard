@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-27T17:06:16.774744+00:00",
+  "updated": "2026-08-28T17:54:01.575295+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
@@ -455,10 +455,28 @@
     "season": "2026-27",
     "table": [
       {
+        "team": "FC Barcelona",
+        "tla": "FCB",
+        "crest": "https://crests.football-data.org/81.png",
+        "pos": 1,
+        "pld": 2,
+        "w": 2,
+        "d": 0,
+        "l": 0,
+        "gf": 7,
+        "ga": 0,
+        "gd": 7,
+        "pts": 6,
+        "gf_pg": 3.5,
+        "ga_pg": 0.0,
+        "att_str": 2.745098,
+        "def_str": 0.0
+      },
+      {
         "team": "Real Madrid CF",
         "tla": "RMA",
         "crest": "https://crests.football-data.org/86.png",
-        "pos": 1,
+        "pos": 2,
         "pld": 2,
         "w": 2,
         "d": 0,
@@ -470,13 +488,13 @@
         "gf_pg": 3.0,
         "ga_pg": 1.0,
         "att_str": 2.352941,
-        "def_str": 0.833333
+        "def_str": 0.816327
       },
       {
         "team": "Sevilla FC",
         "tla": "SEV",
         "crest": "https://crests.football-data.org/559.png",
-        "pos": 2,
+        "pos": 3,
         "pld": 2,
         "w": 2,
         "d": 0,
@@ -488,13 +506,13 @@
         "gf_pg": 2.5,
         "ga_pg": 1.0,
         "att_str": 1.960784,
-        "def_str": 0.833333
+        "def_str": 0.816327
       },
       {
         "team": "Real Betis Balompié",
         "tla": "BET",
         "crest": "https://crests.football-data.org/90.png",
-        "pos": 3,
+        "pos": 4,
         "pld": 2,
         "w": 2,
         "d": 0,
@@ -512,7 +530,7 @@
         "team": "Deportivo Alavés",
         "tla": "ALA",
         "crest": "https://crests.football-data.org/263.png",
-        "pos": 4,
+        "pos": 5,
         "pld": 2,
         "w": 1,
         "d": 1,
@@ -524,13 +542,31 @@
         "gf_pg": 2.0,
         "ga_pg": 0.5,
         "att_str": 1.568627,
-        "def_str": 0.416667
+        "def_str": 0.408163
+      },
+      {
+        "team": "Real Racing Club de Santander",
+        "tla": "SAN",
+        "crest": "https://crests.football-data.org/5335.png",
+        "pos": 6,
+        "pld": 3,
+        "w": 1,
+        "d": 1,
+        "l": 1,
+        "gf": 5,
+        "ga": 3,
+        "gd": 2,
+        "pts": 4,
+        "gf_pg": 1.6667,
+        "ga_pg": 1.0,
+        "att_str": 1.30719,
+        "def_str": 0.816327
       },
       {
         "team": "Club Atlético de Madrid",
         "tla": "ATL",
         "crest": "https://crests.football-data.org/78.png",
-        "pos": 5,
+        "pos": 7,
         "pld": 2,
         "w": 1,
         "d": 1,
@@ -542,31 +578,31 @@
         "gf_pg": 2.0,
         "ga_pg": 1.0,
         "att_str": 1.568627,
-        "def_str": 0.833333
+        "def_str": 0.816327
       },
       {
-        "team": "FC Barcelona",
-        "tla": "FCB",
-        "crest": "https://crests.football-data.org/81.png",
-        "pos": 6,
-        "pld": 1,
+        "team": "CA Osasuna",
+        "tla": "OSA",
+        "crest": "https://crests.football-data.org/79.png",
+        "pos": 8,
+        "pld": 2,
         "w": 1,
-        "d": 0,
+        "d": 1,
         "l": 0,
-        "gf": 5,
-        "ga": 0,
-        "gd": 5,
-        "pts": 3,
-        "gf_pg": 5.0,
-        "ga_pg": 0.0,
-        "att_str": 3.921569,
-        "def_str": 0.0
+        "gf": 2,
+        "ga": 1,
+        "gd": 1,
+        "pts": 4,
+        "gf_pg": 1.0,
+        "ga_pg": 0.5,
+        "att_str": 0.784314,
+        "def_str": 0.408163
       },
       {
         "team": "RCD Espanyol de Barcelona",
         "tla": "ESP",
         "crest": "https://crests.football-data.org/80.png",
-        "pos": 7,
+        "pos": 9,
         "pld": 2,
         "w": 1,
         "d": 0,
@@ -578,13 +614,13 @@
         "gf_pg": 2.0,
         "ga_pg": 1.0,
         "att_str": 1.568627,
-        "def_str": 0.833333
+        "def_str": 0.816327
       },
       {
         "team": "Getafe CF",
         "tla": "GET",
         "crest": "https://crests.football-data.org/82.png",
-        "pos": 8,
+        "pos": 10,
         "pld": 2,
         "w": 1,
         "d": 0,
@@ -596,13 +632,13 @@
         "gf_pg": 0.5,
         "ga_pg": 1.5,
         "att_str": 0.392157,
-        "def_str": 1.25
+        "def_str": 1.22449
       },
       {
         "team": "Villarreal CF",
         "tla": "VIL",
         "crest": "https://crests.football-data.org/94.png",
-        "pos": 9,
+        "pos": 11,
         "pld": 2,
         "w": 0,
         "d": 2,
@@ -614,13 +650,13 @@
         "gf_pg": 2.0,
         "ga_pg": 2.0,
         "att_str": 1.568627,
-        "def_str": 1.666667
+        "def_str": 1.632653
       },
       {
         "team": "RC Deportivo La Coruña",
         "tla": "DEP",
         "crest": "https://crests.football-data.org/560.png",
-        "pos": 10,
+        "pos": 12,
         "pld": 2,
         "w": 0,
         "d": 2,
@@ -632,61 +668,7 @@
         "gf_pg": 1.0,
         "ga_pg": 1.0,
         "att_str": 0.784314,
-        "def_str": 0.833333
-      },
-      {
-        "team": "CA Osasuna",
-        "tla": "OSA",
-        "crest": "https://crests.football-data.org/79.png",
-        "pos": 11,
-        "pld": 1,
-        "w": 0,
-        "d": 1,
-        "l": 0,
-        "gf": 0,
-        "ga": 0,
-        "gd": 0,
-        "pts": 1,
-        "gf_pg": 0.0,
-        "ga_pg": 0.0,
-        "att_str": 0.0,
-        "def_str": 0.0
-      },
-      {
-        "team": "RC Celta de Vigo",
-        "tla": "CEL",
-        "crest": "https://crests.football-data.org/558.png",
-        "pos": 11,
-        "pld": 1,
-        "w": 0,
-        "d": 1,
-        "l": 0,
-        "gf": 0,
-        "ga": 0,
-        "gd": 0,
-        "pts": 1,
-        "gf_pg": 0.0,
-        "ga_pg": 0.0,
-        "att_str": 0.0,
-        "def_str": 0.0
-      },
-      {
-        "team": "Real Racing Club de Santander",
-        "tla": "SAN",
-        "crest": "https://crests.football-data.org/5335.png",
-        "pos": 13,
-        "pld": 2,
-        "w": 0,
-        "d": 1,
-        "l": 1,
-        "gf": 2,
-        "ga": 3,
-        "gd": -1,
-        "pts": 1,
-        "gf_pg": 1.0,
-        "ga_pg": 1.5,
-        "att_str": 0.784314,
-        "def_str": 1.25
+        "def_str": 0.816327
       },
       {
         "team": "Rayo Vallecano de Madrid",
@@ -704,7 +686,25 @@
         "gf_pg": 1.0,
         "ga_pg": 1.5,
         "att_str": 0.784314,
-        "def_str": 1.25
+        "def_str": 1.22449
+      },
+      {
+        "team": "RC Celta de Vigo",
+        "tla": "CEL",
+        "crest": "https://crests.football-data.org/558.png",
+        "pos": 14,
+        "pld": 2,
+        "w": 0,
+        "d": 1,
+        "l": 1,
+        "gf": 1,
+        "ga": 2,
+        "gd": -1,
+        "pts": 1,
+        "gf_pg": 0.5,
+        "ga_pg": 1.0,
+        "att_str": 0.392157,
+        "def_str": 0.816327
       },
       {
         "team": "Valencia CF",
@@ -722,7 +722,7 @@
         "gf_pg": 0.0,
         "ga_pg": 0.5,
         "att_str": 0.0,
-        "def_str": 0.416667
+        "def_str": 0.408163
       },
       {
         "team": "Málaga CF",
@@ -740,7 +740,7 @@
         "gf_pg": 0.5,
         "ga_pg": 1.5,
         "att_str": 0.392157,
-        "def_str": 1.25
+        "def_str": 1.22449
       },
       {
         "team": "Levante UD",
@@ -758,49 +758,31 @@
         "gf_pg": 0.0,
         "ga_pg": 1.5,
         "att_str": 0.0,
-        "def_str": 1.25
+        "def_str": 1.22449
       },
       {
         "team": "Elche CF",
         "tla": "ELC",
         "crest": "https://crests.football-data.org/285.png",
         "pos": 18,
-        "pld": 2,
+        "pld": 3,
         "w": 0,
         "d": 1,
-        "l": 1,
+        "l": 2,
         "gf": 1,
-        "ga": 6,
-        "gd": -5,
+        "ga": 9,
+        "gd": -8,
         "pts": 1,
-        "gf_pg": 0.5,
+        "gf_pg": 0.3333,
         "ga_pg": 3.0,
-        "att_str": 0.392157,
-        "def_str": 2.5
+        "att_str": 0.261438,
+        "def_str": 2.44898
       },
       {
         "team": "Athletic Club",
         "tla": "ATH",
         "crest": "https://crests.football-data.org/77.png",
         "pos": 19,
-        "pld": 1,
-        "w": 0,
-        "d": 0,
-        "l": 1,
-        "gf": 1,
-        "ga": 3,
-        "gd": -2,
-        "pts": 0,
-        "gf_pg": 1.0,
-        "ga_pg": 3.0,
-        "att_str": 0.784314,
-        "def_str": 2.5
-      },
-      {
-        "team": "Real Sociedad de Fútbol",
-        "tla": "RSO",
-        "crest": "https://crests.football-data.org/92.png",
-        "pos": 20,
         "pld": 2,
         "w": 0,
         "d": 0,
@@ -812,13 +794,55 @@
         "gf_pg": 0.5,
         "ga_pg": 2.5,
         "att_str": 0.392157,
-        "def_str": 2.083333
+        "def_str": 2.040816
+      },
+      {
+        "team": "Real Sociedad de Fútbol",
+        "tla": "RSO",
+        "crest": "https://crests.football-data.org/92.png",
+        "pos": 19,
+        "pld": 2,
+        "w": 0,
+        "d": 0,
+        "l": 2,
+        "gf": 1,
+        "ga": 5,
+        "gd": -4,
+        "pts": 0,
+        "gf_pg": 0.5,
+        "ga_pg": 2.5,
+        "att_str": 0.392157,
+        "def_str": 2.040816
       }
     ],
     "scorers": [
       {
+        "name": "Raphinha",
+        "team": "FC Barcelona",
+        "goals": 3,
+        "assists": 0,
+        "penalties": 1,
+        "playedGames": 0
+      },
+      {
+        "name": "Fermín López",
+        "team": "FC Barcelona",
+        "goals": 3,
+        "assists": 0,
+        "penalties": 0,
+        "playedGames": 0
+      },
+      {
         "name": "Kylian Mbappé",
         "team": "Real Madrid CF",
+        "goals": 3,
+        "assists": 0,
+        "penalties": 0,
+        "playedGames": 0
+      },
+      {
+        "name": "Yassir Zabiri",
+        "team": "Real Racing Club de Santander",
         "goals": 3,
         "assists": 0,
         "penalties": 0,
@@ -849,22 +873,6 @@
         "playedGames": 0
       },
       {
-        "name": "Raphinha",
-        "team": "FC Barcelona",
-        "goals": 2,
-        "assists": 0,
-        "penalties": 1,
-        "playedGames": 0
-      },
-      {
-        "name": "Fermín López",
-        "team": "FC Barcelona",
-        "goals": 2,
-        "assists": 0,
-        "penalties": 0,
-        "playedGames": 0
-      },
-      {
         "name": "Nahuel Tenaglia",
         "team": "Deportivo Alavés",
         "goals": 1,
@@ -886,14 +894,6 @@
         "goals": 1,
         "assists": 0,
         "penalties": 0,
-        "playedGames": 0
-      },
-      {
-        "name": "Jon Guridi",
-        "team": "Sevilla FC",
-        "goals": 1,
-        "assists": 0,
-        "penalties": 1,
         "playedGames": 0
       }
     ]
