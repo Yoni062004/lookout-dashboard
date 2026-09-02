@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-01T10:47:16.244756+00:00",
+  "updated": "2026-09-02T10:11:49.602226+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
@@ -1102,9 +1102,9 @@
         "def_str": 0.0
       },
       {
-        "team": "TSG 1899 Hoffenheim",
-        "tla": "TSG",
-        "crest": "https://crests.football-data.org/2.png",
+        "team": "Bayer 04 Leverkusen",
+        "tla": "B04",
+        "crest": "https://crests.football-data.org/3.png",
         "pos": 12,
         "pld": 1,
         "w": 0,
@@ -1120,9 +1120,9 @@
         "def_str": 1.542857
       },
       {
-        "team": "Bayer 04 Leverkusen",
-        "tla": "B04",
-        "crest": "https://crests.football-data.org/3.png",
+        "team": "TSG 1899 Hoffenheim",
+        "tla": "TSG",
+        "crest": "https://crests.football-data.org/2.png",
         "pos": 12,
         "pld": 1,
         "w": 0,
