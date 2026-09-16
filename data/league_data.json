@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-15T10:41:59.394388+00:00",
+  "updated": "2026-09-16T10:29:51.577424+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
@@ -469,26 +469,26 @@
         "pts": 15,
         "gf_pg": 4.2,
         "ga_pg": 0.8,
-        "att_str": 2.790698,
-        "def_str": 0.536313
+        "att_str": 2.8,
+        "def_str": 0.539933
       },
       {
         "team": "Real Madrid CF",
         "tla": "RMA",
         "crest": "https://crests.football-data.org/86.png",
         "pos": 2,
-        "pld": 5,
-        "w": 4,
+        "pld": 6,
+        "w": 5,
         "d": 0,
         "l": 1,
-        "gf": 14,
-        "ga": 4,
-        "gd": 10,
-        "pts": 12,
-        "gf_pg": 2.8,
-        "ga_pg": 0.8,
-        "att_str": 1.860465,
-        "def_str": 0.536313
+        "gf": 17,
+        "ga": 6,
+        "gd": 11,
+        "pts": 15,
+        "gf_pg": 2.8333,
+        "ga_pg": 1.0,
+        "att_str": 1.888889,
+        "def_str": 0.674916
       },
       {
         "team": "Real Betis Balompié",
@@ -505,26 +505,26 @@
         "pts": 12,
         "gf_pg": 1.4,
         "ga_pg": 1.2,
-        "att_str": 0.930233,
-        "def_str": 0.804469
+        "att_str": 0.933333,
+        "def_str": 0.809899
       },
       {
         "team": "Deportivo Alavés",
         "tla": "ALA",
         "crest": "https://crests.football-data.org/263.png",
         "pos": 4,
-        "pld": 5,
+        "pld": 6,
         "w": 3,
         "d": 1,
-        "l": 1,
+        "l": 2,
         "gf": 11,
-        "ga": 5,
-        "gd": 6,
+        "ga": 6,
+        "gd": 5,
         "pts": 10,
-        "gf_pg": 2.2,
+        "gf_pg": 1.8333,
         "ga_pg": 1.0,
-        "att_str": 1.461794,
-        "def_str": 0.670391
+        "att_str": 1.222222,
+        "def_str": 0.674916
       },
       {
         "team": "Club Atlético de Madrid",
@@ -541,8 +541,8 @@
         "pts": 10,
         "gf_pg": 2.0,
         "ga_pg": 1.2,
-        "att_str": 1.328904,
-        "def_str": 0.804469
+        "att_str": 1.333333,
+        "def_str": 0.809899
       },
       {
         "team": "Sevilla FC",
@@ -559,8 +559,8 @@
         "pts": 10,
         "gf_pg": 1.6,
         "ga_pg": 1.2,
-        "att_str": 1.063123,
-        "def_str": 0.804469
+        "att_str": 1.066667,
+        "def_str": 0.809899
       },
       {
         "team": "RC Deportivo La Coruña",
@@ -577,26 +577,26 @@
         "pts": 9,
         "gf_pg": 1.8,
         "ga_pg": 1.2,
-        "att_str": 1.196013,
-        "def_str": 0.804469
+        "att_str": 1.2,
+        "def_str": 0.809899
       },
       {
         "team": "RCD Espanyol de Barcelona",
         "tla": "ESP",
         "crest": "https://crests.football-data.org/80.png",
         "pos": 8,
-        "pld": 5,
+        "pld": 6,
         "w": 2,
         "d": 1,
-        "l": 2,
-        "gf": 8,
-        "ga": 5,
-        "gd": 3,
+        "l": 3,
+        "gf": 9,
+        "ga": 7,
+        "gd": 2,
         "pts": 7,
-        "gf_pg": 1.6,
-        "ga_pg": 1.0,
-        "att_str": 1.063123,
-        "def_str": 0.670391
+        "gf_pg": 1.5,
+        "ga_pg": 1.1667,
+        "att_str": 1.0,
+        "def_str": 0.787402
       },
       {
         "team": "Athletic Club",
@@ -613,8 +613,8 @@
         "pts": 7,
         "gf_pg": 1.4,
         "ga_pg": 1.2,
-        "att_str": 0.930233,
-        "def_str": 0.804469
+        "att_str": 0.933333,
+        "def_str": 0.809899
       },
       {
         "team": "Real Racing Club de Santander",
@@ -631,8 +631,8 @@
         "pts": 7,
         "gf_pg": 1.8,
         "ga_pg": 1.8,
-        "att_str": 1.196013,
-        "def_str": 1.206704
+        "att_str": 1.2,
+        "def_str": 1.214848
       },
       {
         "team": "CA Osasuna",
@@ -649,14 +649,32 @@
         "pts": 7,
         "gf_pg": 1.0,
         "ga_pg": 1.6,
-        "att_str": 0.664452,
-        "def_str": 1.072626
+        "att_str": 0.666667,
+        "def_str": 1.079865
+      },
+      {
+        "team": "Rayo Vallecano de Madrid",
+        "tla": "RAY",
+        "crest": "https://crests.football-data.org/87.png",
+        "pos": 12,
+        "pld": 6,
+        "w": 2,
+        "d": 1,
+        "l": 3,
+        "gf": 10,
+        "ga": 15,
+        "gd": -5,
+        "pts": 7,
+        "gf_pg": 1.6667,
+        "ga_pg": 2.5,
+        "att_str": 1.111111,
+        "def_str": 1.687289
       },
       {
         "team": "Real Sociedad de Fútbol",
         "tla": "RSO",
         "crest": "https://crests.football-data.org/92.png",
-        "pos": 12,
+        "pos": 13,
         "pld": 6,
         "w": 2,
         "d": 1,
@@ -667,14 +685,14 @@
         "pts": 7,
         "gf_pg": 1.0,
         "ga_pg": 1.8333,
-        "att_str": 0.664452,
-        "def_str": 1.22905
+        "att_str": 0.666667,
+        "def_str": 1.237345
       },
       {
         "team": "Levante UD",
         "tla": "LEV",
         "crest": "https://crests.football-data.org/88.png",
-        "pos": 13,
+        "pos": 14,
         "pld": 5,
         "w": 1,
         "d": 2,
@@ -685,14 +703,14 @@
         "pts": 5,
         "gf_pg": 1.4,
         "ga_pg": 1.8,
-        "att_str": 0.930233,
-        "def_str": 1.206704
+        "att_str": 0.933333,
+        "def_str": 1.214848
       },
       {
         "team": "Getafe CF",
         "tla": "GET",
         "crest": "https://crests.football-data.org/82.png",
-        "pos": 14,
+        "pos": 15,
         "pld": 5,
         "w": 1,
         "d": 2,
@@ -703,14 +721,14 @@
         "pts": 5,
         "gf_pg": 0.6,
         "ga_pg": 1.2,
-        "att_str": 0.398671,
-        "def_str": 0.804469
+        "att_str": 0.4,
+        "def_str": 0.809899
       },
       {
         "team": "RC Celta de Vigo",
         "tla": "CEL",
         "crest": "https://crests.football-data.org/558.png",
-        "pos": 15,
+        "pos": 16,
         "pld": 6,
         "w": 0,
         "d": 4,
@@ -721,32 +739,32 @@
         "pts": 4,
         "gf_pg": 0.5,
         "ga_pg": 1.0,
-        "att_str": 0.332226,
-        "def_str": 0.670391
+        "att_str": 0.333333,
+        "def_str": 0.674916
       },
       {
-        "team": "Rayo Vallecano de Madrid",
-        "tla": "RAY",
-        "crest": "https://crests.football-data.org/87.png",
-        "pos": 16,
-        "pld": 5,
+        "team": "Valencia CF",
+        "tla": "VAL",
+        "crest": "https://crests.football-data.org/95.png",
+        "pos": 17,
+        "pld": 6,
         "w": 1,
         "d": 1,
-        "l": 3,
-        "gf": 8,
-        "ga": 14,
-        "gd": -6,
+        "l": 4,
+        "gf": 2,
+        "ga": 10,
+        "gd": -8,
         "pts": 4,
-        "gf_pg": 1.6,
-        "ga_pg": 2.8,
-        "att_str": 1.063123,
-        "def_str": 1.877095
+        "gf_pg": 0.3333,
+        "ga_pg": 1.6667,
+        "att_str": 0.222222,
+        "def_str": 1.124859
       },
       {
         "team": "Málaga CF",
         "tla": "MAL",
         "crest": "https://crests.football-data.org/84.png",
-        "pos": 17,
+        "pos": 18,
         "pld": 5,
         "w": 0,
         "d": 3,
@@ -757,14 +775,14 @@
         "pts": 3,
         "gf_pg": 0.4,
         "ga_pg": 1.6,
-        "att_str": 0.265781,
-        "def_str": 1.072626
+        "att_str": 0.266667,
+        "def_str": 1.079865
       },
       {
         "team": "Villarreal CF",
         "tla": "VIL",
         "crest": "https://crests.football-data.org/94.png",
-        "pos": 18,
+        "pos": 19,
         "pld": 5,
         "w": 0,
         "d": 2,
@@ -775,47 +793,45 @@
         "pts": 2,
         "gf_pg": 1.4,
         "ga_pg": 2.0,
-        "att_str": 0.930233,
-        "def_str": 1.340782
+        "att_str": 0.933333,
+        "def_str": 1.349831
       },
       {
         "team": "Elche CF",
         "tla": "ELC",
         "crest": "https://crests.football-data.org/285.png",
-        "pos": 19,
-        "pld": 5,
+        "pos": 20,
+        "pld": 6,
         "w": 0,
         "d": 2,
-        "l": 3,
-        "gf": 6,
-        "ga": 13,
-        "gd": -7,
-        "pts": 2,
-        "gf_pg": 1.2,
-        "ga_pg": 2.6,
-        "att_str": 0.797342,
-        "def_str": 1.743017
-      },
-      {
-        "team": "Valencia CF",
-        "tla": "VAL",
-        "crest": "https://crests.football-data.org/95.png",
-        "pos": 20,
-        "pld": 5,
-        "w": 0,
-        "d": 1,
         "l": 4,
-        "gf": 1,
-        "ga": 10,
-        "gd": -9,
-        "pts": 1,
-        "gf_pg": 0.2,
-        "ga_pg": 2.0,
-        "att_str": 0.13289,
-        "def_str": 1.340782
+        "gf": 8,
+        "ga": 16,
+        "gd": -8,
+        "pts": 2,
+        "gf_pg": 1.3333,
+        "ga_pg": 2.6667,
+        "att_str": 0.888889,
+        "def_str": 1.799775
       }
     ],
     "scorers": [
+      {
+        "name": "Kylian Mbappé",
+        "team": "Real Madrid CF",
+        "goals": 7,
+        "assists": 2,
+        "penalties": 1,
+        "playedGames": 0
+      },
+      {
+        "name": "Roberto Fernández",
+        "team": "RCD Espanyol de Barcelona",
+        "goals": 6,
+        "assists": 0,
+        "penalties": 0,
+        "playedGames": 0
+      },
       {
         "name": "Sergio Camello",
         "team": "Rayo Vallecano de Madrid",
@@ -833,27 +849,11 @@
         "playedGames": 0
       },
       {
-        "name": "Kylian Mbappé",
-        "team": "Real Madrid CF",
-        "goals": 6,
-        "assists": 1,
-        "penalties": 1,
-        "playedGames": 0
-      },
-      {
         "name": "Lamine Yamal",
         "team": "FC Barcelona",
         "goals": 6,
         "assists": 0,
         "penalties": 1,
-        "playedGames": 0
-      },
-      {
-        "name": "Roberto Fernández",
-        "team": "RCD Espanyol de Barcelona",
-        "goals": 5,
-        "assists": 0,
-        "penalties": 0,
         "playedGames": 0
       },
       {
