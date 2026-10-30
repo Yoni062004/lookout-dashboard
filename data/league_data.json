@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29T11:58:31.931592+00:00",
+  "updated": "2026-10-30T11:52:32.280988+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
@@ -1331,8 +1331,8 @@
         "pts": 25,
         "gf_pg": 2.7778,
         "ga_pg": 1.1111,
-        "att_str": 1.784917,
-        "def_str": 0.710164
+        "att_str": 1.760563,
+        "def_str": 0.704225
       },
       {
         "team": "SS Lazio",
@@ -1349,8 +1349,8 @@
         "pts": 25,
         "gf_pg": 2.4444,
         "ga_pg": 0.7778,
-        "att_str": 1.570727,
-        "def_str": 0.497115
+        "att_str": 1.549296,
+        "def_str": 0.492958
       },
       {
         "team": "AS Roma",
@@ -1367,8 +1367,8 @@
         "pts": 21,
         "gf_pg": 2.5556,
         "ga_pg": 0.8889,
-        "att_str": 1.642124,
-        "def_str": 0.568131
+        "att_str": 1.619718,
+        "def_str": 0.56338
       },
       {
         "team": "Como 1907",
@@ -1385,8 +1385,8 @@
         "pts": 20,
         "gf_pg": 1.8889,
         "ga_pg": 0.8889,
-        "att_str": 1.213744,
-        "def_str": 0.568131
+        "att_str": 1.197183,
+        "def_str": 0.56338
       },
       {
         "team": "AC Milan",
@@ -1403,14 +1403,32 @@
         "pts": 18,
         "gf_pg": 2.0,
         "ga_pg": 1.2222,
-        "att_str": 1.285141,
-        "def_str": 0.781181
+        "att_str": 1.267606,
+        "def_str": 0.774648
+      },
+      {
+        "team": "Frosinone Calcio",
+        "tla": "FRO",
+        "crest": "https://crests.football-data.org/470.png",
+        "pos": 6,
+        "pld": 9,
+        "w": 5,
+        "d": 2,
+        "l": 2,
+        "gf": 22,
+        "ga": 14,
+        "gd": 8,
+        "pts": 17,
+        "gf_pg": 2.4444,
+        "ga_pg": 1.5556,
+        "att_str": 1.549296,
+        "def_str": 0.985915
       },
       {
         "team": "SSC Napoli",
         "tla": "NAP",
         "crest": "https://crests.football-data.org/113.png",
-        "pos": 6,
+        "pos": 7,
         "pld": 9,
         "w": 4,
         "d": 2,
@@ -1421,26 +1439,8 @@
         "pts": 14,
         "gf_pg": 1.8889,
         "ga_pg": 1.2222,
-        "att_str": 1.213744,
-        "def_str": 0.781181
-      },
-      {
-        "team": "Frosinone Calcio",
-        "tla": "FRO",
-        "crest": "https://crests.football-data.org/470.png",
-        "pos": 7,
-        "pld": 8,
-        "w": 4,
-        "d": 2,
-        "l": 2,
-        "gf": 17,
-        "ga": 13,
-        "gd": 4,
-        "pts": 14,
-        "gf_pg": 2.125,
-        "ga_pg": 1.625,
-        "att_str": 1.365462,
-        "def_str": 1.038615
+        "att_str": 1.197183,
+        "def_str": 0.774648
       },
       {
         "team": "Juventus FC",
@@ -1457,8 +1457,8 @@
         "pts": 14,
         "gf_pg": 1.2222,
         "ga_pg": 1.1111,
-        "att_str": 0.785364,
-        "def_str": 0.710164
+        "att_str": 0.774648,
+        "def_str": 0.704225
       },
       {
         "team": "Torino FC",
@@ -1475,8 +1475,8 @@
         "pts": 13,
         "gf_pg": 1.5556,
         "ga_pg": 1.5556,
-        "att_str": 0.999554,
-        "def_str": 0.99423
+        "att_str": 0.985915,
+        "def_str": 0.985915
       },
       {
         "team": "Cagliari Calcio",
@@ -1493,8 +1493,8 @@
         "pts": 13,
         "gf_pg": 0.8889,
         "ga_pg": 1.4444,
-        "att_str": 0.571174,
-        "def_str": 0.923213
+        "att_str": 0.56338,
+        "def_str": 0.915493
       },
       {
         "team": "Bologna FC 1909",
@@ -1511,26 +1511,26 @@
         "pts": 11,
         "gf_pg": 1.3333,
         "ga_pg": 1.3333,
-        "att_str": 0.85676,
-        "def_str": 0.852197
+        "att_str": 0.84507,
+        "def_str": 0.84507
       },
       {
         "team": "Atalanta BC",
         "tla": "ATA",
         "crest": "https://crests.football-data.org/102.png",
         "pos": 12,
-        "pld": 8,
+        "pld": 9,
         "w": 3,
-        "d": 1,
+        "d": 2,
         "l": 4,
-        "gf": 14,
-        "ga": 15,
+        "gf": 16,
+        "ga": 17,
         "gd": -1,
-        "pts": 10,
-        "gf_pg": 1.75,
-        "ga_pg": 1.875,
-        "att_str": 1.124498,
-        "def_str": 1.198402
+        "pts": 11,
+        "gf_pg": 1.7778,
+        "ga_pg": 1.8889,
+        "att_str": 1.126761,
+        "def_str": 1.197183
       },
       {
         "team": "Genoa CFC",
@@ -1547,26 +1547,26 @@
         "pts": 10,
         "gf_pg": 0.8889,
         "ga_pg": 1.4444,
-        "att_str": 0.571174,
-        "def_str": 0.923213
+        "att_str": 0.56338,
+        "def_str": 0.915493
       },
       {
         "team": "US Lecce",
         "tla": "USL",
         "crest": "https://crests.football-data.org/5890.png",
         "pos": 14,
-        "pld": 8,
+        "pld": 9,
         "w": 3,
         "d": 0,
-        "l": 5,
-        "gf": 9,
-        "ga": 14,
-        "gd": -5,
+        "l": 6,
+        "gf": 10,
+        "ga": 19,
+        "gd": -9,
         "pts": 9,
-        "gf_pg": 1.125,
-        "ga_pg": 1.75,
-        "att_str": 0.722892,
-        "def_str": 1.118509
+        "gf_pg": 1.1111,
+        "ga_pg": 2.1111,
+        "att_str": 0.704225,
+        "def_str": 1.338028
       },
       {
         "team": "US Sassuolo Calcio",
@@ -1583,8 +1583,8 @@
         "pts": 8,
         "gf_pg": 1.5556,
         "ga_pg": 2.4444,
-        "att_str": 0.999554,
-        "def_str": 1.562361
+        "att_str": 0.985915,
+        "def_str": 1.549296
       },
       {
         "team": "AC Monza",
@@ -1601,8 +1601,8 @@
         "pts": 7,
         "gf_pg": 1.7778,
         "ga_pg": 2.4444,
-        "att_str": 1.142347,
-        "def_str": 1.562361
+        "att_str": 1.126761,
+        "def_str": 1.549296
       },
       {
         "team": "Udinese Calcio",
@@ -1619,14 +1619,32 @@
         "pts": 5,
         "gf_pg": 1.0,
         "ga_pg": 2.0,
-        "att_str": 0.64257,
-        "def_str": 1.278296
+        "att_str": 0.633803,
+        "def_str": 1.267606
+      },
+      {
+        "team": "ACF Fiorentina",
+        "tla": "FIO",
+        "crest": "https://crests.football-data.org/99.png",
+        "pos": 18,
+        "pld": 9,
+        "w": 1,
+        "d": 2,
+        "l": 6,
+        "gf": 11,
+        "ga": 21,
+        "gd": -10,
+        "pts": 5,
+        "gf_pg": 1.2222,
+        "ga_pg": 2.3333,
+        "att_str": 0.774648,
+        "def_str": 1.478873
       },
       {
         "team": "Parma Calcio 1913",
         "tla": "PAR",
         "crest": "https://crests.football-data.org/112.png",
-        "pos": 18,
+        "pos": 19,
         "pld": 9,
         "w": 1,
         "d": 2,
@@ -1637,26 +1655,8 @@
         "pts": 5,
         "gf_pg": 0.5556,
         "ga_pg": 1.6667,
-        "att_str": 0.356983,
-        "def_str": 1.065246
-      },
-      {
-        "team": "ACF Fiorentina",
-        "tla": "FIO",
-        "crest": "https://crests.football-data.org/99.png",
-        "pos": 19,
-        "pld": 8,
-        "w": 1,
-        "d": 1,
-        "l": 6,
-        "gf": 9,
-        "ga": 19,
-        "gd": -10,
-        "pts": 4,
-        "gf_pg": 1.125,
-        "ga_pg": 2.375,
-        "att_str": 0.722892,
-        "def_str": 1.517976
+        "att_str": 0.352113,
+        "def_str": 1.056338
       },
       {
         "team": "Venezia FC",
@@ -1673,8 +1673,8 @@
         "pts": 3,
         "gf_pg": 0.6667,
         "ga_pg": 2.1111,
-        "att_str": 0.42838,
-        "def_str": 1.349312
+        "att_str": 0.422535,
+        "def_str": 1.338028
       }
     ],
     "scorers": [
@@ -1687,18 +1687,18 @@
         "playedGames": 0
       },
       {
-        "name": "Donyell Malen",
-        "team": "AS Roma",
-        "goals": 7,
-        "assists": 1,
+        "name": "Antonio Raimondo",
+        "team": "Frosinone Calcio",
+        "goals": 8,
+        "assists": 0,
         "penalties": 0,
         "playedGames": 0
       },
       {
-        "name": "Antonio Raimondo",
-        "team": "Frosinone Calcio",
+        "name": "Donyell Malen",
+        "team": "AS Roma",
         "goals": 7,
-        "assists": 0,
+        "assists": 1,
         "penalties": 0,
         "playedGames": 0
       },
