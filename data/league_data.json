@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26T16:01:49.132197+00:00",
+  "updated": "2026-11-27T15:51:07.750904+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
@@ -1984,7 +1984,7 @@
       {
         "team": "Le Mans FC",
         "tla": "LMF",
-        "crest": "https://upload.wikimedia.org/wikipedia/en/5/57/Le_Mans_FC_logo.svg",
+        "crest": "https://crests.football-data.org/535.png",
         "pos": 13,
         "pld": 11,
         "w": 2,
