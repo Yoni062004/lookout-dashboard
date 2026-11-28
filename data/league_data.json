@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T15:51:07.750904+00:00",
+  "updated": "2026-11-28T14:45:33.702972+00:00",
   "PL": {
     "name": "Premier League",
     "country": "England",
@@ -20,8 +20,8 @@
         "pts": 28,
         "gf_pg": 1.5455,
         "ga_pg": 0.6364,
-        "att_str": 1.122112,
-        "def_str": 0.462046
+        "att_str": 1.114145,
+        "def_str": 0.459519
       },
       {
         "team": "Brighton & Hove Albion FC",
@@ -38,8 +38,8 @@
         "pts": 22,
         "gf_pg": 2.3636,
         "ga_pg": 0.8182,
-        "att_str": 1.716172,
-        "def_str": 0.594059
+        "att_str": 1.703987,
+        "def_str": 0.59081
       },
       {
         "team": "Manchester City FC",
@@ -56,8 +56,8 @@
         "pts": 22,
         "gf_pg": 2.0,
         "ga_pg": 1.2727,
-        "att_str": 1.452145,
-        "def_str": 0.924092
+        "att_str": 1.441835,
+        "def_str": 0.919037
       },
       {
         "team": "Liverpool FC",
@@ -74,8 +74,8 @@
         "pts": 21,
         "gf_pg": 1.6364,
         "ga_pg": 0.9091,
-        "att_str": 1.188119,
-        "def_str": 0.660066
+        "att_str": 1.179683,
+        "def_str": 0.656455
       },
       {
         "team": "AFC Bournemouth",
@@ -92,8 +92,8 @@
         "pts": 18,
         "gf_pg": 1.6364,
         "ga_pg": 1.2727,
-        "att_str": 1.188119,
-        "def_str": 0.924092
+        "att_str": 1.179683,
+        "def_str": 0.919037
       },
       {
         "team": "Brentford FC",
@@ -110,8 +110,8 @@
         "pts": 17,
         "gf_pg": 1.8182,
         "ga_pg": 1.0,
-        "att_str": 1.320132,
-        "def_str": 0.726073
+        "att_str": 1.310759,
+        "def_str": 0.722101
       },
       {
         "team": "Leeds United FC",
@@ -128,26 +128,26 @@
         "pts": 17,
         "gf_pg": 1.2727,
         "ga_pg": 0.8182,
-        "att_str": 0.924092,
-        "def_str": 0.594059
+        "att_str": 0.917531,
+        "def_str": 0.59081
       },
       {
         "team": "Chelsea FC",
         "tla": "CHE",
         "crest": "https://crests.football-data.org/61.png",
         "pos": 8,
-        "pld": 11,
+        "pld": 12,
         "w": 5,
         "d": 1,
-        "l": 5,
-        "gf": 20,
-        "ga": 20,
-        "gd": 0,
+        "l": 6,
+        "gf": 22,
+        "ga": 23,
+        "gd": -1,
         "pts": 16,
-        "gf_pg": 1.8182,
-        "ga_pg": 1.8182,
-        "att_str": 1.320132,
-        "def_str": 1.320132
+        "gf_pg": 1.8333,
+        "ga_pg": 1.9167,
+        "att_str": 1.321682,
+        "def_str": 1.384026
       },
       {
         "team": "Everton FC",
@@ -164,8 +164,8 @@
         "pts": 16,
         "gf_pg": 1.0909,
         "ga_pg": 1.2727,
-        "att_str": 0.792079,
-        "def_str": 0.924092
+        "att_str": 0.786455,
+        "def_str": 0.919037
       },
       {
         "team": "Tottenham Hotspur FC",
@@ -182,8 +182,8 @@
         "pts": 15,
         "gf_pg": 1.0909,
         "ga_pg": 1.0,
-        "att_str": 0.792079,
-        "def_str": 0.726073
+        "att_str": 0.786455,
+        "def_str": 0.722101
       },
       {
         "team": "Hull City AFC",
@@ -200,8 +200,8 @@
         "pts": 14,
         "gf_pg": 1.1818,
         "ga_pg": 1.0,
-        "att_str": 0.858086,
-        "def_str": 0.726073
+        "att_str": 0.851993,
+        "def_str": 0.722101
       },
       {
         "team": "Aston Villa FC",
@@ -218,8 +218,8 @@
         "pts": 14,
         "gf_pg": 1.2727,
         "ga_pg": 1.5455,
-        "att_str": 0.924092,
-        "def_str": 1.122112
+        "att_str": 0.917531,
+        "def_str": 1.115974
       },
       {
         "team": "Newcastle United FC",
@@ -236,14 +236,32 @@
         "pts": 13,
         "gf_pg": 1.3636,
         "ga_pg": 1.6364,
-        "att_str": 0.990099,
-        "def_str": 1.188119
+        "att_str": 0.983069,
+        "def_str": 1.181619
+      },
+      {
+        "team": "Nottingham Forest FC",
+        "tla": "NOT",
+        "crest": "https://crests.football-data.org/351.png",
+        "pos": 14,
+        "pld": 12,
+        "w": 3,
+        "d": 3,
+        "l": 6,
+        "gf": 12,
+        "ga": 17,
+        "gd": -5,
+        "pts": 12,
+        "gf_pg": 1.0,
+        "ga_pg": 1.4167,
+        "att_str": 0.720918,
+        "def_str": 1.022976
       },
       {
         "team": "Coventry City FC",
         "tla": "COV",
         "crest": "https://crests.football-data.org/1076.png",
-        "pos": 14,
+        "pos": 15,
         "pld": 11,
         "w": 4,
         "d": 0,
@@ -254,14 +272,14 @@
         "pts": 12,
         "gf_pg": 1.1818,
         "ga_pg": 1.9091,
-        "att_str": 0.858086,
-        "def_str": 1.386139
+        "att_str": 0.851993,
+        "def_str": 1.378556
       },
       {
         "team": "Fulham FC",
         "tla": "FUL",
         "crest": "https://crests.football-data.org/63.png",
-        "pos": 15,
+        "pos": 16,
         "pld": 11,
         "w": 2,
         "d": 5,
@@ -272,14 +290,14 @@
         "pts": 11,
         "gf_pg": 1.0,
         "ga_pg": 1.1818,
-        "att_str": 0.726073,
-        "def_str": 0.858086
+        "att_str": 0.720918,
+        "def_str": 0.853392
       },
       {
         "team": "Ipswich Town FC",
         "tla": "IPS",
         "crest": "https://crests.football-data.org/349.png",
-        "pos": 16,
+        "pos": 17,
         "pld": 11,
         "w": 3,
         "d": 2,
@@ -290,26 +308,8 @@
         "pts": 11,
         "gf_pg": 1.3636,
         "ga_pg": 2.0,
-        "att_str": 0.990099,
-        "def_str": 1.452145
-      },
-      {
-        "team": "Nottingham Forest FC",
-        "tla": "NOT",
-        "crest": "https://crests.football-data.org/351.png",
-        "pos": 17,
-        "pld": 11,
-        "w": 2,
-        "d": 3,
-        "l": 6,
-        "gf": 9,
-        "ga": 15,
-        "gd": -6,
-        "pts": 9,
-        "gf_pg": 0.8182,
-        "ga_pg": 1.3636,
-        "att_str": 0.594059,
-        "def_str": 0.990099
+        "att_str": 0.983069,
+        "def_str": 1.444201
       },
       {
         "team": "Sunderland AFC",
@@ -326,8 +326,8 @@
         "pts": 9,
         "gf_pg": 0.7273,
         "ga_pg": 1.5455,
-        "att_str": 0.528053,
-        "def_str": 1.122112
+        "att_str": 0.524304,
+        "def_str": 1.115974
       },
       {
         "team": "Manchester United FC",
@@ -344,8 +344,8 @@
         "pts": 8,
         "gf_pg": 1.2727,
         "ga_pg": 2.0909,
-        "att_str": 0.924092,
-        "def_str": 1.518152
+        "att_str": 0.917531,
+        "def_str": 1.509847
       },
       {
         "team": "Crystal Palace FC",
@@ -362,8 +362,8 @@
         "pts": 7,
         "gf_pg": 1.0909,
         "ga_pg": 2.4545,
-        "att_str": 0.792079,
-        "def_str": 1.782178
+        "att_str": 0.786455,
+        "def_str": 1.772429
       }
     ],
     "scorers": [
@@ -469,8 +469,8 @@
         "pts": 36,
         "gf_pg": 3.9231,
         "ga_pg": 1.1538,
-        "att_str": 2.730924,
-        "def_str": 0.802497
+        "att_str": 2.735894,
+        "def_str": 0.807227
       },
       {
         "team": "Real Madrid CF",
@@ -487,8 +487,8 @@
         "pts": 33,
         "gf_pg": 2.5385,
         "ga_pg": 0.8462,
-        "att_str": 1.767068,
-        "def_str": 0.588498
+        "att_str": 1.770285,
+        "def_str": 0.591966
       },
       {
         "team": "Club Atlético de Madrid",
@@ -505,26 +505,26 @@
         "pts": 31,
         "gf_pg": 2.0,
         "ga_pg": 0.7692,
-        "att_str": 1.392236,
-        "def_str": 0.534998
+        "att_str": 1.39477,
+        "def_str": 0.538151
       },
       {
         "team": "Real Betis Balompié",
         "tla": "BET",
         "crest": "https://crests.football-data.org/90.png",
         "pos": 4,
-        "pld": 13,
+        "pld": 14,
         "w": 8,
         "d": 3,
-        "l": 2,
+        "l": 3,
         "gf": 21,
-        "ga": 16,
-        "gd": 5,
+        "ga": 17,
+        "gd": 4,
         "pts": 27,
-        "gf_pg": 1.6154,
-        "ga_pg": 1.2308,
-        "att_str": 1.124498,
-        "def_str": 0.855996
+        "gf_pg": 1.5,
+        "ga_pg": 1.2143,
+        "att_str": 1.046077,
+        "def_str": 0.84951
       },
       {
         "team": "Real Sociedad de Fútbol",
@@ -541,14 +541,32 @@
         "pts": 22,
         "gf_pg": 1.7692,
         "ga_pg": 1.7692,
-        "att_str": 1.231593,
-        "def_str": 1.230495
+        "att_str": 1.233835,
+        "def_str": 1.237747
+      },
+      {
+        "team": "Real Racing Club de Santander",
+        "tla": "SAN",
+        "crest": "https://crests.football-data.org/5335.png",
+        "pos": 6,
+        "pld": 14,
+        "w": 6,
+        "d": 2,
+        "l": 6,
+        "gf": 23,
+        "ga": 33,
+        "gd": -10,
+        "pts": 20,
+        "gf_pg": 1.6429,
+        "ga_pg": 2.3571,
+        "att_str": 1.145704,
+        "def_str": 1.649049
       },
       {
         "team": "Sevilla FC",
         "tla": "SEV",
         "crest": "https://crests.football-data.org/559.png",
-        "pos": 6,
+        "pos": 7,
         "pld": 13,
         "w": 5,
         "d": 4,
@@ -559,26 +577,8 @@
         "pts": 19,
         "gf_pg": 1.3846,
         "ga_pg": 1.5385,
-        "att_str": 0.963855,
-        "def_str": 1.069996
-      },
-      {
-        "team": "Real Racing Club de Santander",
-        "tla": "SAN",
-        "crest": "https://crests.football-data.org/5335.png",
-        "pos": 7,
-        "pld": 13,
-        "w": 5,
-        "d": 2,
-        "l": 6,
-        "gf": 20,
-        "ga": 32,
-        "gd": -12,
-        "pts": 17,
-        "gf_pg": 1.5385,
-        "ga_pg": 2.4615,
-        "att_str": 1.07095,
-        "def_str": 1.711993
+        "att_str": 0.96561,
+        "def_str": 1.076302
       },
       {
         "team": "Athletic Club",
@@ -595,8 +595,8 @@
         "pts": 16,
         "gf_pg": 1.25,
         "ga_pg": 1.0,
-        "att_str": 0.870147,
-        "def_str": 0.695497
+        "att_str": 0.871731,
+        "def_str": 0.699596
       },
       {
         "team": "Deportivo Alavés",
@@ -613,8 +613,8 @@
         "pts": 16,
         "gf_pg": 1.3846,
         "ga_pg": 1.3846,
-        "att_str": 0.963855,
-        "def_str": 0.962996
+        "att_str": 0.96561,
+        "def_str": 0.968672
       },
       {
         "team": "Villarreal CF",
@@ -631,8 +631,8 @@
         "pts": 15,
         "gf_pg": 1.4615,
         "ga_pg": 1.3846,
-        "att_str": 1.017403,
-        "def_str": 0.962996
+        "att_str": 1.019255,
+        "def_str": 0.968672
       },
       {
         "team": "RCD Espanyol de Barcelona",
@@ -649,8 +649,8 @@
         "pts": 15,
         "gf_pg": 1.0769,
         "ga_pg": 1.0769,
-        "att_str": 0.749665,
-        "def_str": 0.748997
+        "att_str": 0.75103,
+        "def_str": 0.753411
       },
       {
         "team": "RC Deportivo La Coruña",
@@ -667,14 +667,32 @@
         "pts": 15,
         "gf_pg": 1.2308,
         "ga_pg": 1.3077,
-        "att_str": 0.85676,
-        "def_str": 0.909496
+        "att_str": 0.85832,
+        "def_str": 0.914857
+      },
+      {
+        "team": "Rayo Vallecano de Madrid",
+        "tla": "RAY",
+        "crest": "https://crests.football-data.org/87.png",
+        "pos": 13,
+        "pld": 13,
+        "w": 4,
+        "d": 3,
+        "l": 6,
+        "gf": 16,
+        "ga": 22,
+        "gd": -6,
+        "pts": 15,
+        "gf_pg": 1.2308,
+        "ga_pg": 1.6923,
+        "att_str": 0.85832,
+        "def_str": 1.183932
       },
       {
         "team": "CA Osasuna",
         "tla": "OSA",
         "crest": "https://crests.football-data.org/79.png",
-        "pos": 13,
+        "pos": 14,
         "pld": 13,
         "w": 4,
         "d": 3,
@@ -685,14 +703,14 @@
         "pts": 15,
         "gf_pg": 1.0,
         "ga_pg": 1.7692,
-        "att_str": 0.696118,
-        "def_str": 1.230495
+        "att_str": 0.697385,
+        "def_str": 1.237747
       },
       {
         "team": "RC Celta de Vigo",
         "tla": "CEL",
         "crest": "https://crests.football-data.org/558.png",
-        "pos": 14,
+        "pos": 15,
         "pld": 13,
         "w": 2,
         "d": 7,
@@ -703,44 +721,26 @@
         "pts": 13,
         "gf_pg": 0.8462,
         "ga_pg": 0.9231,
-        "att_str": 0.589023,
-        "def_str": 0.641997
+        "att_str": 0.590095,
+        "def_str": 0.645781
       },
       {
         "team": "Levante UD",
         "tla": "LEV",
         "crest": "https://crests.football-data.org/88.png",
-        "pos": 15,
-        "pld": 13,
+        "pos": 16,
+        "pld": 14,
         "w": 2,
         "d": 6,
-        "l": 5,
-        "gf": 17,
-        "ga": 22,
-        "gd": -5,
-        "pts": 12,
-        "gf_pg": 1.3077,
-        "ga_pg": 1.6923,
-        "att_str": 0.910308,
-        "def_str": 1.176995
-      },
-      {
-        "team": "Rayo Vallecano de Madrid",
-        "tla": "RAY",
-        "crest": "https://crests.football-data.org/87.png",
-        "pos": 16,
-        "pld": 12,
-        "w": 3,
-        "d": 3,
         "l": 6,
-        "gf": 15,
-        "ga": 22,
+        "gf": 18,
+        "ga": 25,
         "gd": -7,
         "pts": 12,
-        "gf_pg": 1.25,
-        "ga_pg": 1.8333,
-        "att_str": 0.870147,
-        "def_str": 1.275078
+        "gf_pg": 1.2857,
+        "ga_pg": 1.7857,
+        "att_str": 0.896638,
+        "def_str": 1.249279
       },
       {
         "team": "Valencia CF",
@@ -757,8 +757,8 @@
         "pts": 12,
         "gf_pg": 0.6923,
         "ga_pg": 1.5385,
-        "att_str": 0.481928,
-        "def_str": 1.069996
+        "att_str": 0.482805,
+        "def_str": 1.076302
       },
       {
         "team": "Getafe CF",
@@ -775,8 +775,8 @@
         "pts": 12,
         "gf_pg": 0.6154,
         "ga_pg": 1.6154,
-        "att_str": 0.42838,
-        "def_str": 1.123495
+        "att_str": 0.42916,
+        "def_str": 1.130117
       },
       {
         "team": "Elche CF",
@@ -793,8 +793,8 @@
         "pts": 11,
         "gf_pg": 1.1538,
         "ga_pg": 1.6154,
-        "att_str": 0.803213,
-        "def_str": 1.123495
+        "att_str": 0.804675,
+        "def_str": 1.130117
       },
       {
         "team": "Málaga CF",
@@ -811,8 +811,8 @@
         "pts": 5,
         "gf_pg": 0.6923,
         "ga_pg": 1.8462,
-        "att_str": 0.481928,
-        "def_str": 1.283995
+        "att_str": 0.482805,
+        "def_str": 1.291563
       }
     ],
     "scorers": [
@@ -835,7 +835,7 @@
       {
         "name": "Yassir Zabiri",
         "team": "Real Racing Club de Santander",
-        "goals": 11,
+        "goals": 12,
         "assists": 0,
         "penalties": 0,
         "playedGames": 0
@@ -918,26 +918,26 @@
         "pts": 24,
         "gf_pg": 1.7,
         "ga_pg": 0.7,
-        "att_str": 1.003279,
-        "def_str": 0.413115
+        "att_str": 1.02497,
+        "def_str": 0.427514
       },
       {
         "team": "FC Bayern München",
         "tla": "FCB",
         "crest": "https://crests.football-data.org/5.png",
         "pos": 2,
-        "pld": 10,
+        "pld": 11,
         "w": 6,
-        "d": 4,
+        "d": 5,
         "l": 0,
         "gf": 30,
         "ga": 10,
         "gd": 20,
-        "pts": 22,
-        "gf_pg": 3.0,
-        "ga_pg": 1.0,
-        "att_str": 1.770492,
-        "def_str": 0.590164
+        "pts": 23,
+        "gf_pg": 2.7273,
+        "ga_pg": 0.9091,
+        "att_str": 1.644336,
+        "def_str": 0.555213
       },
       {
         "team": "SC Freiburg",
@@ -954,8 +954,8 @@
         "pts": 22,
         "gf_pg": 2.1,
         "ga_pg": 1.0,
-        "att_str": 1.239344,
-        "def_str": 0.590164
+        "att_str": 1.266139,
+        "def_str": 0.610734
       },
       {
         "team": "RB Leipzig",
@@ -972,8 +972,8 @@
         "pts": 21,
         "gf_pg": 3.2,
         "ga_pg": 1.4,
-        "att_str": 1.888525,
-        "def_str": 0.82623
+        "att_str": 1.929354,
+        "def_str": 0.855028
       },
       {
         "team": "Bayer 04 Leverkusen",
@@ -990,26 +990,26 @@
         "pts": 19,
         "gf_pg": 2.4,
         "ga_pg": 1.7,
-        "att_str": 1.416393,
-        "def_str": 1.003279
+        "att_str": 1.447016,
+        "def_str": 1.038248
       },
       {
         "team": "SV Werder Bremen",
         "tla": "SVW",
         "crest": "https://crests.football-data.org/12.png",
         "pos": 6,
-        "pld": 10,
+        "pld": 11,
         "w": 5,
-        "d": 3,
+        "d": 4,
         "l": 2,
-        "gf": 21,
-        "ga": 15,
+        "gf": 24,
+        "ga": 18,
         "gd": 6,
-        "pts": 18,
-        "gf_pg": 2.1,
-        "ga_pg": 1.5,
-        "att_str": 1.239344,
-        "def_str": 0.885246
+        "pts": 19,
+        "gf_pg": 2.1818,
+        "ga_pg": 1.6364,
+        "att_str": 1.315469,
+        "def_str": 0.999383
       },
       {
         "team": "Eintracht Frankfurt",
@@ -1026,8 +1026,8 @@
         "pts": 15,
         "gf_pg": 1.6,
         "ga_pg": 2.0,
-        "att_str": 0.944262,
-        "def_str": 1.180328
+        "att_str": 0.964677,
+        "def_str": 1.221468
       },
       {
         "team": "VfB Stuttgart",
@@ -1044,32 +1044,68 @@
         "pts": 13,
         "gf_pg": 1.5,
         "ga_pg": 1.5,
-        "att_str": 0.885246,
-        "def_str": 0.885246
+        "att_str": 0.904385,
+        "def_str": 0.916101
       },
       {
         "team": "SV 07 Elversberg",
         "tla": "ELV",
         "crest": "https://crests.football-data.org/719.png",
         "pos": 9,
-        "pld": 10,
+        "pld": 11,
         "w": 4,
         "d": 1,
-        "l": 5,
+        "l": 6,
         "gf": 17,
-        "ga": 19,
-        "gd": -2,
+        "ga": 20,
+        "gd": -3,
         "pts": 13,
-        "gf_pg": 1.7,
-        "ga_pg": 1.9,
-        "att_str": 1.003279,
-        "def_str": 1.121311
+        "gf_pg": 1.5455,
+        "ga_pg": 1.8182,
+        "att_str": 0.93179,
+        "def_str": 1.110426
+      },
+      {
+        "team": "1. FC Köln",
+        "tla": "KOE",
+        "crest": "https://crests.football-data.org/1.png",
+        "pos": 10,
+        "pld": 11,
+        "w": 3,
+        "d": 4,
+        "l": 4,
+        "gf": 12,
+        "ga": 15,
+        "gd": -3,
+        "pts": 13,
+        "gf_pg": 1.0909,
+        "ga_pg": 1.3636,
+        "att_str": 0.657734,
+        "def_str": 0.832819
+      },
+      {
+        "team": "Hamburger SV",
+        "tla": "HSV",
+        "crest": "https://crests.football-data.org/7.png",
+        "pos": 11,
+        "pld": 11,
+        "w": 4,
+        "d": 1,
+        "l": 6,
+        "gf": 10,
+        "ga": 24,
+        "gd": -14,
+        "pts": 13,
+        "gf_pg": 0.9091,
+        "ga_pg": 2.1818,
+        "att_str": 0.548112,
+        "def_str": 1.332511
       },
       {
         "team": "FC Augsburg",
         "tla": "FCA",
         "crest": "https://crests.football-data.org/16.png",
-        "pos": 10,
+        "pos": 12,
         "pld": 10,
         "w": 3,
         "d": 3,
@@ -1080,14 +1116,14 @@
         "pts": 12,
         "gf_pg": 2.3,
         "ga_pg": 2.1,
-        "att_str": 1.357377,
-        "def_str": 1.239344
+        "att_str": 1.386724,
+        "def_str": 1.282542
       },
       {
         "team": "TSG 1899 Hoffenheim",
         "tla": "TSG",
         "crest": "https://crests.football-data.org/2.png",
-        "pos": 11,
+        "pos": 13,
         "pld": 10,
         "w": 4,
         "d": 0,
@@ -1098,141 +1134,105 @@
         "pts": 12,
         "gf_pg": 1.6,
         "ga_pg": 1.8,
-        "att_str": 0.944262,
-        "def_str": 1.062295
-      },
-      {
-        "team": "Hamburger SV",
-        "tla": "HSV",
-        "crest": "https://crests.football-data.org/7.png",
-        "pos": 12,
-        "pld": 10,
-        "w": 4,
-        "d": 0,
-        "l": 6,
-        "gf": 10,
-        "ga": 24,
-        "gd": -14,
-        "pts": 12,
-        "gf_pg": 1.0,
-        "ga_pg": 2.4,
-        "att_str": 0.590164,
-        "def_str": 1.416393
+        "att_str": 0.964677,
+        "def_str": 1.099321
       },
       {
         "team": "1. FSV Mainz 05",
         "tla": "M05",
         "crest": "https://crests.football-data.org/15.png",
-        "pos": 13,
-        "pld": 10,
+        "pos": 14,
+        "pld": 11,
         "w": 3,
-        "d": 1,
+        "d": 2,
         "l": 6,
         "gf": 19,
         "ga": 22,
         "gd": -3,
-        "pts": 10,
-        "gf_pg": 1.9,
-        "ga_pg": 2.2,
-        "att_str": 1.121311,
-        "def_str": 1.298361
-      },
-      {
-        "team": "1. FC Köln",
-        "tla": "KOE",
-        "crest": "https://crests.football-data.org/1.png",
-        "pos": 14,
-        "pld": 10,
-        "w": 2,
-        "d": 4,
-        "l": 4,
-        "gf": 11,
-        "ga": 15,
-        "gd": -4,
-        "pts": 10,
-        "gf_pg": 1.1,
-        "ga_pg": 1.5,
-        "att_str": 0.64918,
-        "def_str": 0.885246
+        "pts": 11,
+        "gf_pg": 1.7273,
+        "ga_pg": 2.0,
+        "att_str": 1.041413,
+        "def_str": 1.221468
       },
       {
         "team": "SC Paderborn 07",
         "tla": "SCP",
         "crest": "https://crests.football-data.org/29.png",
         "pos": 15,
-        "pld": 10,
+        "pld": 11,
         "w": 2,
-        "d": 4,
+        "d": 5,
         "l": 4,
         "gf": 8,
         "ga": 15,
         "gd": -7,
-        "pts": 10,
-        "gf_pg": 0.8,
-        "ga_pg": 1.5,
-        "att_str": 0.472131,
-        "def_str": 0.885246
+        "pts": 11,
+        "gf_pg": 0.7273,
+        "ga_pg": 1.3636,
+        "att_str": 0.43849,
+        "def_str": 0.832819
       },
       {
         "team": "FC Schalke 04",
         "tla": "S04",
         "crest": "https://crests.football-data.org/6.png",
         "pos": 16,
-        "pld": 10,
+        "pld": 11,
         "w": 1,
-        "d": 4,
+        "d": 5,
         "l": 5,
         "gf": 5,
         "ga": 11,
         "gd": -6,
-        "pts": 7,
-        "gf_pg": 0.5,
-        "ga_pg": 1.1,
-        "att_str": 0.295082,
-        "def_str": 0.64918
+        "pts": 8,
+        "gf_pg": 0.4545,
+        "ga_pg": 1.0,
+        "att_str": 0.274056,
+        "def_str": 0.610734
       },
       {
         "team": "1. FC Union Berlin",
         "tla": "UNB",
         "crest": "https://crests.football-data.org/28.png",
         "pos": 17,
-        "pld": 10,
+        "pld": 11,
         "w": 1,
-        "d": 4,
+        "d": 5,
         "l": 5,
         "gf": 8,
         "ga": 26,
         "gd": -18,
-        "pts": 7,
-        "gf_pg": 0.8,
-        "ga_pg": 2.6,
-        "att_str": 0.472131,
-        "def_str": 1.534426
+        "pts": 8,
+        "gf_pg": 0.7273,
+        "ga_pg": 2.3636,
+        "att_str": 0.43849,
+        "def_str": 1.443553
       },
       {
         "team": "Borussia Mönchengladbach",
         "tla": "BMG",
         "crest": "https://crests.football-data.org/18.png",
         "pos": 18,
-        "pld": 10,
+        "pld": 11,
         "w": 1,
-        "d": 1,
+        "d": 2,
         "l": 8,
-        "gf": 12,
-        "ga": 26,
+        "gf": 15,
+        "ga": 29,
         "gd": -14,
-        "pts": 4,
-        "gf_pg": 1.2,
-        "ga_pg": 2.6,
-        "att_str": 0.708197,
-        "def_str": 1.534426
+        "pts": 5,
+        "gf_pg": 1.3636,
+        "ga_pg": 2.6364,
+        "att_str": 0.822168,
+        "def_str": 1.610117
       }
     ],
     "scorers": [
       {
         "name": "Niclas Füllkrug",
         "team": "SV Werder Bremen",
-        "goals": 10,
+        "goals": 11,
         "assists": 1,
         "penalties": 3,
         "playedGames": 0
@@ -1331,8 +1331,8 @@
         "pts": 32,
         "gf_pg": 2.3333,
         "ga_pg": 0.75,
-        "att_str": 1.477573,
-        "def_str": 0.474934
+        "att_str": 1.495788,
+        "def_str": 0.482972
       },
       {
         "team": "AS Roma",
@@ -1349,8 +1349,8 @@
         "pts": 30,
         "gf_pg": 3.0,
         "ga_pg": 0.9167,
-        "att_str": 1.899736,
-        "def_str": 0.580475
+        "att_str": 1.923156,
+        "def_str": 0.590299
       },
       {
         "team": "FC Internazionale Milano",
@@ -1367,8 +1367,8 @@
         "pts": 29,
         "gf_pg": 2.6667,
         "ga_pg": 1.4167,
-        "att_str": 1.688654,
-        "def_str": 0.897098
+        "att_str": 1.709472,
+        "def_str": 0.912281
       },
       {
         "team": "AC Milan",
@@ -1385,8 +1385,8 @@
         "pts": 27,
         "gf_pg": 2.3333,
         "ga_pg": 1.1667,
-        "att_str": 1.477573,
-        "def_str": 0.738786
+        "att_str": 1.495788,
+        "def_str": 0.75129
       },
       {
         "team": "Como 1907",
@@ -1403,8 +1403,8 @@
         "pts": 26,
         "gf_pg": 1.6667,
         "ga_pg": 0.8333,
-        "att_str": 1.055409,
-        "def_str": 0.527704
+        "att_str": 1.06842,
+        "def_str": 0.536636
       },
       {
         "team": "Juventus FC",
@@ -1421,32 +1421,50 @@
         "pts": 21,
         "gf_pg": 1.5833,
         "ga_pg": 1.0,
-        "att_str": 1.002639,
-        "def_str": 0.633245
+        "att_str": 1.014999,
+        "def_str": 0.643963
       },
       {
         "team": "Frosinone Calcio",
         "tla": "FRO",
         "crest": "https://crests.football-data.org/470.png",
         "pos": 7,
-        "pld": 12,
+        "pld": 13,
         "w": 6,
-        "d": 2,
+        "d": 3,
         "l": 4,
         "gf": 25,
         "ga": 20,
         "gd": 5,
-        "pts": 20,
-        "gf_pg": 2.0833,
-        "ga_pg": 1.6667,
-        "att_str": 1.319261,
-        "def_str": 1.055409
+        "pts": 21,
+        "gf_pg": 1.9231,
+        "ga_pg": 1.5385,
+        "att_str": 1.232792,
+        "def_str": 0.990712
+      },
+      {
+        "team": "Bologna FC 1909",
+        "tla": "BOL",
+        "crest": "https://crests.football-data.org/103.png",
+        "pos": 8,
+        "pld": 13,
+        "w": 5,
+        "d": 4,
+        "l": 4,
+        "gf": 17,
+        "ga": 15,
+        "gd": 2,
+        "pts": 19,
+        "gf_pg": 1.3077,
+        "ga_pg": 1.1538,
+        "att_str": 0.838299,
+        "def_str": 0.743034
       },
       {
         "team": "SSC Napoli",
         "tla": "NAP",
         "crest": "https://crests.football-data.org/113.png",
-        "pos": 8,
+        "pos": 9,
         "pld": 12,
         "w": 5,
         "d": 3,
@@ -1457,26 +1475,8 @@
         "pts": 18,
         "gf_pg": 1.5833,
         "ga_pg": 1.1667,
-        "att_str": 1.002639,
-        "def_str": 0.738786
-      },
-      {
-        "team": "Bologna FC 1909",
-        "tla": "BOL",
-        "crest": "https://crests.football-data.org/103.png",
-        "pos": 9,
-        "pld": 12,
-        "w": 5,
-        "d": 3,
-        "l": 4,
-        "gf": 17,
-        "ga": 15,
-        "gd": 2,
-        "pts": 18,
-        "gf_pg": 1.4167,
-        "ga_pg": 1.25,
-        "att_str": 0.897098,
-        "def_str": 0.791557
+        "att_str": 1.014999,
+        "def_str": 0.75129
       },
       {
         "team": "Genoa CFC",
@@ -1493,8 +1493,8 @@
         "pts": 16,
         "gf_pg": 1.0833,
         "ga_pg": 1.3333,
-        "att_str": 0.686016,
-        "def_str": 0.844327
+        "att_str": 0.694473,
+        "def_str": 0.858617
       },
       {
         "team": "Cagliari Calcio",
@@ -1511,8 +1511,8 @@
         "pts": 16,
         "gf_pg": 0.8333,
         "ga_pg": 1.4167,
-        "att_str": 0.527704,
-        "def_str": 0.897098
+        "att_str": 0.53421,
+        "def_str": 0.912281
       },
       {
         "team": "Atalanta BC",
@@ -1529,8 +1529,8 @@
         "pts": 15,
         "gf_pg": 1.75,
         "ga_pg": 2.0,
-        "att_str": 1.108179,
-        "def_str": 1.266491
+        "att_str": 1.121841,
+        "def_str": 1.287926
       },
       {
         "team": "Torino FC",
@@ -1547,8 +1547,8 @@
         "pts": 14,
         "gf_pg": 1.25,
         "ga_pg": 1.5,
-        "att_str": 0.791557,
-        "def_str": 0.949868
+        "att_str": 0.801315,
+        "def_str": 0.965944
       },
       {
         "team": "AC Monza",
@@ -1565,8 +1565,8 @@
         "pts": 10,
         "gf_pg": 1.6667,
         "ga_pg": 2.0833,
-        "att_str": 1.055409,
-        "def_str": 1.319261
+        "att_str": 1.06842,
+        "def_str": 1.341589
       },
       {
         "team": "US Lecce",
@@ -1583,8 +1583,8 @@
         "pts": 10,
         "gf_pg": 1.0,
         "ga_pg": 2.0833,
-        "att_str": 0.633245,
-        "def_str": 1.319261
+        "att_str": 0.641052,
+        "def_str": 1.341589
       },
       {
         "team": "ACF Fiorentina",
@@ -1601,26 +1601,26 @@
         "pts": 9,
         "gf_pg": 1.4167,
         "ga_pg": 2.3333,
-        "att_str": 0.897098,
-        "def_str": 1.477573
+        "att_str": 0.908157,
+        "def_str": 1.50258
       },
       {
         "team": "Parma Calcio 1913",
         "tla": "PAR",
         "crest": "https://crests.football-data.org/112.png",
         "pos": 17,
-        "pld": 12,
+        "pld": 13,
         "w": 2,
-        "d": 2,
+        "d": 3,
         "l": 8,
         "gf": 10,
         "ga": 22,
         "gd": -12,
-        "pts": 8,
-        "gf_pg": 0.8333,
-        "ga_pg": 1.8333,
-        "att_str": 0.527704,
-        "def_str": 1.16095
+        "pts": 9,
+        "gf_pg": 0.7692,
+        "ga_pg": 1.6923,
+        "att_str": 0.493117,
+        "def_str": 1.089783
       },
       {
         "team": "US Sassuolo Calcio",
@@ -1637,14 +1637,32 @@
         "pts": 8,
         "gf_pg": 1.3333,
         "ga_pg": 2.5833,
-        "att_str": 0.844327,
-        "def_str": 1.635884
+        "att_str": 0.854736,
+        "def_str": 1.663571
+      },
+      {
+        "team": "Venezia FC",
+        "tla": "VEN",
+        "crest": "https://crests.football-data.org/454.png",
+        "pos": 19,
+        "pld": 13,
+        "w": 2,
+        "d": 1,
+        "l": 10,
+        "gf": 8,
+        "ga": 25,
+        "gd": -17,
+        "pts": 7,
+        "gf_pg": 0.6154,
+        "ga_pg": 1.9231,
+        "att_str": 0.394494,
+        "def_str": 1.23839
       },
       {
         "team": "Udinese Calcio",
         "tla": "UDI",
         "crest": "https://crests.football-data.org/115.png",
-        "pos": 19,
+        "pos": 20,
         "pld": 12,
         "w": 1,
         "d": 3,
@@ -1655,26 +1673,8 @@
         "pts": 6,
         "gf_pg": 1.0833,
         "ga_pg": 2.1667,
-        "att_str": 0.686016,
-        "def_str": 1.372032
-      },
-      {
-        "team": "Venezia FC",
-        "tla": "VEN",
-        "crest": "https://crests.football-data.org/454.png",
-        "pos": 20,
-        "pld": 12,
-        "w": 2,
-        "d": 0,
-        "l": 10,
-        "gf": 8,
-        "ga": 25,
-        "gd": -17,
-        "pts": 6,
-        "gf_pg": 0.6667,
-        "ga_pg": 2.0833,
-        "att_str": 0.422164,
-        "def_str": 1.319261
+        "att_str": 0.694473,
+        "def_str": 1.395253
       }
     ],
     "scorers": [
@@ -1780,32 +1780,50 @@
         "pts": 26,
         "gf_pg": 2.2727,
         "ga_pg": 1.0909,
-        "att_str": 1.541096,
-        "def_str": 0.739726
+        "att_str": 1.553957,
+        "def_str": 0.742056
       },
       {
         "team": "Paris FC",
         "tla": "PFC",
         "crest": "https://crests.football-data.org/1045.png",
         "pos": 2,
-        "pld": 11,
+        "pld": 12,
         "w": 7,
         "d": 2,
-        "l": 2,
+        "l": 3,
         "gf": 21,
-        "ga": 10,
-        "gd": 11,
+        "ga": 11,
+        "gd": 10,
         "pts": 23,
-        "gf_pg": 1.9091,
-        "ga_pg": 0.9091,
-        "att_str": 1.294521,
-        "def_str": 0.616438
+        "gf_pg": 1.75,
+        "ga_pg": 0.9167,
+        "att_str": 1.196547,
+        "def_str": 0.623533
+      },
+      {
+        "team": "Stade Brestois 29",
+        "tla": "BRE",
+        "crest": "https://crests.football-data.org/512.png",
+        "pos": 3,
+        "pld": 12,
+        "w": 6,
+        "d": 3,
+        "l": 3,
+        "gf": 20,
+        "ga": 12,
+        "gd": 8,
+        "pts": 21,
+        "gf_pg": 1.6667,
+        "ga_pg": 1.0,
+        "att_str": 1.139568,
+        "def_str": 0.680218
       },
       {
         "team": "Lille OSC",
         "tla": "LIL",
         "crest": "https://crests.football-data.org/521.png",
-        "pos": 3,
+        "pos": 4,
         "pld": 11,
         "w": 6,
         "d": 3,
@@ -1816,14 +1834,14 @@
         "pts": 21,
         "gf_pg": 1.2727,
         "ga_pg": 0.7273,
-        "att_str": 0.863014,
-        "def_str": 0.493151
+        "att_str": 0.870216,
+        "def_str": 0.494704
       },
       {
         "team": "Olympique Lyonnais",
         "tla": "LYO",
         "crest": "https://crests.football-data.org/523.png",
-        "pos": 4,
+        "pos": 5,
         "pld": 11,
         "w": 6,
         "d": 2,
@@ -1834,14 +1852,14 @@
         "pts": 20,
         "gf_pg": 1.4545,
         "ga_pg": 0.8182,
-        "att_str": 0.986301,
-        "def_str": 0.554795
+        "att_str": 0.994532,
+        "def_str": 0.556542
       },
       {
         "team": "Olympique de Marseille",
         "tla": "MAR",
         "crest": "https://crests.football-data.org/516.png",
-        "pos": 5,
+        "pos": 6,
         "pld": 11,
         "w": 6,
         "d": 0,
@@ -1852,26 +1870,8 @@
         "pts": 18,
         "gf_pg": 2.1818,
         "ga_pg": 1.5455,
-        "att_str": 1.479452,
-        "def_str": 1.047945
-      },
-      {
-        "team": "Stade Brestois 29",
-        "tla": "BRE",
-        "crest": "https://crests.football-data.org/512.png",
-        "pos": 6,
-        "pld": 11,
-        "w": 5,
-        "d": 3,
-        "l": 3,
-        "gf": 19,
-        "ga": 12,
-        "gd": 7,
-        "pts": 18,
-        "gf_pg": 1.7273,
-        "ga_pg": 1.0909,
-        "att_str": 1.171233,
-        "def_str": 0.739726
+        "att_str": 1.491799,
+        "def_str": 1.051245
       },
       {
         "team": "OGC Nice",
@@ -1888,8 +1888,8 @@
         "pts": 17,
         "gf_pg": 1.5455,
         "ga_pg": 1.3636,
-        "att_str": 1.047945,
-        "def_str": 0.924658
+        "att_str": 1.056691,
+        "def_str": 0.927569
       },
       {
         "team": "AS Monaco FC",
@@ -1906,8 +1906,8 @@
         "pts": 17,
         "gf_pg": 1.2727,
         "ga_pg": 1.0909,
-        "att_str": 0.863014,
-        "def_str": 0.739726
+        "att_str": 0.870216,
+        "def_str": 0.742056
       },
       {
         "team": "Stade Rennais FC 1901",
@@ -1924,8 +1924,8 @@
         "pts": 17,
         "gf_pg": 2.0,
         "ga_pg": 2.0,
-        "att_str": 1.356164,
-        "def_str": 1.356164
+        "att_str": 1.367482,
+        "def_str": 1.360435
       },
       {
         "team": "FC Lorient",
@@ -1942,8 +1942,8 @@
         "pts": 16,
         "gf_pg": 0.9091,
         "ga_pg": 0.8182,
-        "att_str": 0.616438,
-        "def_str": 0.554795
+        "att_str": 0.621583,
+        "def_str": 0.556542
       },
       {
         "team": "Racing Club de Lens",
@@ -1960,8 +1960,8 @@
         "pts": 14,
         "gf_pg": 1.6364,
         "ga_pg": 1.4545,
-        "att_str": 1.109589,
-        "def_str": 0.986301
+        "att_str": 1.118849,
+        "def_str": 0.989407
       },
       {
         "team": "Toulouse FC",
@@ -1978,8 +1978,8 @@
         "pts": 14,
         "gf_pg": 1.4545,
         "ga_pg": 1.3636,
-        "att_str": 0.986301,
-        "def_str": 0.924658
+        "att_str": 0.994532,
+        "def_str": 0.927569
       },
       {
         "team": "Le Mans FC",
@@ -1996,8 +1996,8 @@
         "pts": 11,
         "gf_pg": 1.3636,
         "ga_pg": 1.9091,
-        "att_str": 0.924658,
-        "def_str": 1.294521
+        "att_str": 0.932374,
+        "def_str": 1.298597
       },
       {
         "team": "ES Troyes AC",
@@ -2014,8 +2014,8 @@
         "pts": 11,
         "gf_pg": 0.9091,
         "ga_pg": 1.6364,
-        "att_str": 0.616438,
-        "def_str": 1.109589
+        "att_str": 0.621583,
+        "def_str": 1.113083
       },
       {
         "team": "AJ Auxerre",
@@ -2032,8 +2032,8 @@
         "pts": 11,
         "gf_pg": 1.2727,
         "ga_pg": 2.2727,
-        "att_str": 0.863014,
-        "def_str": 1.541096
+        "att_str": 0.870216,
+        "def_str": 1.545949
       },
       {
         "team": "RC Strasbourg Alsace",
@@ -2050,8 +2050,8 @@
         "pts": 10,
         "gf_pg": 1.6364,
         "ga_pg": 2.0909,
-        "att_str": 1.109589,
-        "def_str": 1.417808
+        "att_str": 1.118849,
+        "def_str": 1.422273
       },
       {
         "team": "Angers SCO",
@@ -2068,8 +2068,8 @@
         "pts": 8,
         "gf_pg": 0.8182,
         "ga_pg": 2.0909,
-        "att_str": 0.554795,
-        "def_str": 1.417808
+        "att_str": 0.559424,
+        "def_str": 1.422273
       },
       {
         "team": "Le Havre AC",
@@ -2086,8 +2086,8 @@
         "pts": 2,
         "gf_pg": 0.9091,
         "ga_pg": 2.2727,
-        "att_str": 0.616438,
-        "def_str": 1.541096
+        "att_str": 0.621583,
+        "def_str": 1.545949
       }
     ],
     "scorers": [
